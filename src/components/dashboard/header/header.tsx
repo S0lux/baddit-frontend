@@ -1,7 +1,7 @@
-import { Button } from "@/components/button/button";
-import Glass from "@/assets/magnifying-glass-solid.svg";
+import { Button } from "../../button/button";
+import { FaMagnifyingGlass } from "react-icons/fa6";
 import Image from "next/image";
-import ThemeSwitcher from "@/components/theme-provider/theme-switcher";
+import ThemeSwitcher from "../../theme-provider/theme-switcher";
 import { Suspense } from "react";
 
 export default function Header() {
@@ -10,7 +10,7 @@ export default function Header() {
       <h1 className=" text-[26px] font-black pl-[5px]">baddit</h1>
 
       <div className=" flex outline-none flex-1 rounded-full bg-slate-300/90 items-center max-w-[560px] px-[20px]">
-        <Image src={Glass} alt="Search" width={20} height={20} />
+        <FaMagnifyingGlass width={20} height={20}></FaMagnifyingGlass>
         <input
           type="text"
           placeholder="Sample search bar..."

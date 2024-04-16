@@ -2,9 +2,9 @@
 
 import { useTheme } from "next-themes";
 import { useState, useEffect } from "react";
-import { Button } from "@/components/button/button";
-import Moon from "@/assets/moon-solid.svg";
-import Sun from "@/assets/sun-solid.svg";
+import { Button } from "../../components/button/button";
+import { FaMoon } from "react-icons/fa";
+import { FaRegSun } from "react-icons/fa";
 import Image from "next/image";
 
 export default function ThemeSwitcher() {
@@ -23,9 +23,9 @@ export default function ThemeSwitcher() {
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
     >
       {theme === "dark" ? (
-        <Image src={Sun} width={20} height={20} alt="Sun Icon"></Image>
+        <FaRegSun width={20} height={20}></FaRegSun>
       ) : (
-        <Image src={Moon} width={20} height={20} alt="Moon Icon"></Image>
+        <FaMoon width={20} height={20}></FaMoon>
       )}
     </Button>
   );
