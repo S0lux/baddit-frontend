@@ -1,11 +1,26 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.dark {
+  color-scheme: dark;
+  --background: 18, 20, 25;
+  --background-secondary: 28, 30, 35;
+  --component-primary: 40, 170, 175;
+  --component-secondary: 97, 250, 255;
+  --text-primary: 255, 255, 255;
+  --text-secondary: 230, 230, 230;
+  --accent: 178, 204, 205;
+}
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+.light {
+  color-scheme: light;
+  --background: 255, 255, 255;
+  --background-secondary: 230, 230, 230;
+  --component-primary: 80, 211, 215;
+  --component-secondary: 0, 153, 158;
+  --text-primary: 18, 18, 18;
+  --text-secondary: 100, 100, 100;
+  --accent: 50, 76, 77;
 }
 
 @media (prefers-color-scheme: dark) {
