@@ -15,7 +15,7 @@ export default async function Header() {
         communitiesList={fetchedCommunities}
         classname="w-full"
       ></SearchBar>
-      <div className=" flex py-1">
+      <div className=" flex py-1 items-center gap-2">
         <div className=" flex gap-x-[5px]">
           <Button variant={"primary"} size={"small"}>
             Log In

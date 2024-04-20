@@ -1,11 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 .dark {
-  background-color: #121212;
-  color: #ffffff;
   color-scheme: dark;
-  --background: 18, 20, 25;
+  --background: 17, 17, 17;
   --background-secondary: 28, 30, 35;
   --component-primary: 40, 170, 175;
   --component-secondary: 97, 250, 255;
@@ -15,10 +14,8 @@
 }
 
 .light {
-  background-color: #ededed;
-  color: #000000;
   color-scheme: light;
-  --background: 255, 255, 255;
+  --background: 253, 252, 253;
   --background-secondary: 230, 230, 230;
   --component-primary: 80, 211, 215;
   --component-secondary: 0, 153, 158;
