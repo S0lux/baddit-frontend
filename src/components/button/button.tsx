@@ -19,7 +19,7 @@ import { twMerge } from "tw-merge";
 
 const sample = () => {
   return (
-    <button className=" shadow-2xl hover:shadow-2xl bg-neutral-300/70 out ">
+    <button className=" shadow-2xl hover:shadow-2xl bg-neutral-300/70">
       khang
     </button>
   );
@@ -31,36 +31,42 @@ const variants = cva(
     "hover:shadow-lg",
     "disabled:cursor-not-allowed disabled:shadow",
     "ring-offset-2 focus:scale-[0.98]",
+    " font-light",
   ],
   {
     variants: {
       variant: {
         primary: [
           //light
-          "bg-[#50d3d7] text-white",
+          "bg-[#50d3d7] text-black",
           "hover:bg-[#2dc2c7]",
           "ring-[#2dc2c7]/70 ",
           "focus-visible:ring-2 ",
           "disabled:bg-[#2dc2c7]/70",
           //dark
-          "dark:bg-[#28aaaf] dark:text-white",
+          "dark:bg-[#28aaaf] dark:text-black",
         ],
         secondary: [
           //light
-          "bg-[#00999e] text-white",
+          "bg-[#28aaaf] text-white",
           "hover:bg-[#00686b]",
           "ring-[#00686b]/70 ring-offset-2",
           "focus-visible:ring-2 focus:scale-[0.98]",
           "disabled:bg-[#00686b]/70",
           //dark
-          "dark:bg-[#61faff] dark:text-white ",
+          "dark:bg-[#61faff] dark:text-black ",
         ],
-        ghost: [
-          "bg-neutral-300/80 text-[#50d3d7]",
-          "hover:bg-[#f0f0f0] text-[#2dc2c7]",
+        monochrome: [
+          //light
+          "bg-black text-white",
+          "hover:bg-white hover:text-black",
           "ring-[#2dc2c7]/70",
           "focus-visible:ring-2",
           "disabled:text-[#2dc2c7]/70",
+          //dark
+          "dark:bg-white dark:text-black ",
+          "dark:hover:bg-black dark:hover:text-white",
+          "dark:ring-[#ffffff]/70",
         ],
       },
       size: {
