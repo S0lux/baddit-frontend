@@ -15,12 +15,17 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       colors: {
-        background: "rgb(var(--background) / <alpha-value>)",
-        foreground: "rgb(var(--foreground) / <alpha-value>)",
+        background: "rgba(var(--background))",
+        backgroundSecondary: "rgba(var(--background-secondary))",
+        componentPrimary: "rgba(var(--component-primary))",
+        componentSecondary: "rgba(var(--component-secondary))",
+        textPrimary: "rgba(var(--text-primary))",
+        textSecondary: "rgba(var(--text-secondary))",
+        accent: "rgba(var(--accent))",
       },
     },
   },
-  darkMode: "class",
   plugins: [],
+  darkMode: "class",
 };
 export default config;

@@ -3,22 +3,19 @@ import { FaMagnifyingGlass } from "react-icons/fa6";
 import Image from "next/image";
 import ThemeSwitcher from "../../theme-provider/theme-switcher";
 import { Suspense } from "react";
+import { SearchBar } from "../../searchbar";
 
-export default function Header() {
+export default async function Header() {
+  const fetchedCommunities = await fetchCommunities();
   return (
     <div className=" flex justify-between items-center h-[56.8px] border-b border-[#cecece] dark:border-[#1a1a1a] fixed w-full px-[10px]">
       <h1 className=" text-[26px] font-black pl-[5px]">baddit</h1>
 
-      <div className=" bg-slate-400/50 flex outline-none flex-1 rounded-full bg-red items-center max-w-[560px] px-[20px]">
-        <FaMagnifyingGlass width={20} height={20}></FaMagnifyingGlass>
-        <input
-          type="text"
-          placeholder="Sample search bar..."
-          className=" flex-1 outline-none px-[10px] py-2 text-[15px] bg-transparent"
-        ></input>
-      </div>
-
-      <div className=" flex py-3 gap-x-2 items-center ">
+      <SearchBar
+        communitiesList={fetchedCommunities}
+        classname="w-full"
+      ></SearchBar>
+      <div className=" flex py-1">
         <div className=" flex gap-x-[5px]">
           <Button variant={"primary"} size={"small"}>
             Log In
@@ -32,4 +29,10 @@ export default function Header() {
       </div>
     </div>
   );
+}
+
+async function fetchCommunities() {
+  const res = await fetch("https://jsonplaceholder.typicode.com/users");
+  if (!res.ok) throw new Error("failed to fetch data");
+  else return res.json();
 }

@@ -1,25 +1,38 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* :root {
-  --background: 253 252 253;
-  --foreground: 0 0 0;
-} */
-
-/* :root[data-theme="dark"] {
-  --background: 17 17 17;
-  --foreground: 255 255 255;
-} */
+.dark {
+  background-color: #121212;
+  color: #ffffff;
+  color-scheme: dark;
+  --background: 18, 20, 25;
+  --background-secondary: 28, 30, 35;
+  --component-primary: 40, 170, 175;
+  --component-secondary: 97, 250, 255;
+  --text-primary: 255, 255, 255;
+  --text-secondary: 230, 230, 230;
+  --accent: 178, 204, 205;
+}
 
 .light {
   background-color: #ededed;
   color: #000000;
+  color-scheme: light;
+  --background: 255, 255, 255;
+  --background-secondary: 230, 230, 230;
+  --component-primary: 80, 211, 215;
+  --component-secondary: 0, 153, 158;
+  --text-primary: 18, 18, 18;
+  --text-secondary: 100, 100, 100;
+  --accent: 50, 76, 77;
 }
 
-.dark {
-  background-color: #121212;
-  color: #ffffff;
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
 }
 
 @layer utilities {
