@@ -20,11 +20,13 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.className} flex flex-col min-h-screen bg-background `}
+        className={`${inter.className} min-h-screen flex flex-col bg-background`}
       >
         <ThemeProvider attribute="class" enableSystem={true}>
-          <Header />
-          <div className="flex flex-row flex-1 mt-[56.8px]">
+          <div className="z-50">
+            <Header />
+          </div>
+          <div className="flex flex-row flex-1 mt-[56.8px] z-0">
             <Sidebar />
             <div className="ml-[240px]">{children}</div>
           </div>

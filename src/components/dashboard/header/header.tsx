@@ -4,9 +4,11 @@ import Image from "next/image";
 import ThemeSwitcher from "../../theme-provider/theme-switcher";
 import { Suspense } from "react";
 import { SearchBar } from "../../searchbar";
+import ShowLoginButton from "../../login/login-button";
 
 export default async function Header() {
   const fetchedCommunities = await fetchCommunities();
+
   return (
     <div className=" flex justify-between items-center h-[56.8px] border-b border-[#cecece] dark:border-[#1a1a1a] fixed w-full px-[10px]">
       <h1 className=" text-[26px] font-black pl-[5px]">baddit</h1>
@@ -17,9 +19,7 @@ export default async function Header() {
       ></SearchBar>
       <div className=" flex py-1 items-center gap-2">
         <div className=" flex gap-x-[5px]">
-          <Button variant={"primary"} size={"small"}>
-            Log In
-          </Button>
+          <ShowLoginButton></ShowLoginButton>
           <Button variant={"secondary"} size={"small"}>
             Sign In
           </Button>
