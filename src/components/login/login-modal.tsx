@@ -3,20 +3,22 @@
 import { Button } from "../button/button";
 import { IoMdClose } from "react-icons/io";
 import { Input } from "../input/input";
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { loginFormSchema } from "../../schema/loginFormSchema";
-import { z } from "zod";
-import axios from "axios";
-import { AlertType } from "../alert/alert-type";
+import { set, z } from "zod";
 import AlertBar from "../alert/alert-bar";
 import usePost from "@/src/hooks/usePost";
+import { AnimatePresence } from "framer-motion";
 
 export default function LoginModal({ onClick }: { onClick: () => void }) {
-  const [status, setStatus] = useState<AlertType>(undefined);
-  const [message, setMessage] = useState<string>("");
-  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState<string>();
+  const [alertBarVisible, setAlertBarVisible] = useState<boolean>(false);
+
+  const { status, statusCode, loading, PostSent } = usePost(
+    "https://api.baddit.life/v1/auth/login",
+  );
 
   //Hide scroll-bar when mounted
   useEffect(() => {
@@ -35,6 +37,26 @@ export default function LoginModal({ onClick }: { onClick: () => void }) {
     };
   }, []);
 
+  //Handle status code
+  useEffect(() => {
+    switch (statusCode) {
+      case 200:
+        setMessage("Successfully logged in!");
+        break;
+      case 401:
+        setMessage("Invalid username or password!");
+        break;
+      case 500:
+        setMessage("Internal server error");
+        break;
+      default:
+        setMessage("Something went wrong");
+    }
+  }, [statusCode]);
+
+  //Handle alert bar visibility
+  useEffect(() => {}, [alertBarVisible]);
+
   const {
     register,
     handleSubmit,
@@ -46,25 +68,14 @@ export default function LoginModal({ onClick }: { onClick: () => void }) {
   const onSubmit: SubmitHandler<z.infer<typeof loginFormSchema>> = async (
     data,
   ) => {
-    console.log(data);
-    setLoading(true);
+    await PostSent(data);
 
-    await axios
-      .post("https://api.baddit.life/v1/auth/login", data)
-      .then((res) => {
-        setStatus("success");
-        setMessage("Login successful!");
-        console.log(res.data);
-      })
-      .catch((err) => {
-        setStatus("error");
-        setMessage(
-          err.response?.data.error.message || "Invalid username or password",
-        );
-        console.log(err);
-      });
+    setAlertBarVisible(true);
 
-    setLoading(false);
+    setTimeout(() => {
+      setAlertBarVisible(false);
+      console.log("timeout");
+    }, 3000);
   };
 
   return (
@@ -115,14 +126,16 @@ export default function LoginModal({ onClick }: { onClick: () => void }) {
               Log in
             </Button>
           </div>
-
-          {status !== undefined && (
-            <AlertBar
-              message={message ? message : ""}
-              status={status}
-              className="fixed bottom-0 mt-4 flex items-center justify-center rounded-none py-2"
-            ></AlertBar>
-          )}
+          <AnimatePresence>
+            {alertBarVisible && (
+              <AlertBar
+                message={message ? message : ""}
+                status={status}
+                className="fixed bottom-0 mt-4 flex items-center justify-center rounded-none py-2"
+                key="alert-bar"
+              ></AlertBar>
+            )}
+          </AnimatePresence>
         </form>{" "}
       </div>
     </div>
