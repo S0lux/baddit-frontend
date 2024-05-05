@@ -1,5 +1,8 @@
 "use client";
 import { useState } from "react";
+import { HiMiniArrowUpTray } from "react-icons/hi2";
+import { IoChatboxOutline } from "react-icons/io5";
+import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 
 const PostCard = () => {
   const [votes, SetVotes] = useState<number>(0);
@@ -44,79 +47,27 @@ const PostCard = () => {
           {/* Vote button */}
           <div className="inline-flex items-center rounded-full bg-[#eaedef]">
             <button
-              className="px-[15px] py-[15px] hover:rounded-full hover:bg-[#e2e7e9]"
+              className="px-[10px] py-[15px] hover:rounded-full hover:bg-[#e2e7e9]"
               onClick={() => SetVotes(votes + 1)}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                className="w-[20px]"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="m4.5 15.75 7.5-7.5 7.5 7.5"
-                />
-              </svg>
+              <IoIosArrowUp className="w-[20px]" />
             </button>
             <span className="text-sm font-medium">{votes}</span>
             <button
-              className="px-[15px] py-[15px] hover:rounded-full hover:bg-[#e2e7e9] hover:text-blue-500"
+              className="px-[10px] py-[15px] hover:rounded-full hover:bg-[#e2e7e9]"
               onClick={() => SetVotes(votes - 1)}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                className="w-[20px]"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="m19.5 8.25-7.5 7.5-7.5-7.5"
-                />
-              </svg>
+              <IoIosArrowDown className="w-[20px]" />
             </button>
           </div>
           {/* Comment button */}
           <button className="inline-flex items-center rounded-full bg-[#eaedef] px-[15px] py-[8px] hover:bg-[#e2e7e9]">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              className="w-[20px]"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.076-4.076a1.526 1.526 0 0 1 1.037-.443 48.282 48.282 0 0 0 5.68-.494c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"
-              />
-            </svg>
+            <IoChatboxOutline className="w-[20px]" />
             <span className="ml-2 text-sm font-medium">116</span>
           </button>
           {/* Share button */}
           <button className="inline-flex items-center rounded-full bg-[#eaedef] px-[15px] py-[8px] hover:bg-[#e2e7e9]">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              className="w-[20px]"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5"
-              />
-            </svg>
+            <HiMiniArrowUpTray className="w-[20px]" />
             <span className="ml-2 text-sm font-medium">Share</span>
           </button>
         </div>
