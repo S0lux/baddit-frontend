@@ -171,7 +171,7 @@ export default function RegisterModal({
                 message={message ? message : ""}
                 status={status}
                 className="fixed bottom-0 mt-4 flex items-center justify-center rounded-none py-2"
-                key="alert-bar"
+                Mkey="alert-bar"
               ></AlertBar>
             )}
           </AnimatePresence>

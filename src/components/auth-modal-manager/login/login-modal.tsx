@@ -13,6 +13,7 @@ import usePost from "@/src/hooks/usePost";
 import { AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import axios from "axios";
+import useGetUser from "@/src/hooks/useGetUser";
 
 export default function LoginModal({
   onClick,
@@ -29,6 +30,8 @@ export default function LoginModal({
   const { status, statusCode, loading, PostSent } = usePost(
     "https://api.baddit.life/v1/auth/login",
   );
+
+  const { logged, userData, GetUser } = useGetUser();
 
   //Hide scroll-bar when mounted
   useEffect(() => {
@@ -157,7 +160,7 @@ export default function LoginModal({
                 message={message ? message : ""}
                 status={status}
                 className="fixed bottom-0 mt-4 flex items-center justify-center rounded-none py-2"
-                key="alert-bar"
+                Mkey="alert-bar"
               ></AlertBar>
             )}
           </AnimatePresence>
