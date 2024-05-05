@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "../components/dashboard/header/header";
 import Sidebar from "../components/dashboard/sidebar/sidebar";
-import { Theme_Provider } from "../components/theme-provider/provider";
+import { ThemeProvider } from "next-themes";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,17 +20,16 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.className} h-screen  min-h-screen flex flex-col px-[10px]`}
+        className={`${inter.className} flex min-h-screen flex-col bg-background`}
       >
-        <Theme_Provider>
+        <ThemeProvider attribute="class" enableSystem={true}>
           <Header />
-          <div className="flex flex-1">
+          <div className="mt-[56.8px] flex flex-1 flex-row">
             <Sidebar />
-            <div className=" flex-1 flex justify-center items-center">
-              {children}
-            </div>
+            <div className="ml-[240px]">{children}</div>
           </div>
-        </Theme_Provider>
+          <div id="modal-portal"></div>
+        </ThemeProvider>
       </body>
     </html>
   );
