@@ -1,6 +1,6 @@
 export default function Sidebar() {
   return (
-    <div className="z-0 w-[240px] border-r-[0.2px] border-b border-[#cecece] dark:border-[#1a1a1a] h-full fixed pl-[10px] bg-background">
+    <div className="fixed h-full w-[240px] border-b border-r-[0.2px] border-[#cecece] bg-background pl-[10px] dark:border-[#1a1a1a]">
       Sidebar
     </div>
   );

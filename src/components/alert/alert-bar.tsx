@@ -34,7 +34,7 @@ export default function AlertBar({
       initial={{ y: 50 }}
       animate={{ y: 0 }}
       exit={{ y: 60 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.2 }}
       key={key}
     >
       <div className="flex aspect-square h-[40px] items-center pl-2">

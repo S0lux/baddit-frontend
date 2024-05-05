@@ -1,18 +1,28 @@
 "use client";
 
-import { Button } from "../button/button";
+import { Button } from "../../button/button";
 import { IoMdClose } from "react-icons/io";
-import { Input } from "../input/input";
-import { useState, useEffect, use } from "react";
+import { Input } from "../../input/input";
+import { useState, useEffect, use, Dispatch, SetStateAction } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { loginFormSchema } from "../../schema/loginFormSchema";
-import { set, z } from "zod";
-import AlertBar from "../alert/alert-bar";
+import { loginFormSchema } from "../../../schema/loginFormSchema";
+import { z } from "zod";
+import AlertBar from "../../alert/alert-bar";
 import usePost from "@/src/hooks/usePost";
 import { AnimatePresence } from "framer-motion";
+import Link from "next/link";
+import axios from "axios";
 
-export default function LoginModal({ onClick }: { onClick: () => void }) {
+export default function LoginModal({
+  onClick,
+  setModal,
+  setShowModal,
+}: {
+  onClick: () => void;
+  setModal: Dispatch<SetStateAction<string>>;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+}) {
   const [message, setMessage] = useState<string>();
   const [alertBarVisible, setAlertBarVisible] = useState<boolean>(false);
 
@@ -42,6 +52,9 @@ export default function LoginModal({ onClick }: { onClick: () => void }) {
     switch (statusCode) {
       case 200:
         setMessage("Successfully logged in!");
+        setTimeout(() => {
+          setShowModal(false);
+        }, 3500);
         break;
       case 401:
         setMessage("Invalid username or password!");
@@ -74,12 +87,11 @@ export default function LoginModal({ onClick }: { onClick: () => void }) {
 
     setTimeout(() => {
       setAlertBarVisible(false);
-      console.log("timeout");
     }, 3000);
   };
 
   return (
-    <div className=" flex h-screen w-screen flex-1 flex-col justify-center bg-white dark:bg-backgroundSecondary sm:h-fit sm:max-w-[470px] sm:rounded-2xl">
+    <div className="flex h-screen w-screen flex-1 flex-col justify-center bg-white dark:bg-backgroundSecondary sm:h-fit sm:max-w-[470px] sm:rounded-2xl">
       <div className="flex w-full items-center justify-end px-[24px] pb-[8px] pt-[24px]">
         <Button
           onClick={onClick}
@@ -113,6 +125,19 @@ export default function LoginModal({ onClick }: { onClick: () => void }) {
               placeholder="Password"
               disabled={loading}
             ></Input>
+
+            <div className="mt-2 text-[14px]">
+              New to Baddit?
+              <span>
+                <Link
+                  href={""}
+                  className="ml-1 font-bold text-blue-500 hover:text-blue-400 dark:text-blue-400 dark:hover:text-blue-500"
+                  onClick={() => setModal("register")}
+                >
+                  Sign Up
+                </Link>
+              </span>
+            </div>
           </div>
 
           <div className="flex w-full items-center justify-center py-[24px]">

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AlertType } from "../components/alert/alert-type";
 import axios from "axios";
 
@@ -10,7 +10,7 @@ export default function usePost(url: string) {
   const PostSent = async (data: any) => {
     setLoading(true);
 
-    await axios
+    axios
       .post(url, data)
       .then((res) => {
         setStatusCode(res.status);

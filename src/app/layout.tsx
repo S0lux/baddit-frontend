@@ -20,16 +20,15 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.className} min-h-screen flex flex-col bg-background`}
+        className={`${inter.className} flex min-h-screen flex-col bg-background`}
       >
         <ThemeProvider attribute="class" enableSystem={true}>
-          <div className="z-50">
-            <Header />
-          </div>
-          <div className="flex flex-row flex-1 mt-[56.8px] z-0">
+          <Header />
+          <div className="mt-[56.8px] flex flex-1 flex-row">
             <Sidebar />
             <div className="ml-[240px]">{children}</div>
           </div>
+          <div id="modal-portal"></div>
         </ThemeProvider>
       </body>
     </html>
