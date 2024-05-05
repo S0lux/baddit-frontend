@@ -26,7 +26,9 @@ export default function RootLayout({
           <Header />
           <div className="mt-[56.8px] flex flex-1 flex-row">
             <Sidebar />
-            <div className="flex flex-1 flex-col items-center ml-[240px]">{children}</div>
+            <div className="ml-[240px] flex flex-1 flex-col items-center">
+              {children}
+            </div>
           </div>
           <div id="modal-portal"></div>
         </ThemeProvider>

@@ -7,7 +7,7 @@ export default async function Header() {
   const fetchedCommunities = await fetchCommunities();
 
   return (
-    <div className=" fixed flex h-[56.8px] w-full items-center justify-between border-b border-[#cecece] px-[10px] dark:border-[#1a1a1a]">
+    <div className=" fixed flex h-[56.8px] w-full items-center justify-between border-b border-[#cecece] bg-background/90 px-[10px] backdrop-blur-sm dark:border-[#1a1a1a]">
       <h1 className=" pl-[5px] text-[26px] font-black">baddit</h1>
 
       <SearchBar

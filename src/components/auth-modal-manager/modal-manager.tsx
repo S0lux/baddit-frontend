@@ -52,7 +52,7 @@ export default function ModalManager() {
         createPortal(
           <div
             id="wrapper"
-            className="absolute inset-0 flex items-center justify-center bg-black/50"
+            className="fixed inset-0 flex items-center justify-center bg-black/50"
           >
             {modal == "register" && (
               <RegisterModal
