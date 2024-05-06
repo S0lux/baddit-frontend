@@ -3,7 +3,7 @@ import IconButton from "../../button/iconbutton";
 import { DropdownMenu } from "../../dropdown";
 import { GoHomeFill } from "react-icons/go";
 
-export default async function Sidebar() {
+export async function Sidebar() {
   const fetchedCommunities = await fetchCommunities();
   return (
     <div className="fixed z-0 h-full w-[240px] space-y-2 border-b border-r-[0.2px] border-[#cecece] bg-background px-4 pt-3 dark:border-[#1a1a1a]">
@@ -17,6 +17,8 @@ export default async function Sidebar() {
         title="COMMUNITIES"
         dropdownCommunityList={fetchedCommunities}
       />
+
+      <Divider></Divider>
     </div>
   );
 }
