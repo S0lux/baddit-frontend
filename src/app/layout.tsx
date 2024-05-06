@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "../components/dashboard/header/header";
-import Sidebar from "../components/dashboard/sidebar/sidebar";
+import { Sidebar } from "../components/dashboard/sidebar";
 import { ThemeProvider } from "next-themes";
+import ModalManager from "../components/auth-modal-manager/modal-manager";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,10 +27,13 @@ export default function RootLayout({
           <Header />
           <div className="mt-[56.8px] flex flex-1 flex-row">
             <Sidebar />
-            <div className="flex flex-1 flex-col items-center ml-[240px]">{children}</div>
+            <div className="ml-[240px] flex flex-1 flex-col items-center">
+              {children}
+            </div>
           </div>
           <div id="modal-portal"></div>
         </ThemeProvider>
+        <ModalManager></ModalManager>
       </body>
     </html>
   );

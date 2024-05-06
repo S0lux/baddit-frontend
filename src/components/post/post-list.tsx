@@ -8,7 +8,7 @@ const PostList = () => {
     const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
     const { data, error, isLoading } = useSWR(
-        "https://jsonplaceholder.typicode.com/posts",
+        "https://api.baddit.life/v1/posts",
         fetcher,
         {
             revalidateIfStale: false,
