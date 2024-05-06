@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "../components/dashboard/header/header";
-import Sidebar from "../components/dashboard/sidebar/sidebar";
+import { Sidebar } from "../components/dashboard/sidebar";
 import { ThemeProvider } from "next-themes";
 import ModalManager from "../components/auth-modal-manager/modal-manager";
 
