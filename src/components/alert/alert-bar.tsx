@@ -10,12 +10,12 @@ export default function AlertBar({
   message = "",
   status = "info",
   className,
-  key,
+  Mkey,
 }: {
   message: string;
   status: AlertType;
   className: string;
-  key: string;
+  Mkey: string;
 }) {
   const colors = {
     error: "bg-red-500 dark:bg-red-500/90 border-red-500/25 text-white",
@@ -34,8 +34,8 @@ export default function AlertBar({
       initial={{ y: 50 }}
       animate={{ y: 0 }}
       exit={{ y: 60 }}
-      transition={{ duration: 0.5 }}
-      key={key}
+      transition={{ duration: 0.2 }}
+      key={Mkey}
     >
       <div className="flex aspect-square h-[40px] items-center pl-2">
         {status === "error" && (

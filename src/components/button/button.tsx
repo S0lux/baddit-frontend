@@ -32,7 +32,7 @@ const variants = cva(
     "hover:shadow-lg",
     "disabled:cursor-not-allowed disabled:shadow",
     "ring-offset-2 focus:scale-[0.98]",
-    " font-light",
+    " font-medium",
   ],
   {
     variants: {
@@ -71,7 +71,7 @@ const variants = cva(
         ],
         destructive: [
           //light
-          "bg-white text-black",
+          "bg-white text-black shadow-none",
           "ring-[#ff0000]/70",
           "hover:bg-[#ff0000] hover:text-white",
           "focus-visible:ring-2 focus-visible:bg-[#ff0000] focus-visible:text-white",

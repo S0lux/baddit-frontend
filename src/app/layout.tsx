@@ -23,13 +23,14 @@ export default function RootLayout({
         className={`${inter.className} flex min-h-screen flex-col bg-background`}
       >
         <ThemeProvider attribute="class" enableSystem={true}>
-          <div className="z-50">
-            <Header />
-          </div>
-          <div className="z-0 mt-[56.8px] flex flex-1 flex-row">
+          <Header />
+          <div className="mt-[56.8px] flex flex-1 flex-row">
             <Sidebar />
-            <div className="ml-[240px]">{children}</div>
+            <div className="ml-[240px] flex flex-1 flex-col items-center">
+              {children}
+            </div>
           </div>
+          <div id="modal-portal"></div>
         </ThemeProvider>
       </body>
     </html>
