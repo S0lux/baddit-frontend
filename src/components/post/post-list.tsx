@@ -19,6 +19,7 @@ const PostList = () => {
     if (isLoading) {
         return <div>loading...</div>
     }
+    console.log(data)
     return (
         <div className=" max-w-[770px] ">
             {data?.map((item: BadPost) => {

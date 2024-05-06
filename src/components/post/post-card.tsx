@@ -19,9 +19,9 @@ const PostCard = (props: IProps) => {
                 <div className="flex flex-row text-[13px]">
                     <a href="" className="flex flex-row w-fit">
                         <img src="https://styles.redditmedia.com/t5_2qkcr/styles/communityIcon_tmba7simqwp31.jpg?format=pjpg&s=dad25aea71fb1928d3ac41daa33162cc33b88ba7" alt="author image" className="rounded-full w-[25px]" />
-                        <p className="ml-2 mt-[3px] ">r/Vietnam</p>
+                        <p className="ml-2 mt-[3px] ">r/{post.communityName}</p>
                     </a>
-                    <a href="" className="mt-[3px] ml-2 font-light text-[#576f76] before:content-['•'] before:mr-1 w-fit">3 hr.ago</a>
+                    <a href="" className="mt-[3px] ml-2 font-light text-[#576f76] before:content-['•'] before:mr-1 w-fit">{post.updatedAt}</a>
                 </div>
                 <div className="jtiusfy-items-end">
                     <h1 className="text-[24px] font-extrabold">{post.title}</h1>
