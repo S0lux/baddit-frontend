@@ -45,7 +45,7 @@ const variants = cva(
           "focus-visible:ring-2 ",
           "disabled:bg-[#2dc2c7]/70",
           //dark
-          "dark:bg-[#28aaaf] dark:text-black",
+          "dark:bg-[#28aaaf] dark:text-white",
         ],
         secondary: [
           //light

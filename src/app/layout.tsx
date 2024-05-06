@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "../components/dashboard/header/header";
 import Sidebar from "../components/dashboard/sidebar/sidebar";
 import { ThemeProvider } from "next-themes";
+import ModalManager from "../components/auth-modal-manager/modal-manager";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -32,6 +33,7 @@ export default function RootLayout({
           </div>
           <div id="modal-portal"></div>
         </ThemeProvider>
+        <ModalManager></ModalManager>
       </body>
     </html>
   );

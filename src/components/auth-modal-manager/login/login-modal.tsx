@@ -12,18 +12,10 @@ import AlertBar from "../../alert/alert-bar";
 import usePost from "@/src/hooks/usePost";
 import { AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import axios from "axios";
-import useGetUser from "@/src/hooks/useGetUser";
+import { useAuthStore } from "@/src/store/authStore";
+import { useModalStore } from "@/src/store/modalStore";
 
-export default function LoginModal({
-  onClick,
-  setModal,
-  setShowModal,
-}: {
-  onClick: () => void;
-  setModal: Dispatch<SetStateAction<string>>;
-  setShowModal: Dispatch<SetStateAction<boolean>>;
-}) {
+export default function LoginModal() {
   const [message, setMessage] = useState<string>();
   const [alertBarVisible, setAlertBarVisible] = useState<boolean>(false);
 
@@ -31,7 +23,10 @@ export default function LoginModal({
     "https://api.baddit.life/v1/auth/login",
   );
 
-  const { logged, userData, GetUser } = useGetUser();
+  const setModalType = useModalStore((state) => state.setModalType);
+  const setShowModal = useModalStore((state) => state.setShowModal);
+
+  const { loggedIn, userData, getUserAsync } = useAuthStore();
 
   //Hide scroll-bar when mounted
   useEffect(() => {
@@ -86,6 +81,8 @@ export default function LoginModal({
   ) => {
     await PostSent(data);
 
+    getUserAsync();
+
     setAlertBarVisible(true);
 
     setTimeout(() => {
@@ -97,7 +94,7 @@ export default function LoginModal({
     <div className="flex h-screen w-screen flex-1 flex-col justify-center bg-white dark:bg-backgroundSecondary sm:h-fit sm:max-w-[470px] sm:rounded-2xl">
       <div className="flex w-full items-center justify-end px-[24px] pb-[8px] pt-[24px]">
         <Button
-          onClick={onClick}
+          onClick={() => setShowModal(false)}
           variant={"destructive"}
           className="aspect-square w-[32px] p-0"
           disabled={loading}
@@ -135,7 +132,7 @@ export default function LoginModal({
                 <Link
                   href={""}
                   className="ml-1 font-bold text-blue-500 hover:text-blue-400 dark:text-blue-400 dark:hover:text-blue-500"
-                  onClick={() => setModal("register")}
+                  onClick={() => setModalType("register")}
                 >
                   Sign Up
                 </Link>

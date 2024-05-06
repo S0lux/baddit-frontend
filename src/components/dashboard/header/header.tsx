@@ -1,7 +1,7 @@
-import { Button } from "../../button/button";
-import ThemeSwitcher from "../../theme-provider/theme-switcher";
 import { SearchBar } from "../../searchbar";
 import ModalManager from "../../auth-modal-manager/modal-manager";
+import HeaderMenu from "../../header-menu/header-menu";
+import { Suspense } from "react";
 
 export default async function Header() {
   const fetchedCommunities = await fetchCommunities();
@@ -16,9 +16,10 @@ export default async function Header() {
       ></SearchBar>
       <div className=" flex items-center gap-2 py-1">
         <div className=" flex gap-x-[5px]">
-          <ModalManager></ModalManager>
+          <Suspense fallback={<div>Loading</div>}>
+            <HeaderMenu></HeaderMenu>
+          </Suspense>
         </div>
-        <ThemeSwitcher />
       </div>
     </div>
   );

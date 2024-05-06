@@ -1,29 +1,34 @@
 "use client";
 
+//import components
 import { Button } from "../../button/button";
-import { IoMdClose } from "react-icons/io";
 import { Input } from "../../input/input";
-import { useState, useEffect, use, Dispatch, SetStateAction } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { registerFormSchema } from "../../../schema/registerFormSchema";
-import { z } from "zod";
 import AlertBar from "../../alert/alert-bar";
+
+//import hooks
+import { useState, useEffect } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useModalStore } from "@/src/store/modalStore";
 import usePost from "@/src/hooks/usePost";
+
+//import icons
+import { IoMdClose } from "react-icons/io";
+
+//import schema
+import { registerFormSchema } from "../../../schema/registerFormSchema";
+
+//other imports
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { AnimatePresence } from "framer-motion";
 import Link from "next/link";
 
-export default function RegisterModal({
-  onClick,
-  setModal,
-  setShowModal,
-}: {
-  onClick: () => void;
-  setModal: Dispatch<SetStateAction<string>>;
-  setShowModal: Dispatch<SetStateAction<boolean>>;
-}) {
+export default function RegisterModal() {
   const [message, setMessage] = useState<string>();
   const [alertBarVisible, setAlertBarVisible] = useState<boolean>(false);
+
+  const setModalType = useModalStore((state) => state.setModalType);
+  const setShowModal = useModalStore((state) => state.setShowModal);
 
   const { status, statusCode, loading, PostSent } = usePost(
     "https://api.baddit.life/v1/auth/signup",
@@ -99,7 +104,7 @@ export default function RegisterModal({
     <div className="flex h-screen w-screen flex-1 flex-col justify-center bg-white dark:bg-backgroundSecondary sm:h-fit sm:max-w-[470px] sm:rounded-2xl">
       <div className="flex w-full items-center justify-end px-[24px] pb-[8px] pt-[24px]">
         <Button
-          onClick={onClick}
+          onClick={() => setShowModal(false)}
           variant={"destructive"}
           className="aspect-square w-[32px] p-0"
           disabled={loading}
@@ -146,7 +151,7 @@ export default function RegisterModal({
                 <Link
                   href={""}
                   className="ml-1 font-bold text-blue-500 hover:text-blue-400 dark:text-blue-400 dark:hover:text-blue-500"
-                  onClick={() => setModal("login")}
+                  onClick={() => setModalType("login")}
                 >
                   Log In
                 </Link>

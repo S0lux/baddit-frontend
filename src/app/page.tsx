@@ -6,8 +6,9 @@ import { motion } from "framer-motion";
 import PostList from "../components/post/post-list";
 
 export default function Home() {
-  return <div className=" h-[10000px] ">
-    DashBoard
-    <PostList />
-  </div>;
+  return (
+    <div className=" h-fit ">
+      <PostList />
+    </div>
+  );
 }
