@@ -3,6 +3,7 @@ import { useState } from "react";
 import { HiMiniArrowUpTray } from "react-icons/hi2";
 import { IoChatboxOutline } from "react-icons/io5";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
+import { Button } from "../button/button";
 
 const PostCard = () => {
   const [votes, SetVotes] = useState<number>(0);
@@ -30,7 +31,6 @@ const PostCard = () => {
           <h1 className="text-[24px] font-extrabold">
             How feasible is this plan?
           </h1>
-
           <div className="mb-1">
             We are 3 people planning to visit Viet Nam from 10th May to 17th
             may. Our return flight is on 18th May at 2:00AM
@@ -44,32 +44,37 @@ const PostCard = () => {
           </div>
         </div>
         <div className="flex flex-row gap-[16px]">
-          {/* Vote button */}
-          <div className="inline-flex items-center rounded-full bg-[#eaedef]">
-            <button
-              className="px-[10px] py-[15px] hover:rounded-full hover:bg-[#e2e7e9]"
+          <div className="inline-flex items-center rounded-full bg-[#eaedef] dark:bg-[#1a282d] ">
+            <Button
+              size={"small"}
+              variant={"ghost"}
+              className="h-full"
               onClick={() => SetVotes(votes + 1)}
             >
-              <IoIosArrowUp className="w-[20px]" />
-            </button>
-            <span className="text-sm font-medium">{votes}</span>
-            <button
-              className="px-[10px] py-[15px] hover:rounded-full hover:bg-[#e2e7e9]"
+              <IoIosArrowUp />
+            </Button>
+            <span className="text-[14px] font-medium">{votes}</span>
+            <Button
+              size={"small"}
+              variant={"ghost"}
+              className="h-full"
               onClick={() => SetVotes(votes - 1)}
             >
-              <IoIosArrowDown className="w-[20px]" />
-            </button>
+              <IoIosArrowDown />
+            </Button>
           </div>
-          {/* Comment button */}
-          <button className="inline-flex items-center rounded-full bg-[#eaedef] px-[15px] py-[8px] hover:bg-[#e2e7e9]">
-            <IoChatboxOutline className="w-[20px]" />
-            <span className="ml-2 text-sm font-medium">116</span>
-          </button>
-          {/* Share button */}
-          <button className="inline-flex items-center rounded-full bg-[#eaedef] px-[15px] py-[8px] hover:bg-[#e2e7e9]">
-            <HiMiniArrowUpTray className="w-[20px]" />
-            <span className="ml-2 text-sm font-medium">Share</span>
-          </button>
+          <Button size={"small"} variant={"ghost"}>
+            <div className="inline-flex items-center">
+              <IoChatboxOutline className="mr-2 w-[20px]" />
+              268
+            </div>
+          </Button>
+          <Button size={"small"} variant={"ghost"}>
+            <div className="inline-flex items-center">
+              <HiMiniArrowUpTray className="mr-2 w-[20px]" />
+              Share
+            </div>
+          </Button>
         </div>
       </div>
     </div>

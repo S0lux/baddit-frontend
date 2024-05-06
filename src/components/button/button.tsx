@@ -78,6 +78,13 @@ const variants = cva(
           "disabled:text-[#000000]/70",
           "transition-none",
         ],
+        ghost: [
+          "hover:bg-[#e2e7e9] hover:rounded-full hover:shadow-none",
+          "px-[10px] py-[15px]",
+          "bg-[#eaedef] shadow-none",
+          //dark
+          "dark:bg-[#1a282d] dark:hover:bg-[#223237]"
+        ]
       },
       size: {
         small: ["px-4", "py-2", "text-[14px]"],
