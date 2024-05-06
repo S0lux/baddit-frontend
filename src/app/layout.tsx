@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "../components/dashboard/header/header";
-import Sidebar from "../components/dashboard/sidebar/sidebar";
+import { Sidebar } from "../components/dashboard/sidebar";
 import { ThemeProvider } from "next-themes";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -20,13 +20,13 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.className} min-h-screen flex flex-col bg-background`}
+        className={`${inter.className} flex min-h-screen flex-col bg-background`}
       >
         <ThemeProvider attribute="class" enableSystem={true}>
           <div className="z-50">
             <Header />
           </div>
-          <div className="flex flex-row flex-1 mt-[56.8px] z-0">
+          <div className="z-0 mt-[56.8px] flex flex-1 flex-row">
             <Sidebar />
             <div className="ml-[240px]">{children}</div>
           </div>
