@@ -7,7 +7,8 @@ import PostList from "../components/post/post-list";
 
 export default function Home() {
   return (
-    <div className=" h-fit ">
+    <div className=" h-screen ">
+      DashBoard
       <PostList />
     </div>
   );
