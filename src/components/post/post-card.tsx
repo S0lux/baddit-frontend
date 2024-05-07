@@ -4,9 +4,13 @@ import { IoChatboxOutline } from "react-icons/io5";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { FiShare } from "react-icons/fi";
 import { Button } from "../button/button";
-import IconButton from "../button/iconbutton";
 
-const PostCard = () => {
+interface IProps {
+  post: BadPost;
+}
+const PostCard = (props: IProps) => {
+  const { post } = props;
+
   const [votes, SetVotes] = useState<number>(0);
 
   return (
@@ -19,23 +23,18 @@ const PostCard = () => {
               alt="author image"
               className="w-[25px] rounded-full"
             />
-            <p className="ml-2 mt-[3px] ">r/Vietnam</p>
+            <p className="ml-2 mt-[3px] ">r/{post.communityName}</p>
           </a>
           <a
             href=""
             className="ml-2 mt-[3px] w-fit font-light text-[#576f76] before:mr-1 before:content-['•']"
           >
-            3 hr.ago
+            {post.updatedAt}
           </a>
         </div>
         <div className="jtiusfy-items-end">
-          <h1 className="text-[24px] font-extrabold">
-            How feasible is this plan?
-          </h1>
-          <div className="mb-1">
-            We are 3 people planning to visit Viet Nam from 10th May to 17th
-            may. Our return flight is on 18th May at 2:00AM
-          </div>
+          <h1 className="text-[24px] font-extrabold">{post.title}</h1>
+          <div className="mb-1">{post.content}</div>
           <div className="flex w-full flex-col items-center justify-between rounded-xl bg-black">
             <img
               src="https://www.vietnamairlines.com/~/media/Files/VNANewPage-Images/Lotusmiles/Earn%20Miles/Page/Tren_Vietnamairlines.jpg"
@@ -54,7 +53,7 @@ const PostCard = () => {
             >
               <IoIosArrowUp />
             </Button>
-            <span className="text-[14px] font-medium">{votes}</span>
+            <span className="text-[14px] font-medium">{post.score}</span>
             <Button
               size={"small"}
               variant={"ghost"}
@@ -71,8 +70,8 @@ const PostCard = () => {
             </div>
           </Button>
           <Button size={"small"} variant={"ghost"}>
-            <div className="inline-flex items-center gap-2">
-              <FiShare className=" size-[15]" />
+            <div className="inline-flex items-center">
+              <FiShare className="mr-2 w-[20px]" />
               Share
             </div>
           </Button>
