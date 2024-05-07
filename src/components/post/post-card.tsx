@@ -1,9 +1,10 @@
 "use client";
 import { useState } from "react";
-import { HiMiniArrowUpTray } from "react-icons/hi2";
 import { IoChatboxOutline } from "react-icons/io5";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
+import { FiShare } from "react-icons/fi";
 import { Button } from "../button/button";
+import IconButton from "../button/iconbutton";
 
 const PostCard = () => {
   const [votes, SetVotes] = useState<number>(0);
@@ -70,8 +71,8 @@ const PostCard = () => {
             </div>
           </Button>
           <Button size={"small"} variant={"ghost"}>
-            <div className="inline-flex items-center">
-              <HiMiniArrowUpTray className="mr-2 w-[20px]" />
+            <div className="inline-flex items-center gap-2">
+              <FiShare className=" size-[15]" />
               Share
             </div>
           </Button>

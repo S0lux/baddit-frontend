@@ -1,29 +1,32 @@
+"use client";
+
+import axios, { Axios } from "axios";
 import { Button } from "../../button/button";
-import { useModalStore } from "@/src/store/modalStore";
-import ThemeSwitcher from "../../theme-provider/theme-switcher";
+import { useAuthStore } from "@/src/store/authStore";
 
-export default function LoggedInHeader() {
-  const loginHandle = () => {
-    useModalStore.setState({ modalOpen: true, modalType: "login" });
+export default function NonLoggedInHeader() {
+  const logoutHandle = async () => {
+    try {
+      const response = await axios.post(
+        "https://api.baddit.life/v1/auth/logout",
+        {},
+        { withCredentials: true },
+      );
+      useAuthStore.setState({ loggedIn: false });
+      console.log(response);
+    } catch (err: any) {
+      if (err.response.status === 401) {
+        console.log("a khang");
+      }
+    }
   };
 
-  const registerHandle = () => {
-    useModalStore.setState({ modalOpen: true, modalType: "register" });
-  };
   return (
-    <div className="ml-1 flex items-center justify-center gap-2">
-      <Button variant={"primary"} size={"small"} onClick={loginHandle}>
-        Log In
+    <div>
+      <Button size={"small"} onClick={logoutHandle}>
+        {" "}
+        Logout{" "}
       </Button>
-      <Button
-        className="hidden sm:block"
-        variant={"secondary"}
-        size={"small"}
-        onClick={registerHandle}
-      >
-        Sign Up
-      </Button>
-      <ThemeSwitcher />
     </div>
   );
 }
