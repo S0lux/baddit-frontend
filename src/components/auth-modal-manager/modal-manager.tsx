@@ -10,10 +10,6 @@ export default function ModalManager() {
   const modalType = useModalStore((state) => state.modalType);
   const setShowModal = useModalStore((state) => state.setShowModal);
 
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
   const handleWrapperClick = (e: any) => {
     if (e.target.id === "wrapper") {
       setShowModal(false);
