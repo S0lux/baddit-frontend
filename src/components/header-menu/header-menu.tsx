@@ -23,7 +23,7 @@ export default function HeaderMenu() {
   });
 
   return (
-    <div>
+    <div className="">
       {loggedIn == false && <LoggedInHeader></LoggedInHeader>}
       {loggedIn == true && <NonLoggedInHeader></NonLoggedInHeader>}
     </div>
