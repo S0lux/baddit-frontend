@@ -1,12 +1,8 @@
-"use client";
-
-import Image from "next/image";
-import { ThemeProvider } from "next-themes";
-import { motion } from "framer-motion";
 import PostList from "../components/post/post-list";
 import { GoHomeFill } from "react-icons/go";
 import Link from "next/link";
 import { Button } from "../components/button/button";
+import DashboardLayout from "../components/dashboard/dashboard-layout/layout";
 
 export default function Home() {
   return (

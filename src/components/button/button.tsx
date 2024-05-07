@@ -83,8 +83,8 @@ const variants = cva(
           "px-[10px] py-[15px]",
           "bg-[#eaedef] shadow-none",
           //dark
-          "dark:bg-[#1a282d] dark:hover:bg-[#223237]"
-        ]
+          "dark:bg-[#1a282d] dark:hover:bg-[#223237]",
+        ],
       },
       size: {
         small: ["px-4", "py-2", "text-[14px]"],

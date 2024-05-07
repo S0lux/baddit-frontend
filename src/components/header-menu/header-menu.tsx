@@ -2,8 +2,8 @@
 
 import { useAuthStore } from "@/src/store/authStore";
 import { useEffect } from "react";
-import LoggedInHeader from "./logged-in/logged-in-header";
-import NonLoggedInHeader from "./non-logged-in/non-logged-in-header";
+import LoggedInHeader from "./nonlogged-in/nonlogged-in-header";
+import NonLoggedInHeader from "./logged-in/logged-in-header";
 
 export default function HeaderMenu() {
   const loggedIn = useAuthStore((state) => state.loggedIn);
@@ -23,7 +23,7 @@ export default function HeaderMenu() {
   });
 
   return (
-    <div>
+    <div className="">
       {loggedIn == false && <LoggedInHeader></LoggedInHeader>}
       {loggedIn == true && <NonLoggedInHeader></NonLoggedInHeader>}
     </div>

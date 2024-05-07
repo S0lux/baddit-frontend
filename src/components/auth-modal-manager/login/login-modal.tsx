@@ -1,19 +1,28 @@
 "use client";
 
+//import components
 import { Button } from "../../button/button";
-import { IoMdClose } from "react-icons/io";
 import { Input } from "../../input/input";
-import { useState, useEffect, use, Dispatch, SetStateAction } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { loginFormSchema } from "../../../schema/loginFormSchema";
-import { z } from "zod";
 import AlertBar from "../../alert/alert-bar";
+
+//import hooks
+import { useState, useEffect } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useModalStore } from "@/src/store/modalStore";
 import usePost from "@/src/hooks/usePost";
+import { useAuthStore } from "@/src/store/authStore";
+
+//import icons
+import { IoMdClose } from "react-icons/io";
+
+//import schema
+import { loginFormSchema } from "../../../schema/loginFormSchema";
+
+//other imports
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { useAuthStore } from "@/src/store/authStore";
-import { useModalStore } from "@/src/store/modalStore";
 
 export default function LoginModal() {
   const [message, setMessage] = useState<string>();
