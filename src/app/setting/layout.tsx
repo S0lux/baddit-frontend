@@ -7,13 +7,5 @@ export default function SettingLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${inter.className} flex min-h-screen flex-col bg-background`}
-      >
-        {children}
-      </body>
-    </html>
-  );
+  return <>{children}</>;
 }
