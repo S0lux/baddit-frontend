@@ -16,9 +16,7 @@ export default async function Header() {
       ></SearchBar>
       <div className=" flex items-center gap-2 py-1">
         <div className=" flex gap-x-[5px]">
-          <Suspense fallback={<div>Loading</div>}>
-            <HeaderMenu></HeaderMenu>
-          </Suspense>
+          <HeaderMenu></HeaderMenu>
         </div>
       </div>
     </div>
