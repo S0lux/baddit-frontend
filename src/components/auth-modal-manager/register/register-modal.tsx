@@ -9,7 +9,6 @@ import { useState, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useModalStore } from "@/src/store/modalStore";
 import usePost from "@/src/hooks/usePost";
-import { useAuthStore } from "@/src/store/authStore";
 
 //import icons
 import { IoMdClose } from "react-icons/io";
@@ -25,16 +24,11 @@ import { toast } from "react-toastify";
 
 export default function RegisterModal() {
   const [message, setMessage] = useState<string>();
-  const [alertBarVisible, setAlertBarVisible] = useState<boolean>(false);
 
   const setModalType = useModalStore((state) => state.setModalType);
   const setShowModal = useModalStore((state) => state.setShowModal);
 
-  const getUserAsync = useAuthStore((state) => state.getUserAsync);
-
-  const { status, loading, PostSent } = usePost(
-    "https://api.baddit.life/v1/auth/signup",
-  );
+  const { status, loading, PostSent } = usePost("/auth/signup");
 
   //Hide scroll-bar when mounted
   useEffect(() => {
@@ -53,28 +47,24 @@ export default function RegisterModal() {
     };
   }, []);
 
-  //Handle status code
-  // useEffect(() => {
-  //   switch (statusCode) {
-  //     case 201:
-  //       setMessage(
-  //         "Successfully sign up! Please check your email to verify your account.",
-  //       );
-  //       setShowModal(false);
-  //       break;
-  //     case 400:
-  //       setMessage("Invalid username or password!");
-  //       break;
-  //     case 409:
-  //       setMessage("Username or email already taken");
-  //       break;
-  //     case 500:
-  //       setMessage("Internal server error");
-  //       break;
-  //     default:
-  //       setMessage("Something went wrong");
-  //   }
-  // }, [statusCode]);
+  useEffect(() => {
+    const endModal = () => {
+      setModalType("login");
+      setMessage(undefined);
+    };
+
+    if (status == "error" && message !== undefined) {
+      toast.error(message);
+      console.log("error");
+    }
+
+    if (status == "success" && message !== undefined) {
+      toast.success(message);
+      console.log("success");
+      return endModal();
+    }
+    return setMessage(undefined);
+  }, [message]);
 
   const {
     register,
@@ -87,12 +77,27 @@ export default function RegisterModal() {
   const onSubmit: SubmitHandler<z.infer<typeof registerFormSchema>> = async (
     data,
   ) => {
-    await PostSent(data);
+    const statusCode = await PostSent(data);
+    console.log("khang");
+    console.log(statusCode);
 
-    if (status == "error") {
-      toast.error(message);
-    } else {
-      toast.success(message);
+    switch (statusCode) {
+      case 201:
+        setMessage(
+          "Successfully sign up! Please check your email to verify your account.",
+        );
+        break;
+      case 400:
+        setMessage("Invalid username or password!");
+        break;
+      case 409:
+        setMessage("Username or email already taken");
+        break;
+      case 500:
+        setMessage("Internal server error");
+        break;
+      default:
+        setMessage("Something went wrong");
     }
   };
 

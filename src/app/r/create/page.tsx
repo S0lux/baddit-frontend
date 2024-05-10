@@ -18,9 +18,7 @@ const CreateCommunity = () => {
 
   const router = useRouter();
 
-  const { status, statusCode, loading, PostSent } = usePost(
-    "https://api.baddit.life/v1/communities",
-  );
+  const { status, statusCode, loading, PostSent } = usePost("/communities");
 
   //Handle StatusCode
   useEffect(() => {

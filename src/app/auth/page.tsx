@@ -21,7 +21,7 @@ export default function Page() {
   );
   const [error, setError] = useState<boolean>(false);
 
-  const { PostSent } = usePost("https://api.baddit.life/v1/auth/verification");
+  const { PostSent } = usePost("/auth/verification");
 
   const payload = {
     token: searchParams.get("emailToken"),

@@ -3,7 +3,6 @@
 //import components
 import { Button } from "../../button/button";
 import { Input } from "../../input/input";
-import AlertBar from "../../alert/alert-bar";
 
 //import hooks
 import { useState, useEffect } from "react";
@@ -27,9 +26,7 @@ import { toast } from "react-toastify";
 export default function LoginModal() {
   const [message, setMessage] = useState<string>();
 
-  const { status, loading, PostSent } = usePost(
-    "https://api.baddit.life/v1/auth/login",
-  );
+  const { status, loading, PostSent } = usePost("/auth/login");
 
   const setModalType = useModalStore((state) => state.setModalType);
   const setShowModal = useModalStore((state) => state.setShowModal);
@@ -54,15 +51,17 @@ export default function LoginModal() {
   }, []);
 
   useEffect(() => {
+    const endModal = () => {
+      setShowModal(false);
+      setMessage(undefined);
+    };
+
     if (status == "error" && message !== undefined) {
       toast.error(message);
     }
     if (status == "success" && message !== undefined) {
       toast.success(message);
-      return () => {
-        setShowModal(false);
-        setMessage(undefined);
-      };
+      return endModal();
     }
 
     return setMessage(undefined);
@@ -84,6 +83,7 @@ export default function LoginModal() {
     switch (statusCode) {
       case 200:
         setMessage("Successfully logged in!");
+        await getUserAsync();
         break;
       case 401:
         setMessage("Invalid username or password!");
@@ -94,7 +94,6 @@ export default function LoginModal() {
       default:
         setMessage(undefined);
     }
-    await getUserAsync();
   };
 
   return (
