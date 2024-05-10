@@ -23,7 +23,6 @@ export default function DashboardLayout({
         </div>
         <div id="modal-portal"></div>
       </ThemeProvider>
-      <ModalManager></ModalManager>
     </>
   );
 }

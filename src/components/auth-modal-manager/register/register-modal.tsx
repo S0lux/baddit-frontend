@@ -3,13 +3,13 @@
 //import components
 import { Button } from "../../button/button";
 import { Input } from "../../input/input";
-import AlertBar from "../../alert/alert-bar";
 
 //import hooks
 import { useState, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useModalStore } from "@/src/store/modalStore";
 import usePost from "@/src/hooks/usePost";
+import { useAuthStore } from "@/src/store/authStore";
 
 //import icons
 import { IoMdClose } from "react-icons/io";
@@ -20,8 +20,8 @@ import { registerFormSchema } from "../../../schema/registerFormSchema";
 //other imports
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import { toast } from "react-toastify";
 
 export default function RegisterModal() {
   const [message, setMessage] = useState<string>();
@@ -30,7 +30,9 @@ export default function RegisterModal() {
   const setModalType = useModalStore((state) => state.setModalType);
   const setShowModal = useModalStore((state) => state.setShowModal);
 
-  const { status, statusCode, loading, PostSent } = usePost(
+  const getUserAsync = useAuthStore((state) => state.getUserAsync);
+
+  const { status, loading, PostSent } = usePost(
     "https://api.baddit.life/v1/auth/signup",
   );
 
@@ -52,32 +54,27 @@ export default function RegisterModal() {
   }, []);
 
   //Handle status code
-  useEffect(() => {
-    switch (statusCode) {
-      case 201:
-        setMessage(
-          "Successfully sign up! Please check your email to verify your account.",
-        );
-        setTimeout(() => {
-          setShowModal(false);
-        }, 3500);
-        break;
-      case 400:
-        setMessage("Invalid username or password!");
-        break;
-      case 409:
-        setMessage("Username or email already taken");
-        break;
-      case 500:
-        setMessage("Internal server error");
-        break;
-      default:
-        setMessage("Something went wrong");
-    }
-  }, [statusCode]);
-
-  //Handle alert bar visibility
-  useEffect(() => {}, [alertBarVisible]);
+  // useEffect(() => {
+  //   switch (statusCode) {
+  //     case 201:
+  //       setMessage(
+  //         "Successfully sign up! Please check your email to verify your account.",
+  //       );
+  //       setShowModal(false);
+  //       break;
+  //     case 400:
+  //       setMessage("Invalid username or password!");
+  //       break;
+  //     case 409:
+  //       setMessage("Username or email already taken");
+  //       break;
+  //     case 500:
+  //       setMessage("Internal server error");
+  //       break;
+  //     default:
+  //       setMessage("Something went wrong");
+  //   }
+  // }, [statusCode]);
 
   const {
     register,
@@ -92,12 +89,11 @@ export default function RegisterModal() {
   ) => {
     await PostSent(data);
 
-    setAlertBarVisible(true);
-
-    setTimeout(() => {
-      setAlertBarVisible(false);
-      console.log("timeout");
-    }, 3000);
+    if (status == "error") {
+      toast.error(message);
+    } else {
+      toast.success(message);
+    }
   };
 
   return (
@@ -170,16 +166,6 @@ export default function RegisterModal() {
               Submit
             </Button>
           </div>
-          <AnimatePresence>
-            {alertBarVisible && (
-              <AlertBar
-                message={message ? message : ""}
-                status={status}
-                className="fixed bottom-0 mt-4 flex items-center justify-center rounded-none py-2"
-                Mkey="alert-bar"
-              ></AlertBar>
-            )}
-          </AnimatePresence>
         </form>{" "}
       </div>
     </div>

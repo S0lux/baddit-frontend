@@ -21,21 +21,20 @@ import { loginFormSchema } from "../../../schema/loginFormSchema";
 //other imports
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import { toast } from "react-toastify";
 
 export default function LoginModal() {
   const [message, setMessage] = useState<string>();
-  const [alertBarVisible, setAlertBarVisible] = useState<boolean>(false);
 
-  const { status, statusCode, loading, PostSent } = usePost(
+  const { status, loading, PostSent } = usePost(
     "https://api.baddit.life/v1/auth/login",
   );
 
   const setModalType = useModalStore((state) => state.setModalType);
   const setShowModal = useModalStore((state) => state.setShowModal);
 
-  const { loggedIn, userData, getUserAsync } = useAuthStore();
+  const getUserAsync = useAuthStore((state) => state.getUserAsync);
 
   //Hide scroll-bar when mounted
   useEffect(() => {
@@ -54,28 +53,20 @@ export default function LoginModal() {
     };
   }, []);
 
-  //Handle status code
   useEffect(() => {
-    switch (statusCode) {
-      case 200:
-        setMessage("Successfully logged in!");
-        setTimeout(() => {
-          setShowModal(false);
-        }, 3500);
-        break;
-      case 401:
-        setMessage("Invalid username or password!");
-        break;
-      case 500:
-        setMessage("Internal server error");
-        break;
-      default:
-        setMessage("Something went wrong");
+    if (status == "error" && message !== undefined) {
+      toast.error(message);
     }
-  }, [statusCode]);
+    if (status == "success" && message !== undefined) {
+      toast.success(message);
+      return () => {
+        setShowModal(false);
+        setMessage(undefined);
+      };
+    }
 
-  //Handle alert bar visibility
-  useEffect(() => {}, [alertBarVisible]);
+    return setMessage(undefined);
+  }, [message]);
 
   const {
     register,
@@ -88,15 +79,22 @@ export default function LoginModal() {
   const onSubmit: SubmitHandler<z.infer<typeof loginFormSchema>> = async (
     data,
   ) => {
-    await PostSent(data);
+    const statusCode = await PostSent(data);
 
-    getUserAsync();
-
-    setAlertBarVisible(true);
-
-    setTimeout(() => {
-      setAlertBarVisible(false);
-    }, 3000);
+    switch (statusCode) {
+      case 200:
+        setMessage("Successfully logged in!");
+        break;
+      case 401:
+        setMessage("Invalid username or password!");
+        break;
+      case 500:
+        setMessage("Internal server error");
+        break;
+      default:
+        setMessage(undefined);
+    }
+    await getUserAsync();
   };
 
   return (
@@ -133,6 +131,7 @@ export default function LoginModal() {
               errorMessage={errors.password?.message}
               placeholder="Password"
               disabled={loading}
+              type="password"
             ></Input>
 
             <div className="mt-2 text-[14px]">
@@ -160,16 +159,6 @@ export default function LoginModal() {
               Log in
             </Button>
           </div>
-          <AnimatePresence>
-            {alertBarVisible && (
-              <AlertBar
-                message={message ? message : ""}
-                status={status}
-                className="fixed bottom-0 mt-4 flex items-center justify-center rounded-none py-2"
-                Mkey="alert-bar"
-              ></AlertBar>
-            )}
-          </AnimatePresence>
         </form>{" "}
       </div>
     </div>

@@ -7,9 +7,8 @@ import CommunityHome from "./r/page";
 
 export default function Home() {
   return (
-    <>
+    <DashboardLayout>
       <CommunityHome />
-    </>
-
+    </DashboardLayout>
   );
 }

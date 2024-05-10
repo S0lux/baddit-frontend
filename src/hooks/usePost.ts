@@ -14,15 +14,16 @@ export default function usePost(url: string) {
       const response = await axios.post(url, data, { withCredentials: true });
       setStatusCode(response.status);
       setStatus("success");
-      console.log(response);
+      setLoading(false);
+      return response.status;
     } catch (err: any) {
       setStatusCode(err.response?.status);
       setStatus("error");
       console.log(err);
+      setLoading(false);
+      return err.response?.status;
     }
-
-    setLoading(false);
   };
 
-  return { status, statusCode, loading, PostSent };
+  return { status, loading, PostSent };
 }
