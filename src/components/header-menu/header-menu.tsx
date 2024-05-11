@@ -24,6 +24,9 @@ export default function HeaderMenu() {
 
   return (
     <div className="">
+      {loggedIn == undefined && (
+        <div className="w-[207px] text-center">Loading...</div>
+      )}
       {loggedIn == false && <LoggedInHeader></LoggedInHeader>}
       {loggedIn == true && <NonLoggedInHeader></NonLoggedInHeader>}
     </div>

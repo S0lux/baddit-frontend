@@ -4,7 +4,7 @@ import axios from "axios";
 type AuthStore = {
   loggedIn: boolean | undefined;
   userData: any;
-  getUserAsync: () => void;
+  getUserAsync: () => Promise<void>;
 };
 
 export const useAuthStore = create<AuthStore>((set) => ({
@@ -15,10 +15,9 @@ export const useAuthStore = create<AuthStore>((set) => ({
       const response = await axios.get("https://api.baddit.life/v1/users/me", {
         withCredentials: true,
       });
-      set({ loggedIn: true, userData: response.data });
-      console.log(response.data);
+      set(() => ({ loggedIn: true, userData: response.data }));
     } catch (err: any) {
-      set({ loggedIn: false, userData: null });
+      set(() => ({ loggedIn: false, userData: null }));
     }
   },
 }));

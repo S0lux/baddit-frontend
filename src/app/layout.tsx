@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { DropdownMenu } from "../components/dropdown";
 import { ThemeProvider } from "next-themes";
+import DashboardLayout from "../components/dashboard/dashboard-layout/layout";
+import { DropdownMenu } from "../components/dropdown";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,9 +23,9 @@ export default function RootLayout({
         className={`${inter.className} flex min-h-screen flex-col bg-background`}
       >
         <ThemeProvider
-          enableColorScheme={true}
-          enableSystem={true}
           attribute="class"
+          enableSystem={true}
+          enableColorScheme={true}
         >
           {children}
         </ThemeProvider>
