@@ -3,7 +3,6 @@
 //import components
 import { Button } from "../../button/button";
 import { Input } from "../../input/input";
-import AlertBar from "../../alert/alert-bar";
 
 //import hooks
 import { useState, useEffect } from "react";
@@ -20,19 +19,16 @@ import { registerFormSchema } from "../../../schema/registerFormSchema";
 //other imports
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import { toast } from "react-toastify";
 
 export default function RegisterModal() {
   const [message, setMessage] = useState<string>();
-  const [alertBarVisible, setAlertBarVisible] = useState<boolean>(false);
 
   const setModalType = useModalStore((state) => state.setModalType);
   const setShowModal = useModalStore((state) => state.setShowModal);
 
-  const { status, statusCode, loading, PostSent } = usePost(
-    "https://api.baddit.life/v1/auth/signup",
-  );
+  const { status, loading, PostSent } = usePost("/auth/signup");
 
   //Hide scroll-bar when mounted
   useEffect(() => {
@@ -51,16 +47,45 @@ export default function RegisterModal() {
     };
   }, []);
 
-  //Handle status code
   useEffect(() => {
+    const endModal = () => {
+      setModalType("login");
+      setMessage(undefined);
+    };
+
+    if (status == "error" && message !== undefined) {
+      toast.error(message);
+      console.log("error");
+    }
+
+    if (status == "success" && message !== undefined) {
+      toast.success(message);
+      console.log("success");
+      return endModal();
+    }
+    return setMessage(undefined);
+  }, [message]);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<z.infer<typeof registerFormSchema>>({
+    resolver: zodResolver(registerFormSchema),
+  });
+
+  const onSubmit: SubmitHandler<z.infer<typeof registerFormSchema>> = async (
+    data,
+  ) => {
+    const statusCode = await PostSent(data);
+    console.log("khang");
+    console.log(statusCode);
+
     switch (statusCode) {
       case 201:
         setMessage(
           "Successfully sign up! Please check your email to verify your account.",
         );
-        setTimeout(() => {
-          setShowModal(false);
-        }, 3500);
         break;
       case 400:
         setMessage("Invalid username or password!");
@@ -74,30 +99,6 @@ export default function RegisterModal() {
       default:
         setMessage("Something went wrong");
     }
-  }, [statusCode]);
-
-  //Handle alert bar visibility
-  useEffect(() => {}, [alertBarVisible]);
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<z.infer<typeof registerFormSchema>>({
-    resolver: zodResolver(registerFormSchema),
-  });
-
-  const onSubmit: SubmitHandler<z.infer<typeof registerFormSchema>> = async (
-    data,
-  ) => {
-    await PostSent(data);
-
-    setAlertBarVisible(true);
-
-    setTimeout(() => {
-      setAlertBarVisible(false);
-      console.log("timeout");
-    }, 3000);
   };
 
   return (
@@ -170,16 +171,6 @@ export default function RegisterModal() {
               Submit
             </Button>
           </div>
-          <AnimatePresence>
-            {alertBarVisible && (
-              <AlertBar
-                message={message ? message : ""}
-                status={status}
-                className="fixed bottom-0 mt-4 flex items-center justify-center rounded-none py-2"
-                Mkey="alert-bar"
-              ></AlertBar>
-            )}
-          </AnimatePresence>
         </form>{" "}
       </div>
     </div>

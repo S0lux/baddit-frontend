@@ -2,8 +2,10 @@
 
 import { useAuthStore } from "@/src/store/authStore";
 import { useEffect } from "react";
-import LoggedInHeader from "./nonlogged-in/nonlogged-in-header";
-import NonLoggedInHeader from "./logged-in/logged-in-header";
+import NonLoggedInHeader from "./nonlogged-in/nonlogged-in-header";
+import LoggedInHeader from "./logged-in/logged-in-header";
+import Loading from "@/public/loading.svg";
+import Spinner from "../spinner/spinner";
 
 export default function HeaderMenu() {
   const loggedIn = useAuthStore((state) => state.loggedIn);
@@ -14,21 +16,15 @@ export default function HeaderMenu() {
     getUserAsync();
   }, []);
 
-  const username = useAuthStore((state) => {
-    if (state.userData != null) {
-      return state.userData.username;
-    } else {
-      return "User";
-    }
-  });
-
   return (
     <div className="">
       {loggedIn == undefined && (
-        <div className="w-[207px] text-center">Loading...</div>
+        <div className="w-[207px]">
+          <Spinner className="mx-auto size-7"></Spinner>
+        </div>
       )}
-      {loggedIn == false && <LoggedInHeader></LoggedInHeader>}
-      {loggedIn == true && <NonLoggedInHeader></NonLoggedInHeader>}
+      {loggedIn == true && <LoggedInHeader></LoggedInHeader>}
+      {loggedIn == false && <NonLoggedInHeader></NonLoggedInHeader>}
     </div>
   );
 }

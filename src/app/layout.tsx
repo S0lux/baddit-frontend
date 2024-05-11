@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
+import { Bounce, Slide, ToastContainer } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
 import DashboardLayout from "../components/dashboard/dashboard-layout/layout";
 import { DropdownMenu } from "../components/dropdown";
 
@@ -28,6 +31,19 @@ export default function RootLayout({
           enableColorScheme={true}
         >
           {children}
+          <ToastContainer
+            position="bottom-center"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="colored"
+            transition={Slide}
+          />
         </ThemeProvider>
       </body>
     </html>
