@@ -13,16 +13,14 @@ export default function DashboardLayout({
 }>) {
   return (
     <>
-      <ThemeProvider attribute="class" enableSystem={true}>
-        <Header />
-        <div className="mt-[56.8px] flex flex-1 flex-row">
-          <Sidebar />
-          <div className="ml-[240px] flex flex-1 flex-col items-center">
-            {children}
-          </div>
+      <Header />
+      <div className="mt-[56.8px] flex flex-1 flex-row">
+        <Sidebar />
+        <div className="ml-[240px] flex flex-1 flex-col items-center">
+          {children}
         </div>
-        <div id="modal-portal"></div>
-      </ThemeProvider>
+      </div>
+      <div id="modal-portal"></div>
       <ModalManager></ModalManager>
     </>
   );

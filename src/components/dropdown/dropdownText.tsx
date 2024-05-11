@@ -1,25 +1,23 @@
-import { AnimatePresence, delay, motion } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
+"use client";
 import { twMerge } from "tailwind-merge";
-import { DropDownItemType } from "./drowdownMenu";
 
 export const DropdownText = ({
   textItemOption,
   classname,
-  onItemClick,
+  onTextClick,
 }: {
   textItemOption: string;
   classname?: string;
-  onItemClick: () => void;
+  onTextClick?: (data: string) => Promise<void>;
 }) => {
   return (
     <div
       className={twMerge(
-        "flex items-center space-x-2 rounded border-backgroundSecondary bg-background px-4 py-1 hover:bg-backgroundSecondary",
+        "flex w-full items-center space-x-2 border-backgroundSecondary bg-background px-4 py-1 hover:bg-backgroundSecondary",
         classname,
       )}
-      onClick={(e) => {
-        onItemClick();
+      onClick={() => {
+        onTextClick ? onTextClick("") : null;
       }}
     >
       {textItemOption}

@@ -23,6 +23,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import axios from "axios";
 
 export default function LoginModal() {
   const [message, setMessage] = useState<string>();
