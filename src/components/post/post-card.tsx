@@ -23,7 +23,7 @@ const PostCard = (props: IProps) => {
               alt="author image"
               className="w-[25px] rounded-full"
             />
-            <p className="ml-2 mt-[3px] ">r/{post.communityName}</p>
+            <p className="ml-2 mt-[3px] ">r/{post.community.name}</p>
           </a>
           <a
             href=""
