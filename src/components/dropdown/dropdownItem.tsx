@@ -1,7 +1,5 @@
-import { AnimatePresence, delay, motion } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
+"use client";
 import { twMerge } from "tailwind-merge";
-import { DropDownItemType } from "./drowdownMenu";
 
 export const DropdownItem = ({
   communityName,
@@ -12,18 +10,18 @@ export const DropdownItem = ({
   communityName?: string;
   communityAvatar?: string;
   classname?: string;
-  onItemClick: () => void;
+  onItemClick?: () => void;
 }) => {
   return (
     <a
       className={twMerge(
-        "flex flex-row items-center space-x-2 rounded border-backgroundSecondary bg-background px-4 py-1 hover:bg-backgroundSecondary",
+        "flex flex-row items-center space-x-2 border-backgroundSecondary bg-background px-4 py-1 hover:bg-backgroundSecondary",
         classname,
       )}
       href="https://google.com"
       target="_blank"
       onClick={(e) => {
-        onItemClick();
+        onItemClick ? onItemClick() : null;
       }}
     >
       <div className="flex items-center">

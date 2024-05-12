@@ -22,6 +22,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import Link from "next/link";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 export default function LoginModal() {
   const [message, setMessage] = useState<string>();

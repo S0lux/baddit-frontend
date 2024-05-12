@@ -14,8 +14,8 @@ export default function AlertBar({
 }: {
   message: string;
   status: AlertType;
-  className: string;
-  Mkey: string;
+  className?: string;
+  Mkey?: string;
 }) {
   const colors = {
     error: "bg-red-500 dark:bg-red-500/90 border-red-500/25 text-white",
@@ -31,9 +31,9 @@ export default function AlertBar({
         `${colors[status]} flex h-fit w-full items-center justify-start rounded-full`,
         className,
       )}
-      initial={{ y: 50 }}
-      animate={{ y: 0 }}
-      exit={{ y: 60 }}
+      initial={{ y: 50, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      exit={{ y: 60, opacity: 0 }}
       transition={{ duration: 0.2 }}
       key={Mkey}
     >
