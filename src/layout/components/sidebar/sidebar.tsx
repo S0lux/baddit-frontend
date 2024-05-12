@@ -1,6 +1,6 @@
 import { Divider } from ".";
-import IconButton from "../../button/iconbutton";
-import { DropdownItem, DropdownMenu } from "../../dropdown";
+import IconButton from "@/src/components/button/iconbutton";
+import { DropdownItem, DropdownMenu } from "@/src/components/dropdown";
 import { GoHomeFill } from "react-icons/go";
 
 interface communitiyProps {

@@ -1,7 +1,5 @@
-import { SearchBar } from "../../searchbar";
-import ModalManager from "../../auth-modal-manager/modal-manager";
-import HeaderMenu from "../../header-menu/header-menu";
-import { Suspense } from "react";
+import { SearchBar } from "@/src/components/searchbar/SearchBar";
+import HeaderMenu from "@/src/components/header-menu/header-menu";
 
 export default async function Header() {
   const fetchedCommunities = await fetchCommunities();

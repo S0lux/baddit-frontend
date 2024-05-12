@@ -8,7 +8,7 @@ import { Input } from "../../input/input";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { changePasswordSchema } from "../../../schema/chagePasswordSchema";
+import { changePasswordSchema } from "../../../schema/changePasswordSchema";
 import axios, { AxiosError } from "axios";
 import { FaCommentsDollar } from "react-icons/fa";
 import { useEffect, useState } from "react";
@@ -47,7 +47,7 @@ const ChangePassWordModal = () => {
         },
       );
       console.log(res);
-    } catch (err: AxiosError) {
+    } catch (err: any) {
       seterrorMessage(err.response?.data.message || "An error occurred");
     }
     setLoading(false);

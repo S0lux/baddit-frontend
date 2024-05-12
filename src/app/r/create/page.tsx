@@ -8,7 +8,7 @@ import { CreateCommunityPayload } from "@/src/schema/communitySchema";
 import usePost from "@/src/hooks/usePost";
 import AlertBar from "@/src/components/alert/alert-bar";
 import { AnimatePresence } from "framer-motion";
-import DashboardLayout from "@/src/components/dashboard/dashboard-layout/layout";
+import DefaultLayout from "@/src/layout/default-layout/layout";
 
 const CreateCommunity = () => {
   const [nameCommunity, setNameCommunity] = useState<string>("");

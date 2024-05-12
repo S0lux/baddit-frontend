@@ -1,6 +1,6 @@
 import { Inter } from "next/font/google";
-import Header from "@/src/components/dashboard/header/header";
-import { Sidebar } from "@/src/components/dashboard/sidebar";
+import Header from "@/src/layout/components/header/header";
+import { Sidebar } from "@/src/layout/components/sidebar/sidebar";
 import { ThemeProvider } from "next-themes";
 import ModalManager from "@/src/components/auth-modal-manager/modal-manager";
 
