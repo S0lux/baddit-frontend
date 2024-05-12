@@ -37,7 +37,7 @@ export const SearchBar = ({
       className={twMerge(
         "relative flex max-w-xl flex-row items-center justify-start rounded-2xl bg-backgroundSecondary pl-4",
         isSearchBarFocused && "rounded-b-none bg-background shadow-md",
-        classname
+        classname,
       )}
     >
       <IoSearch className="size-fit text-textPrimary"></IoSearch>

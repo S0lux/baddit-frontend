@@ -3,29 +3,6 @@ import { VariantProps, cva } from "class-variance-authority";
 import { twMerge } from "tw-merge";
 import clsx from "clsx";
 
-// light: {
-//  'text': '#003d42',
-//  'background': '#fdfcfd',
-//  'primary': '#50d3d7',
-//  'secondary': '#00999e',
-//  'accent': '#324c4d',
-// },
-// dark: {
-//  'text': '#bdf9ff',
-//  'background': '#030203',
-//  'primary': '#28aaaf',
-//  'secondary': '#61faff',
-//  'accent': '#b2cccd',
-// }
-
-const sample = () => {
-  return (
-    <button className=" transitio bg-neutral-300/70 shadow-2xl hover:shadow-2xl">
-      khang
-    </button>
-  );
-};
-
 const variants = cva(
   [
     " outline-none rounded-full cursor-pointer shadow whitespace-nowrap transition font-semibold inline-flex justify-center items-center",
@@ -46,6 +23,7 @@ const variants = cva(
           "disabled:bg-[#2dc2c7]/70",
           //dark
           "dark:bg-[#28aaaf] dark:text-white",
+          "dark:hover:bg-[#00686b]",
         ],
         secondary: [
           //light
@@ -56,6 +34,7 @@ const variants = cva(
           "disabled:bg-[#00686b]/70",
           //dark
           "dark:bg-[#61faff] dark:text-black ",
+          "dark:hover:bg-[#50d3d7]",
         ],
         monochrome: [
           //light
@@ -84,6 +63,12 @@ const variants = cva(
           "bg-[#eaedef] shadow-none",
           //dark
           "dark:bg-[#1a282d] dark:hover:bg-[#223237]",
+        ],
+        outlined: [
+          "border-2 border-componentSecondary",
+          "shadow-none hover:shadow-none",
+          "hover:bg-backgroundSecondary",
+          "font-bold text-componentSecondary",
         ],
       },
       size: {

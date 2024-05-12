@@ -4,6 +4,7 @@ import { createPortal } from "react-dom";
 import LoginModal from "./login/login-modal";
 import RegisterModal from "./register/register-modal";
 import { useModalStore } from "@/src/store/modalStore";
+import ChangePassWordModal from "./change-password/change-password-modal";
 
 export default function ModalManager() {
   const modalOpen = useModalStore((state) => state.modalOpen);
@@ -29,6 +30,9 @@ export default function ModalManager() {
           >
             {modalType == "register" && <RegisterModal></RegisterModal>}
             {modalType == "login" && <LoginModal></LoginModal>}
+            {modalType == "password-change" && (
+              <ChangePassWordModal></ChangePassWordModal>
+            )}
           </div>,
           document.getElementById("modal-portal") ?? document.body,
         )}

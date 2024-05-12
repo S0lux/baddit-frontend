@@ -1,8 +1,10 @@
 import { Button } from "../../button/button";
 import { useModalStore } from "@/src/store/modalStore";
 import ThemeSwitcher from "../../theme-provider/theme-switcher";
+import ModalManager from "../../auth-modal-manager/modal-manager";
+import { ToastContainer, toast } from "react-toastify";
 
-export default function LoggedInHeader() {
+export default function NonLoggedInHeader() {
   const loginHandle = () => {
     useModalStore.setState({ modalOpen: true, modalType: "login" });
   };
@@ -23,7 +25,8 @@ export default function LoggedInHeader() {
       >
         Sign Up
       </Button>
-      <ThemeSwitcher />
+      <ThemeSwitcher className="aspect-square h-[30px] w-[30px]" />
+      <ModalManager></ModalManager>
     </div>
   );
 }

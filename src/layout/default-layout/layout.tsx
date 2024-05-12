@@ -1,12 +1,12 @@
 import { Inter } from "next/font/google";
-import Header from "@/src/components/dashboard/header/header";
-import { Sidebar } from "@/src/components/dashboard/sidebar";
+import Header from "@/src/layout/components/header/header";
+import { Sidebar } from "@/src/layout/components/sidebar/sidebar";
 import { ThemeProvider } from "next-themes";
 import ModalManager from "@/src/components/auth-modal-manager/modal-manager";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function DashboardLayout({
+export default function DefaultLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -23,7 +23,6 @@ export default function DashboardLayout({
         </div>
         <div id="modal-portal"></div>
       </ThemeProvider>
-      <ModalManager></ModalManager>
     </>
   );
 }

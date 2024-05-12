@@ -2,22 +2,20 @@ import { useState } from "react";
 import { AlertType } from "../components/alert/alert-type";
 import axios from "axios";
 
-export default function usePost(url: string) {
+export default function useGet(url: string, options: {}) {
   const [status, setStatus] = useState<AlertType>();
   const [loading, setLoading] = useState<boolean>();
 
-  const PostSent = async (data: any) => {
+  const GetData = async () => {
     setLoading(true);
 
     try {
-      const response = await axios.post(
-        "https://api.baddit.life/v1" + url,
-        data,
-        { withCredentials: true },
-      );
+      const response = await axios.get("https://api.baddit.life/v1" + url, {
+        withCredentials: true,
+      });
       setStatus("success");
       setLoading(false);
-      return response.status;
+      return response.data;
     } catch (err: any) {
       setStatus("error");
       setLoading(false);
@@ -25,5 +23,5 @@ export default function usePost(url: string) {
     }
   };
 
-  return { status, loading, PostSent };
+  return { status, loading, GetData };
 }

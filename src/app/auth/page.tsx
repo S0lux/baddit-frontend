@@ -3,7 +3,6 @@
 import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import usePost from "../../hooks/usePost";
-import { useAuthStore } from "@/src/store/authStore";
 import Image from "next/image";
 import verificationBg2 from "@/public/verificationBg.jpg";
 import { Button } from "@/src/components/button/button";
@@ -21,11 +20,7 @@ export default function Page() {
   );
   const [error, setError] = useState<boolean>(false);
 
-  const { statusCode, loading, PostSent } = usePost(
-    "https://api.baddit.life/v1/auth/verification",
-  );
-
-  const getUserAsync = useAuthStore((state) => state.getUserAsync);
+  const { PostSent } = usePost("/auth/verification");
 
   const payload = {
     token: searchParams.get("emailToken"),
@@ -33,45 +28,46 @@ export default function Page() {
 
   useEffect(() => {
     const verifyEmail = async () => {
-      getUserAsync().then(() => {
-        PostSent(payload);
-      });
+      const statusCode = await PostSent(payload);
+      switch (statusCode) {
+        case 200:
+          setTopMessage("Welcome to Baddit");
+          setBottomMessage("Your email has been verified");
+          setError(false);
+          break;
+        case 400:
+          setTopMessage("Invalid request body");
+          setBottomMessage(
+            "This link is not valid. Please go to your email to verification.",
+          );
+          break;
+        case 401:
+          setTopMessage("Oops! Unauthorized access");
+          setBottomMessage("Please login to verify your email");
+          setError(true);
+          break;
+        case 498:
+          setTopMessage("Oops! Token expired");
+          setBottomMessage("Token was expired or invalid");
+          setError(true);
+          break;
+        case 500:
+          setTopMessage("Internal server error");
+          setBottomMessage("Please try again later");
+          setError(true);
+          break;
+        default:
+          return statusCode;
+      }
     };
 
     verifyEmail();
   }, []);
 
-  useEffect(() => {
-    switch (statusCode) {
-      case 200:
-        setTopMessage("Welcome to Baddit");
-        setBottomMessage("Your email has been verified");
-        setError(false);
-        break;
-      case 400:
-        setTopMessage("Invalid request body");
-        break;
-      case 401:
-        setTopMessage("Oops! Unauthorized access");
-        setBottomMessage("Please login to verify your email");
-        setError(true);
-        break;
-      case 498:
-        setTopMessage("Oops! Token expired");
-        setBottomMessage("Token was expired or invalid");
-        break;
-      case 500:
-        setTopMessage("Internal server error");
-        setBottomMessage("Please try again later");
-        break;
-      default:
-    }
-  }, [statusCode]);
-
   return (
     <div>
-      <div className="absolute z-50 flex h-screen w-screen flex-col items-center justify-center bg-background/20 dark:bg-black/20 ">
-        <div className="j flex h-screen w-screen flex-col items-center justify-center rounded-none bg-white/80 text-black dark:bg-black/80 sm:h-[473px] sm:w-[510px] sm:rounded-3xl">
+      <div className="absolute z-50 flex h-screen w-screen flex-col items-center justify-center bg-[#4dd1d6]/20 dark:bg-black/20 ">
+        <div className="j flex flex-col items-center justify-center rounded-none bg-white/80 text-black dark:bg-black/80 sm:h-[473px] sm:w-[510px] sm:rounded-3xl">
           <div className="flex flex-1 flex-col items-center justify-center gap-3 text-[20px] dark:text-white">
             <h1
               className={twMerge(
@@ -81,18 +77,20 @@ export default function Page() {
             >
               {topMessage}
             </h1>
-            <h1>{bottomMessage}</h1>
+            <h1 className="text-center font-semibold">{bottomMessage}</h1>
           </div>
           <div className="flex w-full">
             <Button
               onClick={router.back}
-              className="mx-2 mb-2 flex-1 rounded-3xl bg-green-400 hover:bg-green-500 dark:bg-green-500 dark:hover:bg-green-400"
+              className="mx-2 mb-2 flex-1 rounded-3xl font-semibold"
+              variant={"secondary"}
             >
               Back to Home
             </Button>
           </div>
         </div>
       </div>
+      {/* Background Image */}
       <Image
         src={verificationBg2}
         style={{ width: "100vw", height: "100vh" }}
