@@ -19,7 +19,7 @@ export default function HeaderMenu() {
   return (
     <div className="">
       {loggedIn == undefined && (
-        <div className="w-[207px]">
+        <div>
           <Spinner className="mx-auto size-7"></Spinner>
         </div>
       )}

@@ -25,7 +25,7 @@ export default function NonLoggedInHeader() {
       >
         Sign Up
       </Button>
-      <ThemeSwitcher />
+      <ThemeSwitcher className="aspect-square h-[30px] w-[30px]" />
       <ModalManager></ModalManager>
     </div>
   );
