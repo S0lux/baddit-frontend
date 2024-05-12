@@ -1,9 +1,5 @@
 import { Inter } from "next/font/google";
-import Header from "@/src/components/dashboard/header/header";
-import { Sidebar } from "@/src/components/dashboard/sidebar";
-import { ThemeProvider } from "next-themes";
-import ModalManager from "@/src/components/auth-modal-manager/modal-manager";
-import DashboardLayout from "@/src/components/dashboard/dashboard-layout/layout";
+import DefaultLayout from "@/src/layout/default-layout/layout";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -12,5 +8,5 @@ export default function rLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <DashboardLayout>{children}</DashboardLayout>;
+  return <DefaultLayout>{children}</DefaultLayout>;
 }

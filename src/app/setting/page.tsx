@@ -1,6 +1,6 @@
 "use client";
 import { DropdownMenu, DropdownText } from "@/src/components/dropdown";
-import { Divider } from "@/src/components/dashboard/sidebar";
+import { Divider } from "@/src/layout/components/sidebar/divider";
 import { SettingItem } from "@/src/components/setting-item";
 import { Button } from "@/src/components/button/button";
 import { useEffect, useState } from "react";

@@ -6,7 +6,7 @@ import { Inter } from "next/font/google";
 import RootLayout from "../layout";
 const inter = Inter({ subsets: ["latin"] });
 
-export default function SettingLayout({
+export default function HeaderOnlyLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

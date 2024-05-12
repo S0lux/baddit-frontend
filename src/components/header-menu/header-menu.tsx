@@ -4,7 +4,6 @@ import { useAuthStore } from "@/src/store/authStore";
 import { useEffect } from "react";
 import NonLoggedInHeader from "./nonlogged-in/nonlogged-in-header";
 import LoggedInHeader from "./logged-in/logged-in-header";
-import Loading from "@/public/loading.svg";
 import Spinner from "../spinner/spinner";
 
 export default function HeaderMenu() {

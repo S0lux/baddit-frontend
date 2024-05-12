@@ -5,7 +5,6 @@ import { ThemeProvider } from "next-themes";
 import { Bounce, Slide, ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
-import DashboardLayout from "../components/dashboard/dashboard-layout/layout";
 import { DropdownMenu } from "../components/dropdown";
 
 const inter = Inter({ subsets: ["latin"] });

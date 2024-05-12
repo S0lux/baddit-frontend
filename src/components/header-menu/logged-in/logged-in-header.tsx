@@ -1,6 +1,5 @@
 "use client";
 
-import axios, { Axios } from "axios";
 import Tippy from "@tippyjs/react/headless";
 import "tippy.js/dist/tippy.css";
 import Image from "next/image";

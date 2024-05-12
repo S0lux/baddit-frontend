@@ -6,7 +6,7 @@ import ModalManager from "@/src/components/auth-modal-manager/modal-manager";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function DashboardLayout({
+export default function DefaultLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

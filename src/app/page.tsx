@@ -1,14 +1,11 @@
-import PostList from "../components/post/post-list";
-import { GoHomeFill } from "react-icons/go";
-import Link from "next/link";
-import { Button } from "../components/button/button";
-import DashboardLayout from "../components/dashboard/dashboard-layout/layout";
+import DefaultLayout from "../components/dashboard/dashboard-layout/layout";
 import CommunityHome from "./r/page";
+import React from "react";
 
 export default function Home() {
   return (
-    <DashboardLayout>
+    <DefaultLayout>
       <CommunityHome />
-    </DashboardLayout>
+    </DefaultLayout>
   );
 }
