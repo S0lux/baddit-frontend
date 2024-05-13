@@ -73,6 +73,7 @@ const variants = cva(
       },
       size: {
         small: ["px-4", "py-2", "text-[14px]"],
+        medium: ["px-4", "py-2", "text-[18px]"],
         default: ["px-8", "py-4", "text-[25px]"],
         large: ["px-12", "py-6", "text-[35px]"],
       },
