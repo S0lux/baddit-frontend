@@ -38,7 +38,10 @@ const CommunityDetail = ({ params }: PageProps) => {
             <div className="flex flex-col container w-full items-center mb-12">
                 {/* banner */}
                 <div className="flex fex-row justify-center">
-                    <img src="https://preview.redd.it/xw6wqhhjubh31.jpg?width=2400&format=pjpg&auto=webp&s=32690f33b69e599ed11ea3e7c0e6286c0770245e" alt="" />
+                    <img
+                        src={data?.community.bannerUrl}
+                        alt="banner"
+                        className="w-full" />
                 </div>
                 {/* logo and name */}
                 <div className="flex flex-1 items-start justify-between flex-row w-full">

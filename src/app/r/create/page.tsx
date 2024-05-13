@@ -64,10 +64,11 @@ const CreateCommunity = () => {
     }, 2000);
   };
 
+
   return (
-    <>
-      <div className="container mx-auto flex h-full max-w-3xl items-center ">
-        <div className="relative h-fit w-full space-y-4 rounded-lg p-4 shadow-2xl dark:bg-[#181c1f] ">
+    <div className="flex flex-col w-full justify-center">
+      <div className="container h-full max-w-3xl">
+        <div className=" h-fit w-full space-y-6 rounded-lg p-4 ">
           <div className="order-last flex justify-between">
             <h1 className="text-2xl font-bold">Create a community </h1>
           </div>
@@ -139,7 +140,12 @@ const CreateCommunity = () => {
           ></AlertBar>
         )}
       </AnimatePresence>
-    </>
+    </div>
+    // <div className="flex flex-col w-full justify-start">
+    //   <div className="container">
+    //     <p>create community</p>
+    //   </div>
+    // </div>
   );
 };
 

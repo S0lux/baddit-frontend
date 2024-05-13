@@ -1,7 +1,9 @@
 import { Divider } from ".";
 import IconButton from "@/src/components/button/iconbutton";
 import { DropdownItem, DropdownMenu } from "@/src/components/dropdown";
-import { GoHomeFill } from "react-icons/go";
+import { GoHomeFill, } from "react-icons/go";
+import ButtonCreateCommunity from "./create-community-button";
+
 
 interface communitiyProps {
   name: string;
@@ -14,7 +16,9 @@ interface communitiyProps {
 }
 
 export async function Sidebar() {
+
   const fetchedCommunities = await fetchCommunities();
+
   return (
     <div className="fixed z-0 h-full w-[240px] space-y-2 border-b border-r-[0.2px] border-[#cecece] bg-background px-4 pt-3 dark:border-[#1a1a1a]">
       <IconButton Icon={GoHomeFill} content="Home" buttonClass="rounded-md" />
@@ -22,6 +26,9 @@ export async function Sidebar() {
 
       <DropdownMenu title="RECENT" classname="text-xs text-textSecondary" />
       <Divider></Divider>
+      {/* Create community */}
+      <ButtonCreateCommunity />
+
       <DropdownMenu title="COMMUNITIES" classname="text-xs text-textSecondary">
         {fetchedCommunities &&
           fetchedCommunities.map((community: communitiyProps) => {
