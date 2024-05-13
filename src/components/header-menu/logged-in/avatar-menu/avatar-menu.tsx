@@ -6,7 +6,6 @@ import axios from "axios";
 import { FaMoon, FaRegSun, FaDoorOpen, FaRegUser } from "react-icons/fa";
 import { FaGear } from "react-icons/fa6";
 
-import { Button } from "@/src/components/button/button";
 import { useAuthStore } from "@/src/store/authStore";
 import { toast } from "react-toastify";
 

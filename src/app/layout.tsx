@@ -2,10 +2,9 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
-import { Bounce, Slide, ToastContainer } from "react-toastify";
+import { Slide, ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
-import { DropdownMenu } from "../components/dropdown";
 
 const inter = Inter({ subsets: ["latin"] });
 
