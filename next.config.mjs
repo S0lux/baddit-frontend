@@ -4,10 +4,10 @@ const nextConfig = {
     dangerouslyAllowSVG: true,
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "placehold.co",
-        port: "",
-        pathname: "/100x100/**",
+        protocol: 'https',
+        hostname: 'placehold.co',
+        port: '',
+        pathname: '/**',
       },
     ],
     remotePatterns: [
@@ -16,7 +16,8 @@ const nextConfig = {
         hostname: 'res.cloudinary.com',
         port: '',
         pathname: '/**',
-      },]
+      },],
+    domains: ['placehold.co', 'res.cloudinary.com'],
   },
 };
 

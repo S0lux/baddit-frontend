@@ -13,13 +13,22 @@ export default function Upvote() {
 
     }, [])
     console.log(upvotes.filter((item: any) => item.voteState === "UPVOTE"))
-    return (
-        <div>
-            {upvotes.filter((item: any) => item.voteState === "UPVOTE").map((post) => {
-                return (
-                    <PostCard post={post} />
-                )
-            })}
-        </div>
-    )
+    if (upvotes.length === 0) {
+        return (
+            <div>
+                Không có gì cả
+            </div>)
+    }
+    else {
+        return (
+            <div>
+                {upvotes.filter((item: any) => item.voteState === "UPVOTE").map((post) => {
+                    return (
+                        <PostCard post={post} />
+                    )
+                })}
+            </div>
+        )
+    }
+
 }
