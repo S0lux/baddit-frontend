@@ -5,7 +5,6 @@ import LoginModal from "./login/login-modal";
 import RegisterModal from "./register/register-modal";
 import { useModalStore } from "@/src/store/modalStore";
 import ChangePassWordModal from "./change-password/change-password-modal";
-import ChangeAvatarModal from "./change-avatar/change-avatar-modal";
 
 export default function ModalManager() {
   const modalOpen = useModalStore((state) => state.modalOpen);

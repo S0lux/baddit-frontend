@@ -2,7 +2,6 @@
 
 import Tippy from "@tippyjs/react/headless";
 import "tippy.js/dist/tippy.css";
-import Image from "next/image";
 import { RxAvatar } from "react-icons/rx";
 
 import { Button } from "../../button/button";

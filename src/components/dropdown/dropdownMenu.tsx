@@ -5,8 +5,6 @@ import { AnimatePresence, motion, useAnimate } from "framer-motion";
 import React from "react";
 import { DropdownItem, DropdownText } from ".";
 import { twMerge } from "tailwind-merge";
-import { on } from "process";
-import { MdChildFriendly } from "react-icons/md";
 
 export const DropdownMenu = ({
   children,
