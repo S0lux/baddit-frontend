@@ -17,10 +17,22 @@ const CreateCommunity = () => {
 
   const router = useRouter();
 
-  const { status, statusCode, loading, PostSent } = usePost("/communities");
+  const { status, loading, PostSent } = usePost("/communities");
 
   //Handle StatusCode
-  useEffect(() => {
+
+  //Handle alert bar visibility
+  useEffect(() => { }, [alertBarVisible]);
+
+  //Handle Create Button
+  const handleCreateBtn = async () => {
+    const payload: CreateCommunityPayload = {
+      name: nameCommunity,
+      description: descripstionCommunity,
+    };
+
+    const statusCode = await PostSent(payload);
+
     switch (statusCode) {
       case 201:
         setMessage("Community created!");
@@ -43,19 +55,6 @@ const CreateCommunity = () => {
       default:
         setMessage("Something went wrong");
     }
-  }, [statusCode]);
-
-  //Handle alert bar visibility
-  useEffect(() => {}, [alertBarVisible]);
-
-  //Handle Create Button
-  const handleCreateBtn = async () => {
-    const payload: CreateCommunityPayload = {
-      name: nameCommunity,
-      description: descripstionCommunity,
-    };
-
-    await PostSent(payload);
 
     setAlertBarVisible(true);
 
