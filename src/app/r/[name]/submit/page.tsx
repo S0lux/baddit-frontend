@@ -1,7 +1,8 @@
-import React from 'react'
 
-export default function Home() {
+const CreatePost = () => {
     return (
-        <div>page</div>
+        <div>This is create post page</div>
     )
 }
+
+export default CreatePost
