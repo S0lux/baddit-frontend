@@ -5,6 +5,7 @@ import LoginModal from "./login/login-modal";
 import RegisterModal from "./register/register-modal";
 import { useModalStore } from "@/src/store/modalStore";
 import ChangePassWordModal from "./change-password/change-password-modal";
+import CreateCommunityModal from "./create-community/create-community-modal";
 
 export default function ModalManager() {
   const modalOpen = useModalStore((state) => state.modalOpen);
@@ -28,6 +29,7 @@ export default function ModalManager() {
             id="wrapper"
             className="fixed inset-0 flex items-center justify-center bg-black/50"
           >
+            {modalType == "create-community" && <CreateCommunityModal></CreateCommunityModal>}
             {modalType == "register" && <RegisterModal></RegisterModal>}
             {modalType == "login" && <LoginModal></LoginModal>}
             {modalType == "password-change" && (

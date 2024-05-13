@@ -8,21 +8,62 @@ import { CreateCommunityPayload } from "@/src/schema/communitySchema";
 import usePost from "@/src/hooks/usePost";
 import AlertBar from "@/src/components/alert/alert-bar";
 import { AnimatePresence } from "framer-motion";
+import { useAuthStore } from "@/src/store/authStore";
+import { useModalStore } from "@/src/store/modalStore";
+import ModalManager from "@/src/components/auth-modal-manager/modal-manager";
+import { toast } from "react-toastify";
 
 const CreateCommunity = () => {
+  //manage input
   const [nameCommunity, setNameCommunity] = useState<string>("");
   const [descripstionCommunity, setDescriptionCommunity] = useState<string>("");
+
+
   const [message, setMessage] = useState<string>();
-  const [alertBarVisible, setAlertBarVisible] = useState<boolean>(false);
+
+  //const [alertBarVisible, setAlertBarVisible] = useState<boolean>(false);
 
   const router = useRouter();
 
   const { status, loading, PostSent } = usePost("/communities");
 
-  //Handle StatusCode
+  const { loggedIn } = useAuthStore()
 
-  //Handle alert bar visibility
-  useEffect(() => { }, [alertBarVisible]);
+  const modalOpen = useModalStore((state) => state.modalOpen);
+  const modalType = useModalStore((state) => state.modalType);
+  const setShowModal = useModalStore((state) => state.setShowModal);
+
+  //manditory loggin in
+  useEffect(() => {
+    if (loggedIn === false) {
+      useModalStore.setState({ modalOpen: true, modalType: "login" });
+    }
+  }, [loggedIn]);
+
+  //Handle toast type
+  useEffect(() => {
+    const endModal = () => {
+      setShowModal(false);
+      setMessage(undefined);
+    };
+
+    if (status == "error" && message !== undefined) {
+      toast.error(message);
+    }
+    if (status == "success" && message !== undefined) {
+      toast.success(message);
+      return endModal();
+    }
+
+    return setMessage(undefined);
+  }, [message]);
+
+  //Handle check if loggedIn
+  useEffect(() => {
+    if (loggedIn === false) {
+      useModalStore.setState({ modalOpen: true, modalType: "login" });
+    }
+  }, [loggedIn]);
 
   //Handle Create Button
   const handleCreateBtn = async () => {
@@ -55,13 +96,6 @@ const CreateCommunity = () => {
       default:
         setMessage("Something went wrong");
     }
-
-    setAlertBarVisible(true);
-
-    setTimeout(() => {
-      setAlertBarVisible(false);
-      console.log("timeout");
-    }, 2000);
   };
 
 
@@ -69,8 +103,15 @@ const CreateCommunity = () => {
     <div className="flex flex-col w-full justify-center">
       <div className="container h-full max-w-3xl">
         <div className=" h-fit w-full space-y-6 rounded-lg p-4 ">
-          <div className="order-last flex justify-between">
-            <h1 className="text-2xl font-bold">Create a community </h1>
+          <div className="order-last flex flex-col justify-between">
+            <h1 className="text-2xl font-bold">Create a community</h1>
+            {loggedIn == false ? (
+              <span className="text-xs font-bold text-red-500">
+                (please login before using this page)
+              </span>
+            ) : (
+              <></>
+            )}
           </div>
 
           <hr className="h-px bg-gray-300" />
@@ -130,7 +171,7 @@ const CreateCommunity = () => {
           </div>
         </div>
       </div>
-      <AnimatePresence>
+      {/* <AnimatePresence>
         {alertBarVisible && (
           <AlertBar
             message={message ? message : ""}
@@ -139,13 +180,9 @@ const CreateCommunity = () => {
             Mkey="alert-bar"
           ></AlertBar>
         )}
-      </AnimatePresence>
+      </AnimatePresence> */}
+      <ModalManager></ModalManager>
     </div>
-    // <div className="flex flex-col w-full justify-start">
-    //   <div className="container">
-    //     <p>create community</p>
-    //   </div>
-    // </div>
   );
 };
 
