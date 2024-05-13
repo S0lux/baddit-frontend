@@ -4,7 +4,6 @@ import { useAuthStore } from "@/src/store/authStore";
 import { useEffect } from "react";
 import NonLoggedInHeader from "./nonlogged-in/nonlogged-in-header";
 import LoggedInHeader from "./logged-in/logged-in-header";
-import Loading from "@/public/loading.svg";
 import Spinner from "../spinner/spinner";
 
 export default function HeaderMenu() {
@@ -19,7 +18,7 @@ export default function HeaderMenu() {
   return (
     <div className="">
       {loggedIn == undefined && (
-        <div className="w-[207px]">
+        <div>
           <Spinner className="mx-auto size-7"></Spinner>
         </div>
       )}

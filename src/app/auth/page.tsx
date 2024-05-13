@@ -3,7 +3,6 @@
 import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import usePost from "../../hooks/usePost";
-import { useAuthStore } from "@/src/store/authStore";
 import Image from "next/image";
 import verificationBg2 from "@/public/verificationBg.jpg";
 import { Button } from "@/src/components/button/button";
@@ -38,6 +37,9 @@ export default function Page() {
           break;
         case 400:
           setTopMessage("Invalid request body");
+          setBottomMessage(
+            "This link is not valid. Please go to your email to verification.",
+          );
           break;
         case 401:
           setTopMessage("Oops! Unauthorized access");
@@ -59,7 +61,7 @@ export default function Page() {
       }
     };
 
-    console.log(verifyEmail());
+    verifyEmail();
   }, []);
 
   return (
@@ -75,7 +77,7 @@ export default function Page() {
             >
               {topMessage}
             </h1>
-            <h1 className="font-semibold">{bottomMessage}</h1>
+            <h1 className="text-center font-semibold">{bottomMessage}</h1>
           </div>
           <div className="flex w-full">
             <Button

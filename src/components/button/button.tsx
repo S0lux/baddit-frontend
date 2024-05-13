@@ -23,6 +23,7 @@ const variants = cva(
           "disabled:bg-[#2dc2c7]/70",
           //dark
           "dark:bg-[#28aaaf] dark:text-white",
+          "dark:hover:bg-[#00686b]",
         ],
         secondary: [
           //light
@@ -33,6 +34,7 @@ const variants = cva(
           "disabled:bg-[#00686b]/70",
           //dark
           "dark:bg-[#61faff] dark:text-black ",
+          "dark:hover:bg-[#50d3d7]",
         ],
         monochrome: [
           //light

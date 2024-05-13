@@ -1,31 +1,42 @@
 "use client";
 
-import axios, { Axios } from "axios";
+import Tippy from "@tippyjs/react/headless";
+import "tippy.js/dist/tippy.css";
+import Image from "next/image";
+import { RxAvatar } from "react-icons/rx";
+
 import { Button } from "../../button/button";
 import { useAuthStore } from "@/src/store/authStore";
+import AvatarMenu from "./avatar-menu/avatar-menu";
 
 export default function LoggedInHeader() {
-  const logoutHandle = async () => {
-    try {
-      const response = await axios.post(
-        "https://api.baddit.life/v1/auth/logout",
-        {},
-        { withCredentials: true },
-      );
-      useAuthStore.setState({ loggedIn: false });
-    } catch (err: any) {
-      if (err.response.status === 401) {
-        console.log("a khang");
-      }
-    }
-  };
+  const userData = useAuthStore((state) => state.userData);
 
   return (
-    <div className="flex w-[207px] justify-end">
-      <Button size={"small"} onClick={logoutHandle}>
-        {" "}
-        Logout{" "}
-      </Button>
+    <div className="flex items-center justify-end">
+      <Tippy
+        trigger="click"
+        render={(attrs) => <AvatarMenu className="" {...attrs} />}
+        interactive={true}
+      >
+        <div className=" flex items-center justify-center">
+          <Button
+            size={"small"}
+            className="relative flex aspect-square h-[37px] w-[37px] items-center justify-center bg-none ring-slate-500  focus:scale-[1.1] "
+          >
+            {userData != null && (
+              <img
+                width={37}
+                height={37}
+                src={userData.avatarUrl}
+                alt="userAvatar"
+                className="absolute inset-0 aspect-square rounded-full object-cover"
+              ></img>
+            )}
+            {userData == null && <RxAvatar></RxAvatar>}
+          </Button>
+        </div>
+      </Tippy>
     </div>
   );
 }
