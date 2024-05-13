@@ -1,11 +1,13 @@
 import { twMerge } from "tailwind-merge";
 
 export const SearchItem = ({
+  id,
   communityName,
   communityAvatar,
   memberCount,
   className,
 }: {
+  id?: string;
   communityName?: string;
   communityAvatar?: string;
   memberCount?: string;
@@ -27,13 +29,13 @@ export const SearchItem = ({
 
   return (
     <a
+      id={id}
       className={twMerge(
         "flex flex-row space-x-5 border-t-[2px] border-backgroundSecondary bg-background pb-2 pl-4 pt-2 shadow-md hover:bg-backgroundSecondary",
         className,
       )}
-      href="https://google.com"
-      target="_blank"
-      onClick={(e) => e.stopPropagation()}
+      href={"/r/" + communityName}
+      //onClick={(e) => e.stopPropagation()}
     >
       <div className="flex items-center">
         <img
@@ -43,7 +45,7 @@ export const SearchItem = ({
       </div>
 
       <div className="flex flex-col">
-        <div className="text-sm text-textPrimary">{communityName}</div>
+        <div className="text-sm text-textPrimary">r/ {communityName}</div>
         <div className="text-xs text-textSecondary">{alteredMemberCount}</div>
       </div>
     </a>

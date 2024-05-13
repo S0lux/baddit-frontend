@@ -1,5 +1,4 @@
 "use client";
-import { DropdownMenu, DropdownText } from "@/src/components/dropdown";
 import { Divider } from "@/src/layout/components/sidebar/divider";
 import { SettingItem } from "@/src/components/setting-item";
 import { Button } from "@/src/components/button/button";
@@ -34,7 +33,7 @@ export default function SettingPage() {
     }
   }, [loggedIn]);
 
-  const handleImageChange = (event) => {
+  const handleImageChange = (event: any) => {
     console.log(event.target.files[0]);
     setImage(event.target.files[0]);
     setDisplayImage(
@@ -58,7 +57,7 @@ export default function SettingPage() {
       );
       console.log(res);
       toast.success(res.data.message);
-    } catch (err: AxiosError) {
+    } catch (err: any) {
       console.log(err);
       toast.error(err.data.message);
     }

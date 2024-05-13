@@ -18,8 +18,7 @@ export const DropdownItem = ({
         "flex flex-row items-center space-x-2 border-backgroundSecondary bg-background px-4 py-1 hover:bg-backgroundSecondary",
         classname,
       )}
-      href="https://google.com"
-      target="_blank"
+      href={`/r/${communityName}`}
       onClick={(e) => {
         onItemClick ? onItemClick() : null;
       }}
