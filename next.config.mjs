@@ -16,6 +16,13 @@ const nextConfig = {
         pathname: "/**",
       },
     ],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+        port: '',
+        pathname: '/**',
+      },]
   },
 };
 
