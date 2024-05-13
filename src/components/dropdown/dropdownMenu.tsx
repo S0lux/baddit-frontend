@@ -65,7 +65,6 @@ export const DropdownMenu = ({
       <div
         className={twMerge(
           "flex min-h-10 flex-row items-center justify-between gap-2 rounded px-3 py-1 hover:bg-backgroundSecondary",
-          isOpen && "shadow",
           classname,
         )}
         onClick={() => {

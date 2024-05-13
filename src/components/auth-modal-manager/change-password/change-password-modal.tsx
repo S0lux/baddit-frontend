@@ -3,28 +3,22 @@ import { Button } from "../../button/button";
 import { IoMdClose } from "react-icons/io";
 import { useAuthStore } from "@/src/store/authStore";
 import { Input } from "../../input/input";
+import { FaKey } from "react-icons/fa";
 
 //form submotting imports
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { changePasswordSchema } from "../../../schema/chagePasswordSchema";
+import { changePasswordSchema } from "../../../schema/changePasswordSchema";
 import axios, { AxiosError } from "axios";
-import { FaCommentsDollar } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import { AnimatePresence } from "framer-motion";
-import AlertBar from "../../alert/alert-bar";
+import { toast } from "react-toastify";
 
 const ChangePassWordModal = () => {
   const setShowModal = useModalStore((state) => state.setShowModal);
 
   //patch request handling
-  const [errorMessage, seterrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
-
-  //Handle alert bar visibility
-  const [alertBarVisible, setAlertBarVisible] = useState<boolean>(false);
-  useEffect(() => {}, [alertBarVisible]);
 
   const {
     register,
@@ -47,21 +41,19 @@ const ChangePassWordModal = () => {
         },
       );
       console.log(res);
+      toast.success("Changes saved!");
     } catch (err: AxiosError) {
-      seterrorMessage(err.response?.data.message || "An error occurred");
+      toast.error(err.response?.data.message);
     }
     setLoading(false);
-    setAlertBarVisible(true);
-    setTimeout(() => {
-      setAlertBarVisible(false);
-    }, 2000);
   };
 
   return (
     <div className="flex h-screen w-screen flex-1 flex-col justify-center space-y-6 bg-background px-10 py-8 sm:h-fit sm:max-w-[470px] sm:rounded-2xl">
       {/* {title} */}
       <div className="flex w-full flex-row items-center justify-between ">
-        <div className="text-2xl font-bold text-textPrimary">
+        <div className="flex flex-row items-center gap-2 text-2xl font-bold text-textPrimary">
+          <FaKey></FaKey>
           Changing password
         </div>
         <Button
@@ -83,6 +75,7 @@ const ChangePassWordModal = () => {
         <div className="flex flex-col space-y-1 text-xs text-textSecondary">
           <div className="pl-2">Enter your old password here</div>
           <Input
+            type="password"
             placeholder="Old password"
             errorMessage={errors.oldPassword?.message}
             {...register("oldPassword", { required: "This is required" })}
@@ -92,6 +85,7 @@ const ChangePassWordModal = () => {
         <div className="flex flex-col space-y-1 text-xs text-textSecondary">
           <div className="pl-2">Enter your new password here</div>
           <Input
+            type="password"
             placeholder="New password"
             errorMessage={errors.newPassword?.message}
             {...register("newPassword", { required: "This is required" })}
@@ -109,18 +103,6 @@ const ChangePassWordModal = () => {
           Save changes
         </Button>
       </form>
-
-      {/* {request results} */}
-      <AnimatePresence>
-        {alertBarVisible && (
-          <AlertBar
-            message={errorMessage || "Changes saved"}
-            status={errorMessage ? "error" : "success"}
-            className="sticky bottom-0 mt-4 flex items-center justify-center rounded py-2"
-            Mkey="alert-bar"
-          ></AlertBar>
-        )}
-      </AnimatePresence>
     </div>
   );
 };
