@@ -1,5 +1,6 @@
 import { SearchBar } from "@/src/components/searchbar/SearchBar";
 import HeaderMenu from "@/src/components/header-menu/header-menu";
+import { SearchItem } from "@/src/components/searchbar";
 
 export default async function Header() {
   const fetchedCommunities = await fetchCommunities();
@@ -10,10 +11,19 @@ export default async function Header() {
         baddit
       </a>
 
-      <SearchBar
-        communitiesList={fetchedCommunities}
-        classname="w-full"
-      ></SearchBar>
+      <SearchBar>
+        {fetchedCommunities.map((item: any, index: any) => {
+          return (
+            <SearchItem
+              id={item.id}
+              key={item.id}
+              communityAvatar={item.logoUrl}
+              communityName={item.name}
+              memberCount={item.memberCount}
+            ></SearchItem>
+          );
+        })}
+      </SearchBar>
       <div className=" flex items-center gap-2 py-1">
         <div className=" flex gap-x-[5px]">
           <HeaderMenu></HeaderMenu>
@@ -24,7 +34,7 @@ export default async function Header() {
 }
 
 async function fetchCommunities() {
-  const res = await fetch("https://jsonplaceholder.typicode.com/users");
+  const res = await fetch("https://api.baddit.life/v1/communities");
   if (!res.ok) throw new Error("failed to fetch data");
   else return res.json();
 }
