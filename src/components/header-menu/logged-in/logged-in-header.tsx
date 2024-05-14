@@ -2,7 +2,6 @@
 
 import Tippy from "@tippyjs/react/headless";
 import "tippy.js/dist/tippy.css";
-import Image from "next/image";
 import { RxAvatar } from "react-icons/rx";
 
 import { Button } from "../../button/button";
@@ -25,13 +24,13 @@ export default function LoggedInHeader() {
             className="relative flex aspect-square h-[37px] w-[37px] items-center justify-center bg-none ring-slate-500  focus:scale-[1.1] "
           >
             {userData != null && (
-              <Image
+              <img
                 width={37}
                 height={37}
                 src={userData.avatarUrl}
                 alt="userAvatar"
-                className="absolute inset-0 aspect-square rounded-full"
-              ></Image>
+                className="absolute inset-0 aspect-square rounded-full object-cover"
+              ></img>
             )}
             {userData == null && <RxAvatar></RxAvatar>}
           </Button>

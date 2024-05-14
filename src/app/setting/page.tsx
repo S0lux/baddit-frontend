@@ -1,36 +1,30 @@
 "use client";
-import { DropdownMenu, DropdownText } from "@/src/components/dropdown";
 import { Divider } from "@/src/layout/components/sidebar/divider";
 import { SettingItem } from "@/src/components/setting-item";
 import { Button } from "@/src/components/button/button";
-import { useEffect, useState } from "react";
-import AlertBar from "@/src/components/alert/alert-bar";
-import { AnimatePresence } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import { useModalStore } from "@/src/store/modalStore";
 import ModalManager from "@/src/components/auth-modal-manager/modal-manager";
 import { useAuthStore } from "@/src/store/authStore";
-import axios from "axios";
+import axios, { Axios, AxiosError } from "axios";
+import { toast } from "react-toastify";
+import Spinner from "@/src/components/spinner/spinner";
+import { IoMdClose } from "react-icons/io";
+import { twMerge } from "tailwind-merge";
 
 export default function SettingPage() {
-  //gender option
-  let genderOption = ["male", "female", "binary", "none"];
-
   //handling the inputs
   const [displayName, setDisplayName] = useState("");
   const [about, setAbout] = useState("");
 
-  //hadling the altert bar
-  const [showAltert, setShowAltert] = useState(false);
-
-  //handling the modals
-  const modalOpen = useModalStore((state) => state.modalOpen);
-  const modalType = useModalStore((state) => state.modalType);
-  const setShowModal = useModalStore((state) => state.setShowModal);
-
-  //user
+  //user info
   const { loggedIn, userData, getUserAsync } = useAuthStore();
 
-  useEffect(() => {}, [showAltert]);
+  //upload image handling
+  const inputFile = useRef(null);
+  const [image, setImage] = useState(null);
+  const [displayImage, setDisplayImage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   //manditory loggin in
   useEffect(() => {
@@ -39,15 +33,35 @@ export default function SettingPage() {
     }
   }, [loggedIn]);
 
-  const handleGenderChange = async (data: string) => {
-    console.log("changed", loggedIn);
-    try {
-      console.log(data);
-      let res = await axios.get("https://api.baddit.life/v1/users/me");
-      console.log(res);
-    } catch (err) {
-      console.log(err);
+  const handleImageChange = (event: any) => {
+    console.log(event.target.files[0]);
+    setImage(event.target.files[0]);
+    setDisplayImage(
+      event.target.files[0] ? URL.createObjectURL(event.target.files[0]) : "",
+    );
+  };
+
+  const handleSetImage = async () => {
+    console.log("submitted");
+    let formdata = new FormData();
+    if (image != null) {
+      console.log(image);
+      formdata.append("avatar", image);
     }
+    setLoading(true);
+    try {
+      let res = await axios.post(
+        "https://api.baddit.life/v1/users/avatar",
+        formdata,
+        { withCredentials: true },
+      );
+      console.log(res);
+      toast.success(res.data.message);
+    } catch (err: any) {
+      console.log(err);
+      toast.error(err.data.message);
+    }
+    setLoading(false);
   };
 
   return (
@@ -55,10 +69,78 @@ export default function SettingPage() {
       {/* {modal} */}
       <ModalManager></ModalManager>
 
-      <div className="text-lg font-medium">User setting</div>
+      <div className="flex flex-col text-lg font-medium">
+        User setting
+        {loggedIn == false ? (
+          <span className="text-xs font-bold text-red-500">
+            (please login before using this page)
+          </span>
+        ) : (
+          <></>
+        )}
+      </div>
       <div className="w-2/3">
         <div className="space-y-9">
           <Divider title="Account setting" classname="font-medium"></Divider>
+
+          {/* {change avatar} */}
+          <div>
+            <SettingItem
+              childSameLine={true}
+              title="Edit avatar"
+              subTitle="Polish your profile with awsome pictures!"
+            >
+              <Button
+                variant={"outlined"}
+                size={"small"}
+                disabled={loggedIn == false}
+                onClick={() => {
+                  inputFile.current.click();
+                }}
+              >
+                Change
+              </Button>
+              <input
+                type="file"
+                id="file"
+                ref={inputFile}
+                style={{ display: "none" }}
+                onChange={handleImageChange}
+              />
+            </SettingItem>
+
+            {displayImage && (
+              <>
+                <div className="relative w-fit">
+                  <img
+                    src={displayImage}
+                    className={twMerge(
+                      "size-20 rounded-full object-cover",
+                      loading && "opacity-50",
+                    )}
+                  ></img>
+                  <button
+                    className="absolute right-0 top-0 rounded-full bg-backgroundSecondary p-1"
+                    onClick={() => {
+                      setDisplayImage("");
+                      setImage(null);
+                    }}
+                  >
+                    <IoMdClose></IoMdClose>
+                  </button>
+                  {loading && (
+                    <Spinner className="absolute bottom-5 left-5 size-1/2"></Spinner>
+                  )}
+                </div>
+                <button
+                  className="pt-2 text-sm text-componentSecondary underline"
+                  onClick={handleSetImage}
+                >
+                  Apply
+                </button>
+              </>
+            )}
+          </div>
 
           {/* {Change password} */}
           <SettingItem
@@ -69,6 +151,7 @@ export default function SettingPage() {
             <Button
               variant={"outlined"}
               size={"small"}
+              disabled={loggedIn == false}
               onClick={() => {
                 useModalStore.setState({
                   modalOpen: true,
@@ -80,29 +163,10 @@ export default function SettingPage() {
             </Button>
           </SettingItem>
 
-          {/* {Change gender} */}
-          <SettingItem
-            childSameLine={true}
-            title="Gender"
-            subTitle="Tell us how to address you"
-          >
-            <DropdownMenu classname="text-sm font-semibold text-componentSecondary rounded">
-              {genderOption.map((option, index) => {
-                return (
-                  <DropdownText
-                    classname="text-sm font-medium justify-between shadow border-t-[1px]"
-                    textItemOption={option}
-                    onTextClick={handleGenderChange}
-                  ></DropdownText>
-                );
-              })}
-            </DropdownMenu>
-          </SettingItem>
-
-          <Divider title="Customize profile" classname="font-medium"></Divider>
+          {/* <Divider title="Customize profile" classname="font-medium"></Divider> */}
 
           {/* {display name} */}
-          <SettingItem
+          {/* <SettingItem
             childSameLine={false}
             title="Display name (optional)"
             subTitle="Set a display name. This does not change your username."
@@ -110,24 +174,22 @@ export default function SettingPage() {
             <input
               placeholder="Display name (optional)"
               className="rounded border-2 border-backgroundSecondary px-2 py-2 text-sm font-light"
+              disabled={loggedIn == false}
               maxLength={30}
               onChange={(e) => {
                 setDisplayName(e.target.value);
               }}
               onBlur={(e) => {
-                setShowAltert(true);
-                setTimeout(() => {
-                  setShowAltert(false);
-                }, 2000);
+                toast.info("Changes saved!");
               }}
             ></input>
             <div className="text-xs text-textSecondary">
               {30 - displayName.length} characters remaining
             </div>
-          </SettingItem>
+          </SettingItem> */}
 
           {/* {description} */}
-          <SettingItem
+          {/* <SettingItem
             childSameLine={false}
             title="Display name (optional)"
             subTitle="A brief description of yourself shown on your profile."
@@ -135,6 +197,7 @@ export default function SettingPage() {
             <textarea
               placeholder="About (optional)"
               className="rounded border-2 border-backgroundSecondary px-2 py-2 text-sm font-light"
+              disabled={loggedIn == false}
               maxLength={200}
               rows={5}
               cols={40}
@@ -142,30 +205,15 @@ export default function SettingPage() {
                 setAbout(e.target.value);
               }}
               onBlur={(e) => {
-                setShowAltert(true);
-                setTimeout(() => {
-                  setShowAltert(false);
-                }, 2000);
+                toast.info("Changes saved!");
               }}
             ></textarea>
             <div className="text-xs text-textSecondary">
               {200 - about.length} characters remaining
             </div>
-          </SettingItem>
+          </SettingItem> */}
         </div>
       </div>
-
-      {/* {altert bar} */}
-      <AnimatePresence>
-        {showAltert && (
-          <AlertBar
-            message="Changes saved"
-            status="info"
-            className="sticky bottom-2 mt-4 flex w-auto items-center justify-center rounded py-2"
-            Mkey="alert-bar"
-          />
-        )}
-      </AnimatePresence>
     </div>
   );
 }

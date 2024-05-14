@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import { filterProps } from "framer-motion";
 import { forwardRef } from "react";
 import { twMerge } from "tailwind-merge";
 

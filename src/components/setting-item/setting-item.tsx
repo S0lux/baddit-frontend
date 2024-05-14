@@ -16,7 +16,7 @@ export const SettingItem = ({
   return (
     <div
       className={twMerge(
-        "flex h-auto w-full justify-between space-y-2",
+        "flex h-auto w-full justify-between space-y-1",
         childSameLine ? "flex-row" : "flex-col",
       )}
     >
