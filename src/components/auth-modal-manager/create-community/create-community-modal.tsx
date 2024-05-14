@@ -6,12 +6,9 @@ import { Button } from "@/src/components/button/button";
 import { useRouter } from "next/navigation";
 import { CreateCommunityPayload } from "@/src/schema/communitySchema";
 import usePost from "@/src/hooks/usePost";
-import AlertBar from "@/src/components/alert/alert-bar";
-import { AnimatePresence } from "framer-motion";
-import { useAuthStore } from "@/src/store/authStore";
 import { useModalStore } from "@/src/store/modalStore";
-import ModalManager from "@/src/components/auth-modal-manager/modal-manager";
 import { toast } from "react-toastify";
+import { IoMdClose } from "react-icons/io";
 
 const CreateCommunityModal = () => {
     //manage input
@@ -27,18 +24,9 @@ const CreateCommunityModal = () => {
 
     const { status, loading, PostSent } = usePost("/communities");
 
-    const { loggedIn } = useAuthStore()
-
     const modalOpen = useModalStore((state) => state.modalOpen);
     const modalType = useModalStore((state) => state.modalType);
     const setShowModal = useModalStore((state) => state.setShowModal);
-
-    //manditory loggin in
-    useEffect(() => {
-        if (loggedIn === false) {
-            useModalStore.setState({ modalOpen: true, modalType: "login" });
-        }
-    }, [loggedIn]);
 
     //Handle toast type
     useEffect(() => {
@@ -57,13 +45,6 @@ const CreateCommunityModal = () => {
 
         return setMessage(undefined);
     }, [message]);
-
-    //Handle check if loggedIn
-    useEffect(() => {
-        if (loggedIn === false) {
-            useModalStore.setState({ modalOpen: true, modalType: "login" });
-        }
-    }, [loggedIn]);
 
     //Handle Create Button
     const handleCreateBtn = async () => {
@@ -98,20 +79,26 @@ const CreateCommunityModal = () => {
         }
     };
 
+    //Handle cancel button
+    const handleCancelBtn = () => {
+        setShowModal(false)
+        setMessage(undefined)
+    }
 
     return (
-        <div className="flex flex-col w-full justify-center">
-            <div className="container h-full max-w-3xl">
-                <div className=" h-fit w-full space-y-6 rounded-lg p-4 ">
-                    <div className="order-last flex flex-col justify-between">
+        <div className="flex flex-col w-full">
+            <div className="container h-full max-w-3xl ">
+                <div className=" h-fit w-full space-y-6 rounded-lg p-6 bg-white dark:bg-backgroundSecondary">
+                    <div className="order-last flex flex-row justify-between">
                         <h1 className="text-2xl font-bold">Create a community</h1>
-                        {loggedIn == false ? (
-                            <span className="text-xs font-bold text-red-500">
-                                (please login before using this page)
-                            </span>
-                        ) : (
-                            <></>
-                        )}
+                        <Button
+                            onClick={() => setShowModal(false)}
+                            variant={"destructive"}
+                            className="aspect-square w-[32px] p-0"
+                            disabled={loading}
+                        >
+                            <IoMdClose></IoMdClose>
+                        </Button>
                     </div>
 
                     <hr className="h-px bg-gray-300" />
@@ -154,7 +141,7 @@ const CreateCommunityModal = () => {
                         <Button
                             variant={"ghost"}
                             size={"small"}
-                            onClick={() => router.back()}
+                            onClick={handleCancelBtn}
                         >
                             Cancel
                         </Button>
@@ -171,7 +158,6 @@ const CreateCommunityModal = () => {
                     </div>
                 </div>
             </div>
-            <ModalManager></ModalManager>
         </div>
     );
 };

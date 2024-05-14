@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <DefaultLayout>
       <CommunityHome />
-      <PostList></PostList>
+      {/* <PostList></PostList> */}
     </DefaultLayout>
   );
 }

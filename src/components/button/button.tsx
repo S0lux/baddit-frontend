@@ -65,10 +65,13 @@ const variants = cva(
           "dark:bg-[#1a282d] dark:hover:bg-[#223237]",
         ],
         outlined: [
-          "border-2 border-componentSecondary",
+          "border border-componentSecondary",
           "shadow-none hover:shadow-none",
           "hover:bg-backgroundSecondary",
           "font-bold text-componentSecondary",
+
+          "dark:border-[#28aaaf] dark:text-white",
+          "dark:hover:bg-[#00686b]"
         ],
       },
       size: {

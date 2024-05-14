@@ -33,14 +33,19 @@ const CommunityDetail = ({ params }: PageProps) => {
     }
 
     const router = useRouter()
+
+    const formattedDate = new Date(data?.community.createdAt).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
     return (
         <>
-            <div className="flex flex-col container w-full items-center mb-12 px-6">
+            <div className="flex flex-col container w-full items-center mb-4 px-6 after:border-b">
                 {/* banner */}
                 <div className="flex fex-row justify-center">
                     <img
-                        // {data?.community.bannerUrl}
-                        src="https://preview.redd.it/xw6wqhhjubh31.jpg?width=2400&format=pjpg&auto=webp&s=32690f33b69e599ed11ea3e7c0e6286c0770245e"
+                        src={data?.community.bannerUrl}
                         alt="banner"
                         className="w-full" />
                 </div>
@@ -92,14 +97,14 @@ const CommunityDetail = ({ params }: PageProps) => {
                     <dl className="divide-y divide-neutral px-6 text-sm leading-6 bg-[#f5f5f5] dark:bg-[#04090a]">
                         <div className='flex justify-between gap-x-4 py-3'>
                             <dt className='text-gray-500'>Created At</dt>
-                            <dd className='text-gray-700'>
-                                {data?.community.createdAt}
+                            <dd className='text-gray-700 dark:text-[#f2f2f2]'>
+                                {formattedDate}
                             </dd>
                         </div>
                         <div className='flex justify-between gap-x-4 py-3'>
                             <dt className='text-gray-500'>Members</dt>
                             <dd className='flex items-start gap-x-2'>
-                                <div className='text-gray-900'>{data?.community.memberCount}</div>
+                                <div className='text-gray-900 dark:text-[#f2f2f2]'>{data?.community.memberCount}</div>
                             </dd>
                         </div>
                     </dl>
