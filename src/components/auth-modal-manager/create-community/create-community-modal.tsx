@@ -60,7 +60,7 @@ const CreateCommunityModal = () => {
                 setMessage("Community created!");
                 setTimeout(() => {
                     router.push(`/r/${nameCommunity}`);
-                }, 3000);
+                }, 1000);
                 break;
             case 400:
                 setMessage("Please choose a different community name");
