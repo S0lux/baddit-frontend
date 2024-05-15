@@ -9,12 +9,6 @@ const nextConfig = {
         port: '',
         pathname: '/**',
       },
-      {
-        protocol: "https",
-        hostname: "res.cloudinary.com",
-        port: "",
-        pathname: "/**",
-      },
     ],
     remotePatterns: [
       {
@@ -23,7 +17,14 @@ const nextConfig = {
         port: '',
         pathname: '/**',
       },],
-    domains: ['placehold.co', 'res.cloudinary.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'placehold.co',
+        port: '',
+        pathname: '/**',
+      },],
+    domains: ["placehold.co", "res.cloudinary.com"]
   },
 };
 
