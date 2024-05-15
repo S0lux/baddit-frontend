@@ -1,6 +1,6 @@
 "use client";
 import axios from "axios";
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect, useRef } from "react";
 import { useState } from "react";
 import { IoSearch } from "react-icons/io5";
 import { twMerge } from "tailwind-merge";
@@ -16,10 +16,13 @@ export const SearchBar = ({
   placeHolder?: string;
   classname?: string;
 }) => {
-  //const [isSearchBarFocused, setSearchBarFocused] = useState(false);
+  const [isSearchBarFocused, setSearchBarFocused] = useState(false);
 
   const [inputValue, setInputValue] = useState("");
   const [searchResult, setSearchResult] = useState<any[]>();
+
+  const searchBar = useRef<HTMLDivElement>(null);
+  const searchResults = useRef<HTMLDivElement>(null);
 
   const handleSearch = async () => {
     console.log("called");
@@ -37,17 +40,26 @@ export const SearchBar = ({
     if (inputValue != "") handleSearch();
   }, [inputValue]);
 
+  useEffect(() => {
+    document.addEventListener("mousedown", (e) => {
+      if (
+        !searchBar.current?.contains(e.target as Node) &&
+        !searchResults.current?.contains(e.target as Node)
+      ) {
+        setSearchBarFocused(false);
+      }
+    });
+  }, []);
+
   return (
     <div
-      id="SearchBar"
       className={twMerge("relative flex w-full max-w-xl flex-col", classname)}
+      ref={searchBar}
     >
       <div
         className={twMerge(
           "relative flex flex-row items-center justify-start rounded-2xl bg-backgroundSecondary pl-4",
-          searchResult &&
-            inputValue &&
-            "rounded-b-none bg-background shadow-md",
+          isSearchBarFocused && "bg-background shadow-md",
         )}
       >
         <IoSearch className="size-fit text-textPrimary"></IoSearch>
@@ -56,7 +68,7 @@ export const SearchBar = ({
           debounceTimeout={200}
           value={inputValue}
           placeholder={placeHolder}
-          //onFocus={() => setSearchBarFocused(true)}
+          onFocus={() => setSearchBarFocused(true)}
           //onBlur={() => setSearchBarFocused(false)}
           onChange={(e: any) => {
             setSearchResult([]);
@@ -66,8 +78,11 @@ export const SearchBar = ({
         ></DebounceInput>
       </div>
 
-      {inputValue && (
-        <div className="overflow-y absolute left-0 top-full flex h-full w-full flex-col rounded-md rounded-t-none">
+      {isSearchBarFocused && (
+        <div
+          className="overflow-y absolute left-0 top-full flex h-full w-full flex-col pt-2"
+          ref={searchResults}
+        >
           {inputValue
             ? searchResult!.map((item, index) => {
                 return (
