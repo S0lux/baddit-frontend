@@ -31,11 +31,14 @@ const IconButton: FunctionComponent<props> = ({
           size={iconsize}
         ></Icon>
       )}
-      <div
-        className={twMerge("flex h-full items-center text-sm", contentClass)}
-      >
-        {content}
-      </div>
+      {content && (
+        <div
+          className={twMerge("flex h-full items-center text-sm", contentClass)}
+        >
+          {content}
+        </div>
+      )}
+
     </button>
   );
 };

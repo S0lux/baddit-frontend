@@ -97,6 +97,7 @@ export default function SettingPage() {
                 onClick={() => {
                   inputFile.current.click();
                 }}
+
               >
                 Change
               </Button>

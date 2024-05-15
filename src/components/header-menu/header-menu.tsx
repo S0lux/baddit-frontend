@@ -16,7 +16,7 @@ export default function HeaderMenu() {
   }, []);
 
   return (
-    <div className="">
+    <div className="relative z-50">
       {loggedIn == undefined && (
         <div>
           <Spinner className="mx-auto size-7"></Spinner>

@@ -8,7 +8,7 @@ import Navbar from '@/src/components/profile-view/navbar';
 
 const Avatar: React.FC<{ src: string; alt: string; userName: string, userData: any }> = ({ src, alt, userName, userData }) => {
     return (
-        <div className="p-4">
+        <div className="p-4 z-0">
             <div className="flex items-center flex-shrink-0 pr-md relative w-16 h-16">
                 <Image
                     src={src}

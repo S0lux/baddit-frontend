@@ -73,6 +73,11 @@ const variants = cva(
           "dark:border-[#28aaaf] dark:text-white",
           "dark:hover:bg-[#00686b]"
         ],
+        contained: [
+          "w-full h-full m-x-1 rounded-2xl ",
+          "hover:shadow-none shadow-none bg-slate-200 transition-none",
+          "focus:scale0[1]"
+        ]
       },
       size: {
         small: ["px-4", "py-2", "text-[14px]"],
