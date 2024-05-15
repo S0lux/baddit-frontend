@@ -4,7 +4,7 @@ const LinkPost = () => {
             <input
                 type="url"
                 placeholder="Enter your link here"
-                className="w-full p-2 border rounded-md"
+                className="w-full h-full border border-gray-300 rounded-md p-4"
             />
         </form>
     );

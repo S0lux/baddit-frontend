@@ -62,7 +62,7 @@ export default function Top({ userName, userData }: { userName: string, userData
             <div className="p-4">
                 <Link
                     href="/create_post"
-                    className="flex items-center px-4 py-2 bg-white rounded-full shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 border border-black w-full justify-center">
+                    className="flex items-center px-4 py-2 h-12 bg-white rounded-full shadow-sm text-xl font-medium text-gray-700 hover:bg-gray-200 border border-black w-full justify-center ">
                     + Create Post
                 </Link>
             </div>

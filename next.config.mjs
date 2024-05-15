@@ -24,6 +24,13 @@ const nextConfig = {
         port: '',
         pathname: '/**',
       },],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'www.redditstatic.com',
+        port: '',
+        pathname: '/**',
+      },],
     domains: ["placehold.co", "res.cloudinary.com"]
   },
 };

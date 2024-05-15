@@ -48,7 +48,7 @@ export async function Sidebar() {
 }
 
 async function fetchCommunities() {
-  const res = await fetch("https://jsonplaceholder.typicode.com/users");
+  const res = await fetch("https://api.baddit.life/v1/communities");
   if (!res.ok) throw new Error("failed to fetch data");
   else return res.json();
 }

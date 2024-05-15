@@ -4,7 +4,7 @@ import CommunityPicker from '@/src/components/create-post/community_picker'
 import ImagePost from '@/src/components/create-post/imagePost';
 import LinkPost from '@/src/components/create-post/linkPost';
 import TextPost from '@/src/components/create-post/textPost';
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useRouter } from "next/navigation"
 import { useCallback } from "react"
 import { usePathname, useSearchParams } from "next/navigation"
@@ -25,6 +25,18 @@ export default function Create_Post() {
         },
         [searchParams]
     )
+
+    useEffect(() => {
+        const type = searchParams.get('type');
+        if (!type) {
+            router.replace(name + '?' + createQueryString('type', 'TEXT'));
+            setPostType('text');
+        } else {
+            setPostType(type.toLowerCase());
+        }
+    }, [searchParams, name, createQueryString, router]);
+
+
 
     const styleClass = (type: string) => {
         return `hover:text-white px-3 py-2 hover:bg-gray-500 rounded-2xl mr-2 ${postType === type ? 'underline ' : ''}`;
@@ -89,7 +101,7 @@ export default function Create_Post() {
                 <button className={styleClass('image')}
                     onClick={() => handlePostTypeChange('image')}
                 >
-                    Image
+                    Image & Video
                 </button>
                 <button className={styleClass('link')}
                     onClick={() => handlePostTypeChange('link')}
@@ -103,8 +115,8 @@ export default function Create_Post() {
             </div>
 
             <div className='mt-4 flex justify-end items-end'>
-                <Button className='w-20' size={'small'} variant={'secondary'}>
-                    Post
+                <Button className='w-20 h-12 text-2xl' size={'small'} variant={'secondary'}>
+                    <p className='text-xl'>Post</p>
                 </Button>
             </div>
         </div>

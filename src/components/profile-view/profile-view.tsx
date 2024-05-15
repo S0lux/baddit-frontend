@@ -10,22 +10,30 @@ export default function Profile_View(params: { component: React.ReactNode }) {
     const { userName } = useParams<{ userName: string }>();
     const { userData } = useAuthStore();
     const [user, setUser] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         if (userData?.username !== userName) {
-            axios.get(`https://jsonplaceholder.typicode.com/users/Bret`)
+            axios.get(`https://api.baddit.life/v1/users/${userName}`)
                 .then((res) => {
                     setUser(res.data);
+                    setLoading(false);
                 })
                 .catch((error) => {
                     console.error(error);
+                    setLoading(false);
                 });
 
         } else {
             setUser(userData);
+            setLoading(false);
         }
+        console.log(user);
     }, [userName, userData]);
 
+    if (loading) {
+        return <div>Loading...</div>;
+    }
     if (userData?.userName === userName) {
         return (
             <>

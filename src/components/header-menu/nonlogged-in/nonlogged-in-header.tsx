@@ -2,7 +2,6 @@ import { Button } from "../../button/button";
 import { useModalStore } from "@/src/store/modalStore";
 import ThemeSwitcher from "../../theme-provider/theme-switcher";
 import ModalManager from "../../auth-modal-manager/modal-manager";
-import { ToastContainer, toast } from "react-toastify";
 
 export default function NonLoggedInHeader() {
   const loginHandle = () => {

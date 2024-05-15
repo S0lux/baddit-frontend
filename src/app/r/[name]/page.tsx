@@ -34,7 +34,7 @@ const CommunityDetail = ({ params }: PageProps) => {
 
     const router = useRouter()
 
-    const formattedDate = new Date(data?.community.createdAt).toLocaleDateString('en-US', {
+    const formattedDate = new Date(data?.community?.createdAt).toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'long',
         day: 'numeric'
@@ -45,7 +45,7 @@ const CommunityDetail = ({ params }: PageProps) => {
                 {/* banner */}
                 <div className="flex fex-row justify-center">
                     <img
-                        src={data?.community.bannerUrl}
+                        src={data?.community?.bannerUrl}
                         alt="banner"
                         className="w-full" />
                 </div>
@@ -104,7 +104,7 @@ const CommunityDetail = ({ params }: PageProps) => {
                         <div className='flex justify-between gap-x-4 py-3'>
                             <dt className='text-gray-500'>Members</dt>
                             <dd className='flex items-start gap-x-2'>
-                                <div className='text-gray-900 dark:text-[#f2f2f2]'>{data?.community.memberCount}</div>
+                                <div className='text-gray-900 dark:text-[#f2f2f2]'>{data?.community?.memberCount}</div>
                             </dd>
                         </div>
                     </dl>

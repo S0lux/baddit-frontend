@@ -4,6 +4,7 @@ import { FaThumbsDown, FaThumbsUp, FaComment } from 'react-icons/fa';
 import { IconType } from 'react-icons';
 import useGet from '@/src/hooks/useGet';
 import { useAuthStore } from '@/src/store/authStore';
+import { set } from 'react-hook-form';
 
 
 interface StatCardProps {
@@ -35,11 +36,13 @@ const LifetimePerformance: React.FC = () => {
         GetData()
             .then(data => {
                 setPosts(data);
+
             });
 
         GetComments()
             .then(data => {
                 setcoments(data)
+
             });
 
     }, []);
@@ -47,7 +50,6 @@ const LifetimePerformance: React.FC = () => {
     const countUpvotes = posts.filter((post: any) => post.voteState === "UPVOTE").length;
     const countDownvotes = posts.filter((post: any) => post.voteState === "DOWNVOTE").length;
     const countComments = comments.length;
-
 
     return (
         <div className="mt-4">
