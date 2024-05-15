@@ -1,7 +1,10 @@
+import Create_Post from "@/src/components/create-post/create-post"
 
 const CreatePost = () => {
     return (
-        <div>This is create post page</div>
+        <div className="min-w-[700px]">
+            <Create_Post />
+        </div>
     )
 }
 

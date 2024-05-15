@@ -12,7 +12,7 @@ const RightSidebar: React.FC<{ userName: string, userData: any }> = ({ userName,
         day: 'numeric'
     });
     return (
-        <aside className="mt-3 flex mr-1">
+        <aside className="ml-8 mt-3 flex mr-1">
             <div className="bg-gray-300 rounded-2xl w-80">
                 {userName === userData?.username ?
                     <><div className="bg-green-300 top-0 rounded-t-2xl flex justify-end items-end h-28 p-4">

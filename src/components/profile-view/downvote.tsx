@@ -4,11 +4,11 @@ import PostCard from '@/src/components/post/post-card';
 
 export default function Downvote() {
     const { GetData } = useGet('/posts');
-    const [downvotes, setUpvotes] = useState([]);
+    const [downvotes, setDownvotes] = useState([]);
     useEffect(() => {
         GetData()
             .then(data => {
-                setUpvotes(data)
+                setDownvotes(data)
             });
 
     }, [])

@@ -44,13 +44,13 @@ const CommunityDetail = ({ params }: PageProps) => {
                 <div className="flex flex-1 items-start justify-between flex-row w-full">
                     <div className="flex flex-row justify-start ml-16">
                         <div className="rounded-full -mt-8 border-white border-4 dark:border-black">
-                            <img src={data?.community.logoUrl}
+                            <img src={data?.community?.logoUrl}
                                 alt=""
                                 className="rounded-full w-[100px] h-[100px] xs:w-[80px] xs:h-[80px]" />
                         </div>
                         <div className="flex flex-end flex-row items-end pb-2">
                             <h1 className="font-bold text-3xl md:text-4xl ml-4">
-                                r/{data?.community.name}
+                                r/{data?.community?.name}
                             </h1>
                         </div>
                     </div>
@@ -76,26 +76,26 @@ const CommunityDetail = ({ params }: PageProps) => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-x-4 py-6">
                 {/* Feed */}
                 <div className='flex flex-col col-span-2 space-y-6'>
-                    <PostList communityId={data.community.id} />
+                    <PostList communityId={data.community?.id} />
                 </div>
                 {/* About */}
                 <div className="hidden md:block overflow-hidden h-fit rounded-lg bg-[#f5f5f5] dark:bg-[#04090a] order-first md:order-last">
                     <div className='px-6 py-4'>
-                        <p className='font-semibold py-3 text-gray-900 dark:text-[#b8c5c9]'>About r/{data?.community.name}</p>
-                        <p className="font-normal py-3 text-gray-600 dark:text-[#76898e]">{data?.community.description}</p>
+                        <p className='font-semibold py-3 text-gray-900 dark:text-[#b8c5c9]'>About r/{data?.community?.name}</p>
+                        <p className="font-normal py-3 text-gray-600 dark:text-[#76898e]">{data?.community?.description}</p>
                     </div>
                     <hr className="border-neutral-border-weak" />
                     <dl className="divide-y divide-neutral px-6 text-sm leading-6 bg-[#f5f5f5] dark:bg-[#04090a]">
                         <div className='flex justify-between gap-x-4 py-3'>
                             <dt className='text-gray-500'>Created At</dt>
                             <dd className='text-gray-700'>
-                                {data?.community.createdAt}
+                                {data?.community?.createdAt}
                             </dd>
                         </div>
                         <div className='flex justify-between gap-x-4 py-3'>
                             <dt className='text-gray-500'>Members</dt>
                             <dd className='flex items-start gap-x-2'>
-                                <div className='text-gray-900'>{data?.community.memberCount}</div>
+                                <div className='text-gray-900'>{data?.community?.memberCount}</div>
                             </dd>
                         </div>
                     </dl>
