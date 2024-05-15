@@ -14,12 +14,18 @@ const PostCard = (props: IProps) => {
 
   const [votes, SetVotes] = useState<number>(0);
 
+  const formattedDate = new Date(post?.createdAt).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
   return (
     <div
       id={post.id}
-      className="flex flex-col before:mb-[5px] before:w-full before:border-t before:border-[#cecece] dark:before:border-t-neutral-700"
+      className="flex flex-col after:mb-[5px] after:w-full after:border-b after:border-[#cecece] dark:after:border-b-neutral-700"
     >
-      <div className="mb-1 flex min-w-[660px] flex-1 flex-col gap-[5px] px-[10px] py-[4px] hover:rounded-2xl hover:bg-slate-100 dark:hover:bg-[#131f23] ">
+      <div className="mb-1 flex min-w-[660px] flex-1 flex-col gap-[5px] px-4 py-[4px] hover:rounded-2xl hover:bg-slate-100 dark:hover:bg-[#131f23] ">
         <div className="flex flex-row text-[13px]">
           <a href="" className="flex w-fit flex-row">
             <img
@@ -33,7 +39,7 @@ const PostCard = (props: IProps) => {
             href=""
             className="ml-2 mt-[3px] w-fit font-light text-[#576f76] before:mr-1 before:content-['•']"
           >
-            {post.updatedAt}
+            {formattedDate}
           </a>
         </div>
         <a

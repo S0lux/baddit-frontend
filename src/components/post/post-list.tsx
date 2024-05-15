@@ -10,7 +10,7 @@ const PostList = ({ communityId }: PageProps) => {
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
   const { data, error, isLoading } = useSWR(
-    `https://api.baddit.life/v1/posts`,
+    `https://api.baddit.life/v1/posts?communityId=${communityId}`,
     fetcher,
     {
       revalidateIfStale: false,
@@ -21,7 +21,7 @@ const PostList = ({ communityId }: PageProps) => {
   if (isLoading) {
     return <div>loading...</div>;
   }
-  //console.log(data);
+
   return (
     <div className=" max-w-[770px] ">
       {data?.map((item: BadPost) => {
@@ -30,5 +30,4 @@ const PostList = ({ communityId }: PageProps) => {
     </div>
   );
 };
-
 export default PostList;

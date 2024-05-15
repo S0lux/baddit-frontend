@@ -2,7 +2,7 @@ import { useState } from "react";
 import { AlertType } from "../components/alert/alert-type";
 import axios from "axios";
 
-export default function useGet(url: string, options: {}) {
+export default function useGet(url: string, options?: {}) {
   const [status, setStatus] = useState<AlertType>();
   const [loading, setLoading] = useState<boolean>();
 

@@ -41,19 +41,7 @@ const PostDetail = ({
     `https://api.baddit.life/v1/posts/?postId=${params?.postId}`,
   );
 
-  useEffect(() => {
-    console.log(post.data?.data[0]);
-  }, [post, community]);
-
-  const { data, error, isLoading } = useSWR(
-    `https://api.baddit.life/v1/posts/?postId=${params?.postId}`,
-    fetcher,
-    {
-      revalidateIfStale: false,
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false,
-    },
-  );
+  useEffect(() => {}, [post, community]);
 
   if (post.isLoading || community.isLoading) {
     return <Spinner className="relative top-[40%] size-16"></Spinner>;

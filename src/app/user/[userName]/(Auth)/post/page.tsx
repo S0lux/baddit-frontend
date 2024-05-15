@@ -1,7 +1,7 @@
-import PostCard from "@/src/components/post/post-card";
+import Post_user from "@/src/components/profile-view/post_user";
 
 export default function Home() {
     return <div>
-        <PostCard />
+        <Post_user />
     </div>;
 }
