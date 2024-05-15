@@ -4,7 +4,7 @@ import PostCard from '@/src/components/post/post-card';
 
 export default function Downvote() {
     const { GetData } = useGet('/posts');
-    const [upvotes, setUpvotes] = useState([]);
+    const [downvotes, setUpvotes] = useState([]);
     useEffect(() => {
         GetData()
             .then(data => {
@@ -12,14 +12,22 @@ export default function Downvote() {
             });
 
     }, [])
-    console.log(upvotes.filter((item: any) => item.voteState === "DOWNVOTE"))
-    return (
-        <div>
-            {upvotes.filter((item: any) => item.voteState === "DOWNVOTE").map((post) => {
-                return (
-                    <PostCard post={post} />
-                )
-            })}
-        </div>
-    )
+    console.log(downvotes.filter((item: any) => item.voteState === "DOWNVOTE"))
+    if (downvotes.length === 0) {
+        return (
+            <div>
+                Không có gì cả
+            </div>)
+    }
+    else {
+        return (
+            <div>
+                {downvotes.filter((item: any) => item.voteState === "DOWNVOTE").map((post) => {
+                    return (
+                        <PostCard post={post} />
+                    )
+                })}
+            </div>
+        )
+    }
 }
