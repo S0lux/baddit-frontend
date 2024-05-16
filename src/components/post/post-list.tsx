@@ -1,4 +1,5 @@
 'use client'
+import Spinner from "../spinner/spinner";
 import PostCard from "./post-card";
 import useSWR from "swr"
 
@@ -22,7 +23,9 @@ const PostList = ({ communityId }: PageProps) => {
         }
     )
     if (isLoading) {
-        return <div>loading...</div>
+        return <div className="h-full w-full flex flex-col justify-center">
+            <Spinner className=" mx-auto size-20"></Spinner>
+        </div>
     }
 
     return (

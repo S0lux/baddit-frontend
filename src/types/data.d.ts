@@ -33,5 +33,6 @@ interface BadCommunity {
         deleted: boolean,
         createdAt: string,
         updateAt: string
-    }
+    },
+    joinStatus: string
 }

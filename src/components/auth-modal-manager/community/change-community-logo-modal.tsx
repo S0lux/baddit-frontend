@@ -27,9 +27,6 @@ const ChangeCommunityLogo = (props: Props) => {
     const [displayImage, setDisplayImage] = useState("");
     const [loading, setLoading] = useState(false);
 
-
-    //const [message, setMessage] = useState<string>();
-
     const setShowModal = useModalStore((state) => state.setShowModal);
 
     //Handle cancel button
@@ -62,7 +59,6 @@ const ChangeCommunityLogo = (props: Props) => {
                 formdata,
                 { withCredentials: true },
             );
-            console.log("close banner modal");
             setShowModal(false)
             toast.success(res.data.message);
             mutate(`https://api.baddit.life/v1/communities/${communityName}`)

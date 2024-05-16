@@ -15,8 +15,11 @@ export const useAuthStore = create<AuthStore>((set) => ({
       const response = await axios.get("https://api.baddit.life/v1/users/me", {
         withCredentials: true,
       });
+
+      console.log(response.data)
       set(() => ({ loggedIn: true, userData: response.data }));
     } catch (err: any) {
+      console.log(err)
       set(() => ({ loggedIn: false, userData: null }));
     }
   },
