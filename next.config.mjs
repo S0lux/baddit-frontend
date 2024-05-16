@@ -4,10 +4,10 @@ const nextConfig = {
     dangerouslyAllowSVG: true,
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "placehold.co",
-        port: "",
-        pathname: "/100x100/**",
+        protocol: 'https',
+        hostname: 'placehold.co',
+        port: '',
+        pathname: '/**',
       },
     ],
     remotePatterns: [
@@ -21,6 +21,13 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'placehold.co',
+        port: '',
+        pathname: '/**',
+      },],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'www.redditstatic.com',
         port: '',
         pathname: '/**',
       },],

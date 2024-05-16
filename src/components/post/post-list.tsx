@@ -4,17 +4,17 @@ import PostCard from "./post-card";
 import useSWR from "swr"
 
 interface PageProps {
-    communityId: string
+    communityName: string
 }
 
-const PostList = ({ communityId }: PageProps) => {
+const PostList = ({ communityName }: PageProps) => {
 
 
 
     const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
     const { data, error, isLoading } = useSWR(
-        `https://api.baddit.life/v1/posts?communityId=${communityId}`,
+        `https://api.baddit.life/v1/posts?communityName=${communityName}`,
         fetcher,
         {
             revalidateIfStale: false,

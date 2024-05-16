@@ -34,15 +34,6 @@ const CommunityDetail = ({ params }: PageProps) => {
         mutate(`https://api.baddit.life/v1/communities/${params?.name}`)
     }, []);
 
-    // const [communityData, setCommunityData] = useState()
-    // const { GetData } = useGet(`/communities/${name}`)
-    // useEffect(() => {
-    //     GetData()
-    //         .then(data => {
-    //             setCommunityData(data)
-    //         });
-
-    // }, [])
 
     //Get community info
     const fetcher = (url: string) => fetch(url, {
@@ -61,7 +52,7 @@ const CommunityDetail = ({ params }: PageProps) => {
 
     const router = useRouter()
 
-    const communityCreatedDay = new Date(data?.community.createdAt).toLocaleDateString('en-US', {
+    const communityCreatedDay = new Date(data?.community?.createdAt).toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'long',
         day: 'numeric'
@@ -90,12 +81,12 @@ const CommunityDetail = ({ params }: PageProps) => {
                 <div className="relative z-0 w-full overflow-hidden rounded-lg max-h-48">
                     <div className="flex fex-col justify-center h-full overflow-hidden bg-neutral-200 dark:bg-neutral-600 relative ">
                         <img
-                            src={data?.community.bannerUrl}
+                            src={data?.community?.bannerUrl}
                             alt="banner"
                             className="h-full" />
 
                     </div>
-                    {loggedIn == true && userData != null && userData.id == data?.community.ownerId ? (
+                    {loggedIn == true && userData != null && userData.id == data?.community?.ownerId ? (
                         <div className="absolute rounded-full top-24 right-8 -translate-y-1/2 w-14 h-14">
                             <button
                                 className="flex items-center justify-center hover:bg-neutral-300 rounded-full w-full h-full"
@@ -113,10 +104,10 @@ const CommunityDetail = ({ params }: PageProps) => {
                 <div className="flex flex-1 items-start justify-between flex-row w-full">
                     <div className="flex flex-row justify-start ml-16">
                         <div className="relative z-0 rounded-full -mt-8 border-white border-4 dark:border-black">
-                            <img src={data?.community.logoUrl}
+                            <img src={data?.community?.logoUrl}
                                 alt=""
                                 className="rounded-full w-[100px] h-[100px] xs:w-[80px] xs:h-[80px] bg-slate-100 dark:bg-slate-200" />
-                            {loggedIn == true && userData != null && userData.id == data?.community.ownerId ? (
+                            {loggedIn == true && userData != null && userData.id == data?.community?.ownerId ? (
                                 <div className="absolute rounded-full top-24 bottom-0 right-0 -translate-y-1/2 w-6 h-6 border border-white">
                                     <button
                                         className="flex items-center justify-center bg-backgroundSecondary hover:bg-neutral-300 rounded-full w-full h-full"
@@ -132,7 +123,7 @@ const CommunityDetail = ({ params }: PageProps) => {
 
                         <div className="flex flex-end flex-row items-end pb-2">
                             <h1 className="font-bold text-3xl md:text-4xl ml-4">
-                                r/{data?.community.name}
+                                r/{data?.community?.name}
                             </h1>
                         </div>
                     </div>
@@ -143,7 +134,7 @@ const CommunityDetail = ({ params }: PageProps) => {
                                     <Button
                                         size={"medium"}
                                         variant={"outlined"}
-                                        onClick={() => { router.push(`/r/${data?.community.name}/submit`) }}>
+                                        onClick={() => { router.push(`/r/${data.community?.name}/submit`) }}>
                                         <div className="inline-flex items-center">
                                             <AiOutlinePlus className="mr-2" />
                                             Create a post
@@ -154,7 +145,7 @@ const CommunityDetail = ({ params }: PageProps) => {
                                 <></>
                             )}
                             <div className="flex flex-end flex-row pb-2 mt-8">
-                                <JoinLeaveToggle communityName={data?.community.name} joinStatus={data?.joinStatus} />
+                                <JoinLeaveToggle communityName={data?.community?.name} joinStatus={data?.joinStatus} />
                             </div>
                         </div>
                     ) : (
@@ -175,13 +166,13 @@ const CommunityDetail = ({ params }: PageProps) => {
             <div className="grid grid-cols-1 md:grid-cols-3 container gap-y-4 md:gap-x-4 py-6 mx-4 w-full px-6">
                 {/* Feed */}
                 <div className='flex flex-col col-span-2 space-y-6'>
-                    <PostList communityId={data?.community.id} />
+                    <PostList communityName={data?.community?.name} />
                 </div>
                 {/* About */}
                 <div className="sticky top-20 md:block overflow-hidden h-fit rounded-lg bg-[#f5f5f5] dark:bg-[#04090a] order-last md:order-last">
                     <div className='px-6 py-4'>
-                        <p className='font-semibold py-3 text-gray-900 dark:text-[#b8c5c9]'>About r/{data?.community.name}</p>
-                        <p className="font-normal py-3 text-gray-600 dark:text-[#76898e]">{data?.community.description}</p>
+                        <p className='font-semibold py-3 text-gray-900 dark:text-[#b8c5c9]'>About r/{data?.community?.name}</p>
+                        <p className="font-normal py-3 text-gray-600 dark:text-[#76898e]">{data?.community?.description}</p>
                     </div>
                     <hr className="border-neutral-border-weak" />
                     <dl className="divide-y divide-neutral px-6 text-sm leading-6 bg-[#f5f5f5] dark:bg-[#04090a]">
@@ -194,7 +185,7 @@ const CommunityDetail = ({ params }: PageProps) => {
                         <div className='flex justify-between gap-x-4 py-3'>
                             <dt className='text-gray-500'>Members</dt>
                             <dd className='flex items-start gap-x-2'>
-                                <div className='text-gray-900 dark:text-[#f2f2f2]'>{data?.community.memberCount}</div>
+                                <div className='text-gray-900 dark:text-[#f2f2f2]'>{data?.community?.memberCount}</div>
                             </dd>
                         </div>
                     </dl>

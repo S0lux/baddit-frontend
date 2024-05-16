@@ -76,7 +76,9 @@ const variants = cva(
         contained: [
           "w-full h-full m-x-1 rounded-2xl ",
           "hover:shadow-none shadow-none bg-slate-200 transition-none",
-          "focus:scale0[1]"
+          "focus:scale-[1]",
+          //dark
+          "dark:bg-backgroundSecondary dark:hover:bg-slate-600"
         ]
       },
       size: {

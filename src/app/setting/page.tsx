@@ -133,12 +133,7 @@ export default function SettingPage() {
                     <Spinner className="absolute bottom-5 left-5 size-1/2"></Spinner>
                   )}
                 </div>
-                <button
-                  className="pt-2 text-sm text-componentSecondary underline"
-                  onClick={handleSetImage}
-                >
-                  Apply
-                </button>
+
               </>
             )}
           </div>

@@ -2,7 +2,6 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaWrench } from 'react-icons/fa';
-import { usePathname } from 'next/navigation';
 import Navbar from '@/src/components/profile-view/navbar';
 
 
@@ -15,12 +14,13 @@ const Avatar: React.FC<{ src: string; alt: string; userName: string, userData: a
                     alt={alt}
                     width={64}
                     height={64}
-                    className="block m-0 rounded-full border-2 border-solid overflow-hidden w-3xl h-3xl"
+                    className="absolute block m-0 rounded-full border-2 border-solid overflow-hidden object-cover aspect-square"
+                    objectFit="cover"
                 />
 
                 <div className="absolute bottom-0 right-0 ">
                     {userName === userData?.username ?
-                        <Link aria-label="Edit profile avatar" className="px-[var(--rem6)] items-center justify-center inline-flex " href="/settings/profile">
+                        <Link aria-label="Edit profile avatar" className="px-[var(--rem6)] items-center justify-center inline-flex " href="/setting">
                             <div className="flex items-center justify-center rounded-full border-2 border-solid bg-gray-300">
                                 <div className="flex items-center justify-center w-5 h-5">
                                     <FaWrench size={12} />
@@ -62,7 +62,7 @@ export default function Top({ userName, userData }: { userName: string, userData
             <div className="p-4">
                 <Link
                     href="/create_post"
-                    className="flex items-center px-4 py-2 bg-white rounded-full shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 border border-black w-full justify-center">
+                    className="flex items-center px-4 py-2 h-12 bg-white rounded-full shadow-sm text-xl font-medium text-gray-700 hover:bg-gray-200 border border-black w-full justify-center ">
                     + Create Post
                 </Link>
             </div>

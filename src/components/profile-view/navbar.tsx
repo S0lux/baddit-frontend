@@ -6,7 +6,7 @@ const Navbar: React.FC<{ userName: string, userData: any }> = ({ userName, userD
     const router = usePathname();
 
     const linkClass = (href: string) => {
-        return `hover:text-white px-3 py-2 text-sm font-medium bg-gray-300 hover:bg-gray-500 rounded-2xl mr-5 ${router === href ? 'bg-gray-500 ' : ''}`;
+        return `hover:text-white px-3 py-2 text-sm font-medium bg-gray-300 hover:bg-gray-500 rounded-2xl mr-5 ${router === href ? 'bg-gray-500 text-white' : ''}`;
     };
 
     return (

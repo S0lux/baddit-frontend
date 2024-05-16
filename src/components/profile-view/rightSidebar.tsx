@@ -1,7 +1,8 @@
 import React from 'react';
 import { FaCamera } from 'react-icons/fa';
 import { Button } from '@/src/components/button/button';
-import { FaBirthdayCake, FaShare, FaPlus } from 'react-icons/fa';
+import { FaBirthdayCake, FaShare, FaPlus, FaCheckCircle } from 'react-icons/fa';
+import { FaRegCircleXmark } from "react-icons/fa6";
 import Link from 'next/link';
 
 const RightSidebar: React.FC<{ userName: string, userData: any }> = ({ userName, userData }) => {
@@ -12,7 +13,7 @@ const RightSidebar: React.FC<{ userName: string, userData: any }> = ({ userName,
         day: 'numeric'
     });
     return (
-        <aside className="mt-3 flex mr-1">
+        <aside className="ml-8 mt-3 flex mr-1">
             <div className="bg-gray-300 rounded-2xl w-80">
                 {userName === userData?.username ?
                     <><div className="bg-green-300 top-0 rounded-t-2xl flex justify-end items-end h-28 p-4">
@@ -55,9 +56,15 @@ const RightSidebar: React.FC<{ userName: string, userData: any }> = ({ userName,
                                         <p className='font-bold'>Email</p>
                                         <p>{userData?.email}</p>
                                         {userData?.emailVerified ? (
-                                            <p className='text-green-500'>Verified</p>
+                                            <div className='flex items-center'>
+                                                <FaCheckCircle className='text-green-500 fas fa-heart mr-2' />
+                                                <p className='text-green-500'>Verified</p>
+                                            </div>
                                         ) : (
-                                            <p className='text-red-500'>Not verified</p>
+                                            <div className='flex items-center'>
+                                                <FaRegCircleXmark className='text-red-600 fas fa-heart mr-2' />
+                                                <p className='text-red-600'>Not verified</p>
+                                            </div>
                                         )}
                                     </li></> : <></>}
                         </ol>
