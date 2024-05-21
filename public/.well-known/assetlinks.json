@@ -3,7 +3,7 @@
     "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
       "namespace": "android_app",
-      "package_name": "com.example.baddit.MyApp",
+      "package_name": "com.example.baddit",
       "sha256_cert_fingerprints": [
         "49:C6:64:65:03:B7:19:29:9D:78:6C:A7:5D:8A:10:67:94:E4:3B:4A:FE:66:6D:B0:AF:11:66:A9:64:BE:B0:0E"
       ]
