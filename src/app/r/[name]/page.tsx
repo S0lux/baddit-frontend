@@ -195,3 +195,5 @@ const CommunityDetail = ({ params }: PageProps) => {
     </>
   )
 }
+
+export default CommunityDetail

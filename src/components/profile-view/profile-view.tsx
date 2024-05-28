@@ -29,6 +29,7 @@ export default function Profile_View(params: { component: React.ReactNode }) {
             setLoading(false);
         }
         console.log(user);
+        console.log(userData);
     }, [userName, userData]);
 
     if (loading) {
@@ -39,13 +40,13 @@ export default function Profile_View(params: { component: React.ReactNode }) {
             <>
                 <main className="flex ml-16">
                     <div className="max-w-screen-md w-screen">
-                        <Top userName={userName} userData={user} />
+                        <Top userName={userName} user={user} />
                         <div className='flex items-center justify-center'>
                             {params.component}
                         </div>
                     </div>
                     <div className="mr-0 hidden lg:block ">
-                        <RightSidebar userName={userName} userData={user} />
+                        <RightSidebar user={user} />
                     </div>
                 </main>
             </>);
@@ -55,13 +56,13 @@ export default function Profile_View(params: { component: React.ReactNode }) {
             <>
                 <main className="flex ml-16">
                     <div className="max-w-screen-md w-screen">
-                        <Top userName={userName} userData={user} />
+                        <Top userName={userName} user={user} />
                         <div className='flex items-center justify-center'>
                             {params.component}
                         </div>
                     </div>
                     <div className="mr-0 hidden lg:block ">
-                        <RightSidebar userName={userName} userData={user} />
+                        <RightSidebar user={user} />
                     </div>
                 </main>
             </>);
