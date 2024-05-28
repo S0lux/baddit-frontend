@@ -103,6 +103,7 @@ export default function SettingPage() {
               </Button>
               <input
                 type="file"
+                accept=".png"
                 id="file"
                 ref={inputFile}
                 style={{ display: "none" }}

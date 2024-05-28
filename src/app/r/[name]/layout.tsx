@@ -3,14 +3,9 @@ import { Inter } from "next/font/google";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function CommunityDetailLayout({
-    children,
+  children,
 }: {
-    children: React.ReactNode
+  children: React.ReactNode;
 }) {
-
-    return (
-        <>
-            {children}
-        </>
-    );
+  return <>{children}</>;
 }
