@@ -4,13 +4,14 @@ import { useAuthStore } from '../../store/authStore';
 import Top from '@/src/components/profile-view/top';
 import RightSidebar from '@/src/components/profile-view/rightSidebar';
 import axios from 'axios';
-import { useParams } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 
 export default function Profile_View(params: { component: React.ReactNode }) {
     const { userName } = useParams<{ userName: string }>();
     const { userData } = useAuthStore();
     const [user, setUser] = useState<any>(null);
     const [loading, setLoading] = useState(true);
+    const pathname = usePathname();
 
     useEffect(() => {
         if (userData?.username !== userName) {
@@ -35,7 +36,13 @@ export default function Profile_View(params: { component: React.ReactNode }) {
     if (loading) {
         return <div>Loading...</div>;
     }
-    if (userData?.userName === userName) {
+
+    if (pathname.includes('/submit')) {
+        return <div className='flex items-center justify-center'>
+            {params.component}
+        </div>
+    }
+    else if (userData?.userName === userName) {
         return (
             <>
                 <main className="flex ml-16">
