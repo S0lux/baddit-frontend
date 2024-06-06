@@ -4,23 +4,24 @@ import { useAuthStore } from '@/src/store/authStore';
 import PostCard from '@/src/components/post/post-card';
 import useGet from '@/src/hooks/useGet';
 import Image from 'next/image';
+import { useParams } from 'next/navigation';
 
 export default function Post_user() {
     const { userData } = useAuthStore();
     const [posts, setPosts] = useState([])
     const [loading, setLoading] = useState(true);
+    const { userName } = useParams();
 
+    const { GetData } = useGet(`/users/${userName}/posts`);
 
-    //fetch post by user
     useEffect(() => {
-        fetch(`https://api.baddit.life/v1/posts?authorId=${userData?.id}`)
-            .then(response => response.json())
+        GetData()
             .then(data => {
-                console.log(data);
-                setPosts(data);
+                setPosts(data)
                 setLoading(false);
             });
-    }, []);
+
+    }, [])
 
     if (loading) {
         return <div>Loading...</div>;

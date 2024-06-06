@@ -6,10 +6,8 @@ import { FaAngleDoubleUp } from 'react-icons/fa'
 export default function Home({ params }: { params: { userName: string } }) {
     return (
         <div className=''>
-            <Post_user />
-
             <LifetimePerformance />
-
+            <Post_user />
         </div>
     )
 }

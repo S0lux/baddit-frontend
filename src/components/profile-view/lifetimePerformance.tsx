@@ -4,7 +4,8 @@ import { FaThumbsDown, FaThumbsUp, FaComment } from 'react-icons/fa';
 import { IconType } from 'react-icons';
 import useGet from '@/src/hooks/useGet';
 import { useAuthStore } from '@/src/store/authStore';
-import { set } from 'react-hook-form';
+import { useParams } from 'next/navigation';
+import axios from 'axios';
 
 
 interface StatCardProps {
@@ -24,35 +25,57 @@ const StatCard: React.FC<StatCardProps> = ({ value, label, Icon }) => (
 );
 
 const LifetimePerformance: React.FC = () => {
-
-    const { GetData } = useGet('/posts');
-    const [posts, setPosts] = useState([]);
-    const [comments, setcoments] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [posts, setPosts] = useState<any[]>([])
+    const [comments, setComments] = useState([]);
     const { userData } = useAuthStore();
+    const { userName } = useParams()
 
-    const { GetData: GetComments } = useGet(`/comments?authorId=${userData?.id}`);
+    const { GetData: GetComments } = useGet(`/users/${userData?.username}/comments`);
 
+    const fetchPosts = async () => {
+        let cursor = "";
+        let endReached = false;
+        let allPosts = [...posts];
+        while (!endReached) {
+            const data = await axios.get(`https://api.baddit.life/v1/posts?cursor=${cursor}`, {
+                withCredentials: true,
+            }).then(res => res.data);
+            if (data.length > 0) {
+                const newPosts = data.filter((post: any) => !allPosts.some((p: any) => p.id === post.id));
+                allPosts = [...allPosts, ...newPosts];
+                cursor = data[data.length - 1].id;
+            } else {
+                endReached = true;
+            }
+        }
+        setPosts(allPosts);
+    }
     useEffect(() => {
-        GetData()
-            .then(data => {
-                setPosts(data);
-
-            });
+        fetchPosts();
 
         GetComments()
             .then(data => {
-                setcoments(data)
-
+                setComments(data)
             });
 
+        setLoading(false);
     }, []);
 
-    const countUpvotes = posts.filter((post: any) => post.voteState === "UPVOTE").length;
-    const countDownvotes = posts.filter((post: any) => post.voteState === "DOWNVOTE").length;
+    console.log(posts)
+
+    const countUpvotes = posts?.filter((post: any) => post?.voteState === "UPVOTE").length;
+    const countDownvotes = posts?.filter((post: any) => post?.voteState === "DOWNVOTE").length;
     const countComments = comments.length;
 
+    if (loading) return <div>Loading...</div>;
+
+    if (userName !== userData?.username) {
+        return <div></div>
+    }
+
     return (
-        <div className="mt-4">
+        <div className="mb-4 pl-4">
             <h3 className="text-12 font-semibold text-neutral-content-strong">Lifetime Performance</h3>
             <div className=" flex justify-between">
                 <StatCard value={countUpvotes} label="Upvote Rate" Icon={FaThumbsUp} />

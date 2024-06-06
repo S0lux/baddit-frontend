@@ -44,7 +44,7 @@ export default function Profile_View(params: { component: React.ReactNode }) {
     }
     else if (userData?.userName === userName) {
         return (
-            <>
+            <div className='h-[10000px]'>
                 <main className="flex ml-16">
                     <div className="max-w-screen-md w-screen">
                         <Top userName={userName} user={user} />
@@ -56,11 +56,11 @@ export default function Profile_View(params: { component: React.ReactNode }) {
                         <RightSidebar user={user} />
                     </div>
                 </main>
-            </>);
+            </div>);
     }
     else {
         return (
-            <>
+            <div className='h-[10000px]'>
                 <main className="flex ml-16">
                     <div className="max-w-screen-md w-screen">
                         <Top userName={userName} user={user} />
@@ -72,6 +72,6 @@ export default function Profile_View(params: { component: React.ReactNode }) {
                         <RightSidebar user={user} />
                     </div>
                 </main>
-            </>);
+            </div>);
     }
 }

@@ -9,8 +9,9 @@ export default function Layout({
 }>) {
     return (
         <DefaultLayout>
-            <div className="h-[10000px]">
-                <Profile_View component={children} />
+            <Profile_View component={children} />
+            <div className="">
+
             </div>
         </DefaultLayout>
     )

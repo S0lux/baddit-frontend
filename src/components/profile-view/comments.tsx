@@ -2,19 +2,20 @@
 import useGet from '@/src/hooks/useGet';
 import { useAuthStore } from '@/src/store/authStore';
 import Image from 'next/image';
+import { useParams } from 'next/navigation';
 import React, { useState, useEffect } from 'react'
 
 export default function Comments() {
-    const { userData } = useAuthStore();
-    const { GetData } = useGet(`/comments?authorId=${userData?.id}`);
+    const { userName } = useParams();
+    const { GetData } = useGet(`/users/${userName}/comments`);
 
-    const [comments, setcoments] = useState([]);
+    const [comments, setComments] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         GetData()
             .then(data => {
-                setcoments(data)
+                setComments(data)
                 setLoading(false);
             });
 
