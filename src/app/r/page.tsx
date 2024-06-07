@@ -5,6 +5,8 @@ import { Button } from "@/src/components/button/button";
 import useSWR from "swr";
 import Spinner from "@/src/components/spinner/spinner";
 import { useRouter } from "next/navigation";
+import InfiniteSubbaddit from "@/src/components/community/infinite-subbaddit";
+import CommunityCard from "@/src/components/community/community-card";
 
 const CommunityHome = () => {
 
@@ -29,13 +31,14 @@ const CommunityHome = () => {
     }
 
     return (
-        <>
-            <h1 className="font-bold text-2xl md:text-3xl mt-4 mb-8">Best of Baddit</h1>
-            <div className="container">
+        <div className="container lg:h-[700px]">
+            <h1 className="font-bold text-2xl md:text-3xl mt-4 mb-8 text-center">Best of Baddit</h1>
+            {/* <div className="container">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full h-full gap-x-6 gap-y-6 px-8 ">
                     {data?.map((community: any) => {
                         return (
                             <Button
+                                id={data?.community?.id}
                                 variant={"contained"}
                                 size={"medium"}
                                 className="rounded-md hover:bg-slate-300 dark:bg- text-3xl justify-start overflow-hidden w-full"
@@ -53,12 +56,15 @@ const CommunityHome = () => {
                                     </div>
                                 </div>
                             </Button>
+                            
                         )
                     })}
-                </div >
-            </div >
 
-        </>
+                </div >
+                
+            </div > */}
+            <InfiniteSubbaddit />
+        </div>
     )
 }
 

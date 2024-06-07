@@ -13,6 +13,7 @@ import Spinner from "@/src/components/spinner/spinner";
 import JoinLeaveToggle from "@/src/components/button/joinleaveToggle";
 import useGet from "@/src/hooks/useGet";
 import axios from "axios";
+import InfiniteScrolling from "@/src/components/community/infinite-scrolling";
 
 
 interface PageProps {
@@ -88,6 +89,7 @@ const CommunityDetail = ({ params }: PageProps) => {
       </div>
     )
   }
+
 
   if (isLoading) {
     return (
@@ -213,8 +215,9 @@ const CommunityDetail = ({ params }: PageProps) => {
 
       <div className="grid grid-cols-1 md:grid-cols-3 container gap-y-4 md:gap-x-4 py-6 mx-4 w-full px-6">
         {/* Feed */}
-        <div className='flex flex-col col-span-2 space-y-6'>
-          <PostList communityName={data?.community?.name} />
+        <div className='flex flex-col col-span-2 space-y-6 '>
+          {/* <PostList communityName={data?.community?.name} /> */}
+          <InfiniteScrolling />
         </div>
         {/* About */}
         <div className="sticky top-20 md:block overflow-hidden h-fit rounded-lg bg-[#f5f5f5] dark:bg-[#04090a] order-last md:order-last">

@@ -36,3 +36,17 @@ interface BadCommunity {
     },
     joinStatus: string
 }
+
+interface SortBadCommunity {
+    id: string,
+    name: string,
+    ownerId: string,
+    description: string,
+    logoUrl: string,
+    bannerUrl: string,
+    status: string,
+    memberCount: number,
+    deleted: boolean,
+    createdAt: string,
+    updateAt: string
+}

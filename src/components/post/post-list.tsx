@@ -27,7 +27,6 @@ const PostList = ({ communityName }: PageProps) => {
       <Spinner className=" mx-auto size-20"></Spinner>
     </div>
   }
-
   return (
     <div className=" max-w-[770px] ">
       {data?.map((item: BadPost) => {
