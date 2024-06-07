@@ -213,14 +213,14 @@ export default function Create_Post() {
                 payload = {
                     title: title,
                     content: link,
-                    type: "TEXT"
+                    type: "LINK"
                 }
             }
             else {
                 payload = {
                     title: title,
                     content: link,
-                    type: "TEXT",
+                    type: "LINK",
                     communityName: community
                 }
             }
