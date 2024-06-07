@@ -12,6 +12,7 @@ import { useModalStore } from "@/src/store/modalStore";
 import Spinner from "@/src/components/spinner/spinner";
 import JoinLeaveToggle from "@/src/components/button/joinleaveToggle";
 import useGet from "@/src/hooks/useGet";
+import axios from "axios";
 
 
 interface PageProps {
@@ -21,13 +22,17 @@ interface PageProps {
 }
 
 const CommunityDetail = ({ params }: PageProps) => {
+
   const { name } = params
+
+  const router = useRouter()
+
 
   //get auth session
   const userData = useAuthStore((state) => state.userData);
   const loggedIn = useAuthStore((state) => state.loggedIn);
   const getUserAsync = useAuthStore((state) => state.getUserAsync);
-  const [statusCode, setStatusCode] = useState("")
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     getUserAsync();
@@ -50,14 +55,39 @@ const CommunityDetail = ({ params }: PageProps) => {
     }
   )
 
-  const router = useRouter()
-
   const communityCreatedDay = new Date(data?.community?.createdAt).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric'
   });
 
+  //Handle delete community
+  const handleDeleteCommunity = async () => {
+    setLoading(true);
+    try {
+      let res = await axios.delete(
+        `https://api.baddit.life/v1/communities/${data?.community?.name}`,
+        {
+          withCredentials: true
+        }
+
+      );
+      toast.success(res.data.message);
+      mutate(`https://api.baddit.life/v1/communities/${data?.community?.name}`)
+      router.back()
+    } catch (err: any) {
+      toast.error(err.response.data.message);
+    }
+    setLoading(false);
+  }
+
+  if (data?.error) {
+    return (
+      <div className="h-screen w-full flex flex-col justify-center text-3xl text-center">
+        This community does not exist
+      </div>
+    )
+  }
 
   if (isLoading) {
     return (
@@ -107,6 +137,7 @@ const CommunityDetail = ({ params }: PageProps) => {
               <img src={data?.community?.logoUrl}
                 alt=""
                 className="rounded-full w-[100px] h-[100px] xs:w-[80px] xs:h-[80px] bg-slate-100 dark:bg-slate-200" />
+              {/* change logo button if owner */}
               {loggedIn == true && userData != null && userData.id == data?.community?.ownerId ? (
                 <div className="absolute rounded-full top-24 bottom-0 right-0 -translate-y-1/2 w-6 h-6 border border-white">
                   <button
@@ -144,9 +175,25 @@ const CommunityDetail = ({ params }: PageProps) => {
               ) : (
                 <></>
               )}
-              <div className="flex flex-end flex-row pb-2 mt-8">
-                <JoinLeaveToggle communityName={data?.community?.name} joinStatus={data?.joinStatus} />
-              </div>
+              {data?.community?.ownerId == userData.id ? (
+                <div className="flex flex-end flex-row pb-2 mt-8">
+                  <Button
+                    size={"medium"}
+                    variant={"primary"}
+                    onClick={handleDeleteCommunity}>
+                    <div className="inline-flex items-center text-white">
+                      Delete Community
+                    </div>
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex flex-end flex-row pb-2 mt-8">
+                  <JoinLeaveToggle
+                    communityName={data?.community?.name}
+                    joinStatus={data?.joinStatus} />
+                </div>
+              )}
+
             </div>
           ) : (
             <div className="flex flex-end flex-row pb-2 mt-8">
@@ -163,6 +210,7 @@ const CommunityDetail = ({ params }: PageProps) => {
           )}
         </div>
       </div>
+
       <div className="grid grid-cols-1 md:grid-cols-3 container gap-y-4 md:gap-x-4 py-6 mx-4 w-full px-6">
         {/* Feed */}
         <div className='flex flex-col col-span-2 space-y-6'>

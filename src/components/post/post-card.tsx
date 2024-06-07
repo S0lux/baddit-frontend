@@ -4,6 +4,7 @@ import { IoChatboxOutline } from "react-icons/io5";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { FiShare } from "react-icons/fi";
 import { Button } from "../button/button";
+import { useRouter } from "next/navigation";
 
 interface IProps {
   post: BadPost;
@@ -13,6 +14,8 @@ const PostCard = (props: IProps) => {
   const dataDisplay = useRef(null);
 
   const [votes, SetVotes] = useState<number>(0);
+
+  const router = useRouter()
 
   const formattedDate = new Date(post?.createdAt).toLocaleDateString("en-US", {
     year: "numeric",
@@ -53,7 +56,7 @@ const PostCard = (props: IProps) => {
           ></div>
           <div className="flex w-full flex-col items-center justify-between rounded-xl bg-black">
             <img
-              src="https://www.vietnamairlines.com/~/media/Files/VNANewPage-Images/Lotusmiles/Earn%20Miles/Page/Tren_Vietnamairlines.jpg"
+              src={post.mediaUrls[0]}
               alt=""
               className="rounded-xl"
             />
@@ -79,7 +82,10 @@ const PostCard = (props: IProps) => {
               <IoIosArrowDown />
             </Button>
           </div>
-          <Button size={"small"} variant={"ghost"}>
+          <Button
+            size={"small"}
+            variant={"ghost"}
+            onClick={() => { router.push(`/r/${post.community.name}/${post.id}`) }}>
             <div className="inline-flex items-center">
               <IoChatboxOutline className="mr-2 w-[20px]" />
               {post.commentCount}

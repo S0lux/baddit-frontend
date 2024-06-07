@@ -3,6 +3,7 @@ interface BadPost {
     type: string,
     title: string,
     content: string,
+    mediaUrls: string[],
     score: number,
     voteState: boolean | null,
     commentCount: number,
@@ -17,7 +18,6 @@ interface BadPost {
     },
     createdAt: string,
     updatedAt: string,
-
 }
 
 interface BadCommunity {

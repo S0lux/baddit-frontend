@@ -41,7 +41,7 @@ const PostDetail = ({
     `https://api.baddit.life/v1/posts/?postId=${params?.postId}`,
   );
 
-  useEffect(() => {}, [post, community]);
+  useEffect(() => { }, [post, community]);
 
   if (post.isLoading || community.isLoading) {
     return <Spinner className="relative top-[40%] size-16"></Spinner>;
@@ -108,7 +108,7 @@ const PostDetail = ({
                   size={"small"}
                   variant={"ghost"}
                   className="h-full"
-                  onClick={() => {}}
+                  onClick={() => { }}
                 >
                   <IoIosArrowUp />
                 </Button>
@@ -117,7 +117,7 @@ const PostDetail = ({
                   size={"small"}
                   variant={"ghost"}
                   className="h-full"
-                  onClick={() => {}}
+                  onClick={() => { }}
                 >
                   <IoIosArrowDown />
                 </Button>
@@ -137,7 +137,7 @@ const PostDetail = ({
         <div className="relavtive container px-6 py-4">
           {/* <Spinner className="size-10"></Spinner> */}
           <p className="py-3 font-semibold text-gray-900 dark:text-[#b8c5c9]">
-            About r/{community.data?.data.community.name}
+            About r/{community.data?.data?.community.name}
           </p>
           <p className="py-3 font-normal text-gray-600 dark:text-[#76898e]">
             {community.data?.data.community.description}
