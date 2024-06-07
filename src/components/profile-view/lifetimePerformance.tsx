@@ -7,7 +7,6 @@ import { useAuthStore } from '@/src/store/authStore';
 import { useParams } from 'next/navigation';
 import axios from 'axios';
 
-
 interface StatCardProps {
     value: string | number;
     label: string;
@@ -75,14 +74,17 @@ const LifetimePerformance: React.FC = () => {
     }
 
     return (
-        <div className="mb-4 pl-4">
-            <h3 className="text-12 font-semibold text-neutral-content-strong">Lifetime Performance</h3>
-            <div className=" flex justify-between">
-                <StatCard value={countUpvotes} label="Upvote Rate" Icon={FaThumbsUp} />
-                <StatCard value={countDownvotes} label="Downvote Rate" Icon={FaThumbsDown} />
-                <StatCard value={countComments} label="Comments" Icon={FaComment} />
+        <>
+            <div className="mb-4 pl-4">
+                <h3 className="text-12 font-semibold text-neutral-content-strong">Lifetime Performance</h3>
+                <div className=" flex justify-between">
+                    <StatCard value={countUpvotes} label="Upvote Rate" Icon={FaThumbsUp} />
+                    <StatCard value={countDownvotes} label="Downvote Rate" Icon={FaThumbsDown} />
+                    <StatCard value={countComments} label="Comments" Icon={FaComment} />
+                </div>
             </div>
-        </div>);
+            <hr className="m-2 border-t border-gray-400" />
+        </>);
 
 };
 

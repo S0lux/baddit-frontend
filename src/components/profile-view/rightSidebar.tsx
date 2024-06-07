@@ -19,7 +19,7 @@ const RightSidebar: React.FC<{ user: any }> = ({ user }) => {
         <aside className="ml-8 mt-3 flex mr-1">
             <div className="bg-gray-300 rounded-2xl w-80">
                 {user?.username === userData?.username ?
-                    <><div className="bg-green-300 top-0 rounded-t-2xl flex justify-end items-end h-28 p-4">
+                    <><div className="bg-pink-300 top-0 rounded-t-2xl flex justify-end items-end h-28 p-4">
                         <a
                             aria-label="Edit profile avatar"
                             className=""
@@ -57,8 +57,8 @@ const RightSidebar: React.FC<{ user: any }> = ({ user }) => {
                                 <>
                                     <li className='mt-2'>
                                         <p className='font-bold'>Email</p>
-                                        <p>{user?.email}</p>
-                                        {user?.emailVerified ? (
+                                        <p>{userData?.email}</p>
+                                        {userData?.emailVerified ? (
                                             <div className='flex items-center'>
                                                 <FaCheckCircle className='text-green-500 fas fa-heart mr-2' />
                                                 <p className='text-green-500'>Verified</p>

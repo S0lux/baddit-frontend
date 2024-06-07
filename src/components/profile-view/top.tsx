@@ -38,7 +38,7 @@ const Avatar: React.FC<{ src: string; alt: string; user: any }> = ({ src, alt, u
 
 const Header: React.FC<{ userName: string, user: any }> = ({ userName, user }) => {
     return (
-        <div className="p-4">
+        <div className="p-2">
             <div className="flex items-center justify-start w-full">
                 {user && (
                     <>
@@ -75,14 +75,14 @@ export default function Top({ userName, user }: { userName: string, user: any })
     };
 
     return (
-        <div className="p-4">
+        <div className="p-2">
             <Header userName={userName} user={user} />
             <Navbar userName={userName} />
             <div className="p-2 flex">
                 {user?.username === userData?.username ? (
                     <Link
                         href={`/user/${userName}/submit`}
-                        className="flex items-center px-4 py-2 h-9 bg-white rounded-full shadow-sm text-xl font-medium text-gray-700 hover:bg-gray-200 border border-black w-fit justify-center"
+                        className="flex items-center px-4 py-2 h-9 bg-white rounded-full shadow-sm text-l font-medium text-gray-700 hover:bg-gray-200 border border-black w-fit justify-center"
                     >
                         + Create Post
                     </Link>
