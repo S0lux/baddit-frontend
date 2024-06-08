@@ -5,6 +5,7 @@ import Top from '@/src/components/profile-view/top';
 import RightSidebar from '@/src/components/profile-view/rightSidebar';
 import axios from 'axios';
 import { useParams, usePathname } from 'next/navigation';
+import Spinner from '@/src/components/spinner/spinner';
 
 export default function Profile_View(params: { component: React.ReactNode }) {
     const { userName } = useParams<{ userName: string }>();
@@ -34,7 +35,7 @@ export default function Profile_View(params: { component: React.ReactNode }) {
     }, [userName, userData]);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <div><Spinner className='w-4' /></div>;
     }
 
     if (pathname.includes('/submit')) {
@@ -52,7 +53,7 @@ export default function Profile_View(params: { component: React.ReactNode }) {
                             {params.component}
                         </div>
                     </div>
-                    <div className="mr-0 hidden lg:block ">
+                    <div className="mr-0 hidden lg:block">
                         <RightSidebar user={user} />
                     </div>
                 </main>

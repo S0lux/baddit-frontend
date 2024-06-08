@@ -1,10 +1,10 @@
-import React, { use, useState } from 'react';
+import React, { use, useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaAngleDown, FaWrench } from 'react-icons/fa';
 import Navbar from '@/src/components/profile-view/navbar';
 import { useAuthStore } from '../../store/authStore';
-import { useParams, useRouter } from "next/navigation"
+import { useParams, usePathname, useRouter, useSearchParams } from "next/navigation"
 
 const Avatar: React.FC<{ src: string; alt: string; user: any }> = ({ src, alt, user }) => {
     const { userData } = useAuthStore();
@@ -24,7 +24,7 @@ const Avatar: React.FC<{ src: string; alt: string; user: any }> = ({ src, alt, u
                 <div className="absolute bottom-0 right-0 ">
                     {user?.username === userData?.username ?
                         <Link aria-label="Edit profile avatar" className="px-[var(--rem6)] items-center justify-center inline-flex " href="/setting">
-                            <div className="flex items-center justify-center rounded-full border-2 border-solid bg-gray-300">
+                            <div className="flex items-center justify-center rounded-full border-2 border-solid bg-gray-300 dark:bg-gray-600">
                                 <div className="flex items-center justify-center w-5 h-5">
                                     <FaWrench size={12} />
                                 </div>
@@ -57,8 +57,16 @@ const Header: React.FC<{ userName: string, user: any }> = ({ userName, user }) =
 export default function Top({ userName, user }: { userName: string, user: any }) {
     const { userData } = useAuthStore();
     const [isOpen, setIsOpen] = useState(false);
-    const [sortOption, setSortOption] = useState('new');
+    const searchParams = useSearchParams()
+
+    const [sortOption, setSortOption] = useState(searchParams.get('sort') || "new");
     const router = useRouter();
+    const pathName = usePathname();
+
+    useEffect(() => {
+        const sort = searchParams.get('sort') || "new";
+        setSortOption(sort);
+    }, [searchParams]);
 
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
@@ -69,8 +77,8 @@ export default function Top({ userName, user }: { userName: string, user: any })
     };
 
     const handleSortChange = (sortOption: string) => {
-        router.push(`/user/${userName}?sort=${sortOption}`);
         setSortOption(sortOption);
+        router.push(`${pathName}?sort=${sortOption}`);
         closeDropdown();
     };
 
@@ -90,24 +98,16 @@ export default function Top({ userName, user }: { userName: string, user: any })
                 <div className='pl-4'>
                     <div className="relative inline-block">
                         <button
-                            className="px-4 py-2 font-medium rounded-full text-sm inline-flex items-center hover:bg-gray-200"
+                            className="px-4 py-2 font-medium rounded-full text-sm inline-flex items-center hover:bg-gray-200 hover:text-gray-800"
                             onClick={toggleDropdown}
                         >
-                            {sortOption.charAt(0).toUpperCase() + sortOption.slice(1)} <FaAngleDown className='pl-2' size={20} />
+                            {sortOption !== "" ? sortOption.charAt(0).toUpperCase() + sortOption.slice(1) : "New"} <FaAngleDown className='pl-2' size={20} />
                         </button>
 
                         {isOpen && (
                             <div className="origin-top-right absolute right-0 mt-2 w-24 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5">
                                 <p className="px-4 py-2 font-semibold text-gray-700">Sort by</p>
                                 <ul role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                                    <li>
-                                        <button
-                                            className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                            onClick={() => handleSortChange('hot')}
-                                        >
-                                            Hot
-                                        </button>
-                                    </li>
                                     <li>
                                         <button
                                             className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"

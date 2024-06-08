@@ -1,14 +1,53 @@
-import React from 'react';
+"use client";
+import React, { use, useEffect, useState } from 'react';
 import { FaCamera } from 'react-icons/fa';
 import { Button } from '@/src/components/button/button';
 import { FaBirthdayCake, FaShare, FaPlus, FaCheckCircle } from 'react-icons/fa';
 import { FaRegCircleXmark } from "react-icons/fa6";
 import Link from 'next/link';
 import { useAuthStore } from '@/src/store/authStore';
+import axios from 'axios';
+import Spinner from '@/src/components/spinner/spinner';
+
 
 const RightSidebar: React.FC<{ user: any }> = ({ user }) => {
 
     const { userData } = useAuthStore();
+    const [communities, setCommunities] = useState<any[]>([]);
+    const [loadingCommunities, setLoadingCommunities] = useState(true);
+
+    const [showAllCommunities, setShowAllCommunities] = useState(false);
+
+    const handleShowMore = () => {
+        setShowAllCommunities(true);
+    };
+
+    const fetchCommunities = async () => {
+        let cursor = "";
+        let endReached = false;
+        let allCommunities = [...communities];
+        while (!endReached) {
+            const data = await axios.get(`https://api.baddit.life/v1/communities?cursor=${cursor}`, {
+                withCredentials: true,
+            }).then(res => res.data);
+
+            if (data.length > 0) {
+                const newCommunities = data.filter((community: any) => !allCommunities.some((c: any) => c.id === community.id));
+                allCommunities = [...allCommunities, ...newCommunities];
+                cursor = data[data.length - 1].id;
+            } else {
+                endReached = true;
+            }
+        }
+        setLoadingCommunities(false);
+        setCommunities(allCommunities);
+    }
+
+    useEffect(() => {
+        fetchCommunities();
+    }, []);
+
+    const communitiesList = communities.filter((community) => community?.ownerId === user?.id);
 
     const formattedDate = new Date(user?.registeredAt).toLocaleDateString('en-US', {
         year: 'numeric',
@@ -17,14 +56,14 @@ const RightSidebar: React.FC<{ user: any }> = ({ user }) => {
     });
     return (
         <aside className="ml-8 mt-3 flex mr-1">
-            <div className="bg-gray-300 rounded-2xl w-80">
+            <div className="bg-gray-300 rounded-2xl w-80 dark:bg-gray-600">
                 {user?.username === userData?.username ?
-                    <><div className="bg-pink-300 top-0 rounded-t-2xl flex justify-end items-end h-28 p-4">
+                    <><div className="bg-pink-300 top-0 rounded-t-2xl flex justify-end items-end h-28 p-4 dark:bg-purple-300">
                         <a
                             aria-label="Edit profile avatar"
                             className=""
                             href="/setting">
-                            <div className="right-0 flex items-end justify-center rounded-full border-2 border-solid bg-gray-300">
+                            <div className="right-0 flex items-end justify-center rounded-full border-2 border-solid bg-gray-300 dark:bg-gray-500">
                                 <div className="flex items-center justify-center w-10 h-10">
                                     <FaCamera />
                                 </div>
@@ -33,7 +72,7 @@ const RightSidebar: React.FC<{ user: any }> = ({ user }) => {
                     </div></> : <></>}
                 <div className="p-4 h-fit">
                     <div>
-                        <h2 className="text-black font-bold text-2xl p-1 mb-2">{user?.username}</h2>
+                        <h2 className="text-black font-bold text-2xl p-1 mb-2 dark:text-white">{user?.username}</h2>
                         {user?.username === userData?.username ?
                             <>
                                 <Button variant={"destructive"} size={"small"} className="">
@@ -84,24 +123,36 @@ const RightSidebar: React.FC<{ user: any }> = ({ user }) => {
                                 </Link>
                             </div>
                         </> : <>
-                            <h3 className="font-bold mt-2">MODERATOR OF THESE COMMUNITIES</h3>
-                            <div className="flex space-x-2 mt-2 items-center justify-center">
-                                <div className="flex items-center">
-                                    <img
-                                        src={'https://placehold.co/100x100/pink/white?text=logo'}
-                                        className="size-8 rounded-full object-cover"
-                                    />
-                                </div>
+                            {loadingCommunities ? <div className='justify-center items-center p-4 w-full'><Spinner className='w-4'></Spinner></div> : <>
+                                {communitiesList.length > 0 ? <h3 className="font-bold mt-2">MODERATOR OF THESE COMMUNITIES</h3> : null}
+                                {communitiesList.slice(0, showAllCommunities ? communitiesList.length : 3).map((community) => (
+                                    <div key={community.id} className="flex items-center justify-between mt-2">
+                                        <div className="flex items-center">
+                                            <img
+                                                src={community.logoUrl}
+                                                alt={community.name}
+                                                className="w-8 h-8 rounded-full object-cover"
+                                            />
+                                            <div className="ml-2 text-lg">
+                                                r/{community.name}
+                                            </div>
+                                        </div>
+                                        <Link href={`/r/${community.name}`}>
+                                            <Button variant={"monochrome"} size={"small"}>
+                                                View
+                                            </Button>
+                                        </Link>
 
-                                <div className="flex flex-col">
-                                    <div className="text-l mr-5">
-                                        r/ communityName
                                     </div>
-                                </div>
-                                <Button className='' variant={"monochrome"} size={"small"}>
-                                    Join
-                                </Button>
-                            </div>
+                                ))}
+                                {communitiesList.length > 3 ? <>
+                                    {!showAllCommunities && (
+                                        <button onClick={handleShowMore}>See more...</button>
+                                    )}
+                                    {showAllCommunities && (<button onClick={() => setShowAllCommunities(false)}>See less...</button>)}
+                                </> : null}
+                                {communitiesList.length === 0 ? <h3 className="font-bold mt-2">No communities found</h3> : null}
+                            </>}
                         </>}
 
                 </div>

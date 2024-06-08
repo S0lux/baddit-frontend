@@ -6,6 +6,7 @@ import useGet from '@/src/hooks/useGet';
 import { useAuthStore } from '@/src/store/authStore';
 import { useParams } from 'next/navigation';
 import axios from 'axios';
+import Spinner from '@/src/components/spinner/spinner';
 
 interface StatCardProps {
     value: string | number;
@@ -26,11 +27,12 @@ const StatCard: React.FC<StatCardProps> = ({ value, label, Icon }) => (
 const LifetimePerformance: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [posts, setPosts] = useState<any[]>([])
-    const [comments, setComments] = useState([]);
+    const [comments, setComments] = useState<any[]>([]);
     const { userData } = useAuthStore();
     const { userName } = useParams()
+    const [loadingPosts, setLoadingPosts] = useState(true);
+    const [loadingComments, setLoadingComments] = useState(true);
 
-    const { GetData: GetComments } = useGet(`/users/${userData?.username}/comments`);
 
     const fetchPosts = async () => {
         let cursor = "";
@@ -48,26 +50,42 @@ const LifetimePerformance: React.FC = () => {
                 endReached = true;
             }
         }
+        setLoadingPosts(false);
         setPosts(allPosts);
     }
+
+    const fetchComments = async () => {
+        let cursor = "";
+        let endReached = false;
+        let allComments = [...comments];
+        while (!endReached) {
+            const data = await axios.get(`https://api.baddit.life/v1/comments?cursor=${cursor}`, {
+                withCredentials: true,
+            }).then(res => res.data);
+            if (data.length > 0) {
+                const newComments = data.filter((comment: any) => !allComments.some((c: any) => c.id === comment.id));
+                allComments = [...allComments, ...newComments];
+                cursor = data[data.length - 1].id;
+            } else {
+                endReached = true;
+            }
+        }
+        setLoadingComments(false);
+        setComments(allComments);
+
+    }
+
     useEffect(() => {
         fetchPosts();
-
-        GetComments()
-            .then(data => {
-                setComments(data)
-            });
-
+        fetchComments()
         setLoading(false);
     }, []);
 
-    console.log(posts)
-
     const countUpvotes = posts?.filter((post: any) => post?.voteState === "UPVOTE").length;
     const countDownvotes = posts?.filter((post: any) => post?.voteState === "DOWNVOTE").length;
-    const countComments = comments.length;
+    const countComments = comments?.filter((comment: any) => comment?.authorId === userData?.id).length;
 
-    if (loading) return <div>Loading...</div>;
+    if (loadingPosts || loadingComments) return <div className='justify-center items-center p-4 w-full'><Spinner className='w-4'></Spinner></div>;
 
     if (userName !== userData?.username) {
         return <div></div>

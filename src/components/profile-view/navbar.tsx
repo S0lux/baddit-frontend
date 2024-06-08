@@ -8,7 +8,7 @@ const Navbar: React.FC<{ userName: string }> = ({ userName }) => {
     const { userData } = useAuthStore();
 
     const linkClass = (href: string) => {
-        return `px-3 py-2 text-l font-medium  no-underline hover:underline rounded-2xl mr-5 ${router === href ? 'bg-gray-500 text-white' : ''}`;
+        return `px-3 py-2 text-l font-medium  no-underline hover:underline rounded-2xl mr-5 ${router === href ? 'bg-gray-500 text-white dark:text-black dark:bg-white' : ''}`;
     };
 
     return (
