@@ -7,8 +7,8 @@ export const DropdownItem = ({
   classname,
   onItemClick,
 }: {
-  communityName?: string;
-  communityAvatar?: string;
+  communityName: string;
+  communityAvatar: string;
   classname?: string;
   onItemClick?: () => void;
 }) => {
@@ -26,7 +26,7 @@ export const DropdownItem = ({
       <div className="flex items-center">
         <img
           src={communityAvatar}
-          className="size-8 rounded-full object-cover"
+          className="aspect-square size-8 rounded-full"
         />
       </div>
 

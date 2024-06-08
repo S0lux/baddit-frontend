@@ -41,16 +41,16 @@ const PostDetail = ({
     `https://api.baddit.life/v1/posts/?postId=${params?.postId}`,
   );
 
-  useEffect(() => { }, [post, community]);
+  useEffect(() => {}, [post, community]);
 
   if (post.isLoading || community.isLoading) {
     return <Spinner className="relative top-[40%] size-16"></Spinner>;
   }
 
   return (
-    <div className="flex h-full w-full grid-cols-2 gap-4 lg:px-4 xl:px-16">
+    <div className="mt-10 flex h-full w-full grid-cols-2 gap-4 lg:px-4 xl:px-16">
       {/* Feed */}
-      <div className="flex h-fit w-auto flex-row">
+      <div className="flex h-fit w-fit flex-row">
         {/* back button */}
         <Button
           variant={"ghost"}
@@ -65,7 +65,7 @@ const PostDetail = ({
         {/* post */}
         <div
           id={post.data?.data[0].id}
-          className="flex flex-col before:mb-[5px] before:w-full before:border-t before:border-[#cecece] dark:before:border-t-neutral-700"
+          className="flex w-2/3 flex-col before:mb-[5px] before:w-full "
         >
           <div className="mb-1 flex min-w-[660px] flex-1 flex-col gap-[5px] px-[10px] py-[4px] ">
             <div className="flex flex-row text-[13px]">
@@ -96,7 +96,7 @@ const PostDetail = ({
               ></div>
               <div className="flex w-full flex-col items-center justify-between rounded-xl bg-black">
                 <img
-                  src="https://th.bing.com/th/id/OIP.1hs94SPSl8p5GsBkGjuomAHaHa?rs=1&pid=ImgDetMain"
+                  src={post.data.data[0].mediaUrls[0]}
                   alt=""
                   className="rounded-xl"
                 />
@@ -108,7 +108,7 @@ const PostDetail = ({
                   size={"small"}
                   variant={"ghost"}
                   className="h-full"
-                  onClick={() => { }}
+                  onClick={() => {}}
                 >
                   <IoIosArrowUp />
                 </Button>
@@ -117,7 +117,7 @@ const PostDetail = ({
                   size={"small"}
                   variant={"ghost"}
                   className="h-full"
-                  onClick={() => { }}
+                  onClick={() => {}}
                 >
                   <IoIosArrowDown />
                 </Button>

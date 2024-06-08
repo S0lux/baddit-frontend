@@ -3,19 +3,28 @@ import IconButton from "@/src/components/button/iconbutton";
 import { DropdownItem, DropdownMenu } from "@/src/components/dropdown";
 import { GoHomeFill } from "react-icons/go";
 import ButtonCreateCommunity from "./create-community-button";
+import axios from "axios";
 
-interface communitiyProps {
+export type communitiyProps = {
+  id: string;
   name: string;
-  description: string;
   ownerId: string;
+  description: string;
   logoUrl: string;
   bannerUrl: string;
   status: string;
   createdAt: string;
-}
+  updatedAt: string;
+  deleted: boolean;
+  memberCount: number;
+};
 
 export async function Sidebar() {
-  const fetchedCommunities = await fetchCommunities();
+  const res = await axios.get("https://api.baddit.life/v1/communities", {
+    withCredentials: true,
+  });
+  const fetchedCommunities = res.data;
+  //console.log(fetchedCommunities);
 
   return (
     <div className="fixed z-0 h-full w-[240px] space-y-2 border-b border-r-[0.2px] border-[#cecece] bg-background px-4 pt-3 dark:border-[#1a1a1a]">
@@ -34,7 +43,7 @@ export async function Sidebar() {
           fetchedCommunities.map((community: communitiyProps) => {
             return (
               <DropdownItem
-                key={community.name}
+                key={community.id}
                 communityAvatar={community.logoUrl}
                 communityName={community.name}
               ></DropdownItem>
@@ -45,10 +54,4 @@ export async function Sidebar() {
       <Divider></Divider>
     </div>
   );
-}
-
-async function fetchCommunities() {
-  const res = await fetch("https://api.baddit.life/v1/communities");
-  if (!res.ok) throw new Error("failed to fetch data");
-  else return res.json();
 }

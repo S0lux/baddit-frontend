@@ -16,10 +16,9 @@ export const useAuthStore = create<AuthStore>((set) => ({
         withCredentials: true,
       });
 
-      console.log(response.data)
       set(() => ({ loggedIn: true, userData: response.data }));
     } catch (err: any) {
-      console.log(err)
+      console.log(err);
       set(() => ({ loggedIn: false, userData: null }));
     }
   },

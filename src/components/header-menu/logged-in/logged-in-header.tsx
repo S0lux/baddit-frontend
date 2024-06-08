@@ -11,7 +11,6 @@ import AvatarMenu from "./avatar-menu/avatar-menu";
 export default function LoggedInHeader() {
   const userData = useAuthStore((state) => state.userData);
 
-  console.log(userData)
   return (
     <div className="flex items-center justify-end">
       <Tippy

@@ -1,12 +1,14 @@
 import { SearchBar } from "@/src/components/searchbar/SearchBar";
 import HeaderMenu from "@/src/components/header-menu/header-menu";
 import { SearchItem } from "@/src/components/searchbar";
+import axios from "axios";
 
 export default async function Header() {
-  const fetchedCommunities = await fetchCommunities();
+  const res = await axios.get("https://api.baddit.life/v1/communities");
+  const fetchedCommunities = res.data;
 
   return (
-    <div className="z-20 fixed flex h-[56.8px] w-full items-center justify-between border-b border-[#cecece] bg-background/90 px-[10px] backdrop-blur-sm dark:border-[#1a1a1a]">
+    <div className="fixed z-20 flex h-[56.8px] w-full items-center justify-between border-b border-[#cecece] bg-background/90 px-[10px] backdrop-blur-sm dark:border-[#1a1a1a]">
       <a href="/" className=" pl-[5px] text-[26px] font-black">
         baddit
       </a>
@@ -31,10 +33,4 @@ export default async function Header() {
       </div>
     </div>
   );
-}
-
-async function fetchCommunities() {
-  const res = await fetch("https://api.baddit.life/v1/communities");
-  if (!res.ok) throw new Error("failed to fetch data");
-  else return res.json();
 }

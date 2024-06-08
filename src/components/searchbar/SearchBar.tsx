@@ -6,6 +6,7 @@ import { IoSearch } from "react-icons/io5";
 import { twMerge } from "tailwind-merge";
 import { SearchItem } from ".";
 import { DebounceInput } from "react-debounce-input";
+import { communitiyProps } from "@/src/layout/components/sidebar/sidebar";
 
 export const SearchBar = ({
   children,
@@ -19,16 +20,16 @@ export const SearchBar = ({
   const [isSearchBarFocused, setSearchBarFocused] = useState(false);
 
   const [inputValue, setInputValue] = useState("");
-  const [searchResult, setSearchResult] = useState<any[]>();
+  const [searchResult, setSearchResult] = useState<communitiyProps[]>([]);
 
   const searchBar = useRef<HTMLDivElement>(null);
   const searchResults = useRef<HTMLDivElement>(null);
 
   const handleSearch = async () => {
-    console.log("called");
-    let link = "https://api.baddit.life/v1/communities/?name=" + inputValue;
     try {
-      let res = await axios.get(link);
+      let res = await axios.get("https://api.baddit.life/v1/communities", {
+        params: { name: inputValue },
+      });
       setSearchResult(res.data);
       console.log(res);
     } catch (err) {
@@ -69,7 +70,6 @@ export const SearchBar = ({
           value={inputValue}
           placeholder={placeHolder}
           onFocus={() => setSearchBarFocused(true)}
-          //onBlur={() => setSearchBarFocused(false)}
           onChange={(e: any) => {
             setSearchResult([]);
             setInputValue(e.target.value);
@@ -84,14 +84,14 @@ export const SearchBar = ({
           ref={searchResults}
         >
           {inputValue
-            ? searchResult!.map((item, index) => {
+            ? searchResult?.map((item, index) => {
                 return (
                   <SearchItem
                     key={item.id}
                     id={item.id}
                     communityAvatar={item.logoUrl}
                     communityName={item.name}
-                    memberCount={item.memberCount}
+                    memberCount={item.memberCount.toString()}
                   ></SearchItem>
                 );
               })

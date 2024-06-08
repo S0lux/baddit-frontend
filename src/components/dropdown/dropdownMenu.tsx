@@ -44,7 +44,7 @@ export const DropdownMenu = ({
           <DropdownItem
             communityName={child.props["communityName"]}
             classname={child.props["classname"]}
-            communityAvatar="https://placehold.co/100x100/pink/white?text=logo"
+            communityAvatar={child.props["communityAvatar"]}
             onItemClick={() => {}}
           ></DropdownItem>
         );
