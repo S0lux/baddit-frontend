@@ -1,14 +1,19 @@
 "use client";
 import PostCard from '@/src/components/post/post-card';
 import axios from 'axios';
-import { useParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import { use, useEffect, useState } from 'react';
 import Spinner from '@/src/components/spinner/spinner';
 import Image from 'next/image';
+import { set } from 'zod';
 
 
-const fetchPosts = async (userName: String | String[], cursor = '') => {
-    const response = await axios.get(`https://api.baddit.life/v1/posts?authorName=${userName}&cursor=${cursor}`);
+const fetchPosts = async (userName: String | String[], cursor = '', sort?: String | null) => {
+
+    const url = sort === 'top'
+        ? `https://api.baddit.life/v1/posts?authorName=${userName}&cursor=${cursor}&orderByScore=true`
+        : `https://api.baddit.life/v1/posts?authorName=${userName}&cursor=${cursor}`;
+    const response = await axios.get(url);
     return response.data;
 };
 
@@ -18,12 +23,14 @@ const InfinitePost = () => {
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
     const { userName } = useParams();
-
+    const searchParams = useSearchParams()
+    const [sort, setSort] = useState(searchParams.get('sort') || null);
 
     const loadMorePosts = async () => {
         if (loading || !hasMore) return;
         setLoading(true);
-        const data = await fetchPosts(userName, cursor);
+        setSort(searchParams.get('sort') || null);
+        const data = await fetchPosts(userName, cursor, sort);
         setPosts((prevPosts) => {
             const newPosts = data.filter((post: any) => !prevPosts.some(prevPost => prevPost.id === post.id));
             return [...prevPosts, ...newPosts];
@@ -32,6 +39,19 @@ const InfinitePost = () => {
         setHasMore(data.length === 10);
         setLoading(false);
     };
+
+    useEffect(() => {
+        const newSort = searchParams.get('sort') || null;
+        setSort(newSort);
+        setPosts([]);  // Clear previous posts
+        setCursor('');  // Reset cursor
+        setHasMore(true);  // Reset hasMore
+    }, [searchParams]);
+
+    useEffect(() => {
+        loadMorePosts();
+    }, [sort]);
+
 
     useEffect(() => {
         loadMorePosts();
@@ -57,7 +77,7 @@ const InfinitePost = () => {
                         <PostCard key={post.id} post={post} />
                     ))}
                 </div>
-                {loading && <><Spinner /></>}
+                {loading && <><Spinner className='w-4' /></>}
                 {!hasMore && (
                     <div className="text-center py-5 text-gray-600 text-lg dark:text-white">
                         <p>No more posts to load!!!!</p>

@@ -4,11 +4,15 @@ import useGet from '@/src/hooks/useGet';
 import { useAuthStore } from '@/src/store/authStore';
 import axios from 'axios';
 import Image from 'next/image';
-import { useParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import React, { useState, useEffect } from 'react'
 
-const fetchComments = async (userName: String | String[], cursor = '') => {
-    const response = await axios.get(`https://api.baddit.life/v1/comments?authorName=${userName}&cursor=${cursor}`);
+const fetchComments = async (userName: String | String[], cursor = '', sort?: String | null) => {
+
+    const url = sort === 'top'
+        ? `https://api.baddit.life/v1/comments?authorName=${userName}&cursor=${cursor}&orderByScore=1`
+        : `https://api.baddit.life/v1/comments?authorName=${userName}&cursor=${cursor}`;
+    const response = await axios.get(url);
     return response.data;
 };
 
@@ -18,11 +22,14 @@ export default function Comments() {
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
     const { userName } = useParams();
+    const searchParams = useSearchParams()
+    const [sort, setSort] = useState(searchParams.get('sort') || null);
 
     const loadMoreComments = async () => {
         if (loading || !hasMore) return;
         setLoading(true);
-        const data = await fetchComments(userName, cursor);
+        setSort(searchParams.get('sort') || null);
+        const data = await fetchComments(userName, cursor, sort);
         setComments((prevComments) => {
             const newComments = data.filter((comment: any) => !prevComments.some(prevComment => prevComment.id === comment.id));
             return [...prevComments, ...newComments];
@@ -31,6 +38,18 @@ export default function Comments() {
         setHasMore(data.length === 10);
         setLoading(false);
     }
+
+    useEffect(() => {
+        const newSort = searchParams.get('sort') || null;
+        setSort(newSort);
+        setComments([]);  // Clear previous posts
+        setCursor('');  // Reset cursor
+        setHasMore(true);  // Reset hasMore
+    }, [searchParams]);
+
+    useEffect(() => {
+        loadMoreComments();
+    }, [sort]);
 
     useEffect(() => {
         loadMoreComments();
