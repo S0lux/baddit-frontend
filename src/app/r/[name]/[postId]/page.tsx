@@ -140,7 +140,7 @@ const PostDetail = ({
             About r/{community.data?.data?.community.name}
           </p>
           <p className="py-3 font-normal text-gray-600 dark:text-[#76898e]">
-            {community.data?.data.community.description}
+            {community.data?.data?.community.description}
           </p>
         </div>
         <hr className="border-neutral-border-weak" />

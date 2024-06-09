@@ -37,8 +37,7 @@ const JoinLeaveToggle = (params: JoinLeaveToggleProps) => {
             let res = await axios.delete(
                 `https://api.baddit.life/v1/communities/${communityName}/members`,
                 { withCredentials: true }
-            );
-            console.log("Success")
+            ); console.log("Success")
             toast.success(res.data.message);
             mutate(`https://api.baddit.life/v1/communities/${communityName}`)
         } catch (err: any) {

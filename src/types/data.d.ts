@@ -5,7 +5,7 @@ interface BadPost {
     content: string,
     mediaUrls: string[],
     score: number,
-    voteState: boolean | null,
+    voteState: string | null,
     commentCount: number,
     author: {
         id: string,
