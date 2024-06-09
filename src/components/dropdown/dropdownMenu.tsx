@@ -56,7 +56,6 @@ export const DropdownMenu = ({
     <div
       className={twMerge("flex h-fit w-auto flex-col space-y-2")}
       onClick={() => {
-        //console.log("clicked from parent");
         setOpen(!isOpen);
       }}
     >
@@ -67,7 +66,6 @@ export const DropdownMenu = ({
         )}
         onClick={() => {
           setOpen(!isOpen);
-          //console.log("clicked from smaller parent");
         }}
       >
         {selectedItem.toUpperCase()}
@@ -79,10 +77,8 @@ export const DropdownMenu = ({
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            onClick={() => {
-              //console.log("clicked from motion parent");
-            }}
-            className="flex h-auto flex-col space-y-1"
+            onClick={() => {}}
+            className="flex h-full flex-col space-y-1"
             initial={{ height: 0 }}
             animate={{
               height: "auto",
