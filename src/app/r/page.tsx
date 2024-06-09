@@ -36,40 +36,7 @@ const CommunityHome = () => {
       <h1 className="mb-8 mt-4 text-center text-2xl font-bold md:text-3xl">
         Best of Baddit
       </h1>
-      {/* <div className="container">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full h-full gap-x-6 gap-y-6 px-8 ">
-                    {data?.map((community: any) => {
-                        return (
-                            <Button
-                                id={data?.community?.id}
-                                variant={"contained"}
-                                size={"medium"}
-                                className="rounded-md hover:bg-slate-300 dark:bg- text-3xl justify-start overflow-hidden w-full"
-                                onClick={() => { router.push(`/r/${community.name}`) }}>
-                                <div className="flex flex-col gap-x-2 items-start overflow-hidden w-full">
-                                    <div className="flex flex-row items-center gap-x-4 w-full">
-                                        <img
-                                            src={community.logoUrl}
-                                            alt="avt"
-                                            className="w-12 h-12 rounded-full" />
-                                        <div className="flex flex-col items-start w-full">
-                                            <p className="truncate">r/{community.name}</p>
-                                            <p className="truncate text-sm text-slate-500">{community.memberCount} members</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </Button>
-                            
-                        )
-                    })}
-
-                </div >
-                
-            </div > */}
-
       <InfiniteSubbaddit />
     </div>
   );
 };
-
-export default CommunityHome;
