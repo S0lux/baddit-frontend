@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import Comment from "@/src/components/comment/comment";
 import useGet from "@/src/hooks/useGet";
 import usePost from "@/src/hooks/usePost";
+import VotePostToggle from "@/src/components/button/votePostToggle";
 
 const PostDetail = ({
   params,
@@ -154,34 +155,20 @@ const PostDetail = ({
               </div>
               <div className="justify-items-end">
                 <h1 className="text-[24px] font-extrabold">{post?.title}</h1>
-                {/* <div
-                className="mb-1"
-                dangerouslySetInnerHTML={{ __html: post?.content }}
-              ></div> */}
+                <div
+                  className="mb-1"
+                  dangerouslySetInnerHTML={{ __html: post?.content }}
+                ></div>
                 <div className="flex w-full flex-col items-center justify-between rounded-xl bg-black">
                   <img src={post?.mediaUrls[0]} alt="" className="rounded-xl" />
                 </div>
               </div>
               <div className="my-1 flex flex-row gap-[16px]">
-                <div className="inline-flex items-center rounded-full bg-[#eaedef] dark:bg-[#1a282d] ">
-                  <Button
-                    size={"small"}
-                    variant={"ghost"}
-                    className="h-full"
-                    onClick={() => {}}
-                  >
-                    <IoIosArrowUp />
-                  </Button>
-                  <span className="text-[14px] font-medium">0</span>
-                  <Button
-                    size={"small"}
-                    variant={"ghost"}
-                    className="h-full"
-                    onClick={() => {}}
-                  >
-                    <IoIosArrowDown />
-                  </Button>
-                </div>
+                <VotePostToggle
+                  postId={post.id}
+                  initScore={post.score}
+                  initVoteState={post.voteState}
+                />
                 <Button size={"small"} variant={"ghost"}>
                   <div className="inline-flex items-center">
                     <IoChatboxOutline className="mr-2 w-[20px]" />

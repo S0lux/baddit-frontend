@@ -40,3 +40,5 @@ const CommunityHome = () => {
     </div>
   );
 };
+
+export default CommunityHome;
