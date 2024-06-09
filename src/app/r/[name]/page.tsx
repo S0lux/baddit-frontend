@@ -1,5 +1,4 @@
 "use client";
-import PostList from "@/src/components/post/post-list";
 import useSWR, { mutate } from "swr";
 import { Button } from "@/src/components/button/button";
 import { AiOutlinePlus } from "react-icons/ai";
@@ -11,9 +10,9 @@ import { toast } from "react-toastify";
 import { useModalStore } from "@/src/store/modalStore";
 import Spinner from "@/src/components/spinner/spinner";
 import JoinLeaveToggle from "@/src/components/button/joinleaveToggle";
-import useGet from "@/src/hooks/useGet";
 import axios from "axios";
 import InfiniteScrolling from "@/src/components/community/infinite-scrolling";
+import Link from 'next/link';
 
 
 interface PageProps {
@@ -28,7 +27,6 @@ const CommunityDetail = ({ params }: PageProps) => {
 
   const router = useRouter()
 
-
   //get auth session
   const userData = useAuthStore((state) => state.userData);
   const loggedIn = useAuthStore((state) => state.loggedIn);
@@ -39,7 +37,6 @@ const CommunityDetail = ({ params }: PageProps) => {
     getUserAsync();
     mutate(`https://api.baddit.life/v1/communities/${params?.name}`)
   }, []);
-
 
   //Get community info
   const fetcher = (url: string) => fetch(url, {
@@ -55,6 +52,11 @@ const CommunityDetail = ({ params }: PageProps) => {
       revalidateOnReconnect: false
     }
   )
+
+  console.log("Check userData", userData)
+
+  const role = loggedIn == true ? userData.communities.filter((community: any) => community.id == data?.community.id) : null
+  console.log("Check role", role)
 
   const communityCreatedDay = new Date(data?.community?.createdAt).toLocaleDateString('en-US', {
     year: 'numeric',
@@ -118,7 +120,8 @@ const CommunityDetail = ({ params }: PageProps) => {
               className="h-full" />
 
           </div>
-          {loggedIn == true && userData != null && userData.id == data?.community?.ownerId ? (
+          {/* change banner if owner or moderator */}
+          {role && (role[0].role == "ADMIN" || role[0].role == "MODERATOR") ? (
             <div className="absolute rounded-full top-24 right-8 -translate-y-1/2 w-14 h-14">
               <button
                 className="flex items-center justify-center hover:bg-neutral-300 rounded-full w-full h-full"
@@ -139,8 +142,8 @@ const CommunityDetail = ({ params }: PageProps) => {
               <img src={data?.community?.logoUrl}
                 alt=""
                 className="rounded-full w-[100px] h-[100px] xs:w-[80px] xs:h-[80px] bg-slate-100 dark:bg-slate-200" />
-              {/* change logo button if owner */}
-              {loggedIn == true && userData != null && userData.id == data?.community?.ownerId ? (
+              {/* change logo button if owner or moderator*/}
+              {role && (role[0].role == "ADMIN" || role[0].role == "MODERATOR") ? (
                 <div className="absolute rounded-full top-24 bottom-0 right-0 -translate-y-1/2 w-6 h-6 border border-white">
                   <button
                     className="flex items-center justify-center bg-backgroundSecondary hover:bg-neutral-300 rounded-full w-full h-full"
@@ -216,7 +219,6 @@ const CommunityDetail = ({ params }: PageProps) => {
       <div className="grid grid-cols-1 md:grid-cols-3 container gap-y-4 md:gap-x-4 py-6 mx-4 w-full px-6">
         {/* Feed */}
         <div className='flex flex-col col-span-2 space-y-6 '>
-          {/* <PostList communityName={data?.community?.name} /> */}
           <InfiniteScrolling />
         </div>
         {/* About */}
@@ -234,7 +236,9 @@ const CommunityDetail = ({ params }: PageProps) => {
               </dd>
             </div>
             <div className='flex justify-between gap-x-4 py-3'>
-              <dt className='text-gray-500'>Members</dt>
+              <dt className='text-gray-500'>
+                <Link href={`/r/${name}/members`} className="hover:text-black ">Members</Link>
+              </dt>
               <dd className='flex items-start gap-x-2'>
                 <div className='text-gray-900 dark:text-[#f2f2f2]'>{data?.community?.memberCount}</div>
               </dd>
