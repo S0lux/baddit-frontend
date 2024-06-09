@@ -55,8 +55,6 @@ const PostDetail = ({
     getCommunity();
   }, []);
 
-  console.log(post?.voteState);
-
   const router = useRouter();
 
   const { PostSent } = usePost("/comments");

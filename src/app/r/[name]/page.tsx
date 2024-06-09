@@ -13,6 +13,17 @@ import JoinLeaveToggle from "@/src/components/button/joinleaveToggle";
 import axios from "axios";
 import InfiniteScrolling from "@/src/components/community/infinite-scrolling";
 import Link from "next/link";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/src/components/alert_dialog.tsx/alert_dialog";
 
 interface PageProps {
   params: {
@@ -24,6 +35,8 @@ const CommunityDetail = ({ params }: PageProps) => {
   const { name } = params;
 
   const router = useRouter();
+
+  const [isOpen, setIsOpen] = useState(false);
 
   //get auth session
   const userData = useAuthStore((state) => state.userData);
@@ -53,31 +66,26 @@ const CommunityDetail = ({ params }: PageProps) => {
     },
   );
 
+  //get all moderators
   const getInfo = (fetcher: any, url: string) => {
     let { data, error, isLoading } = useSWR(url, fetcher, {
       revalidateIfStale: false,
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
     });
-    console.log("check community", data)
     return { data, error, isLoading };
   };
   const moderators = getInfo(
     fetcher,
     `https://api.baddit.life/v1/communities/${name}/moderators`
   )
-  console.log("Check moderator", moderators)
-
-
-  console.log("Check userData", userData);
 
   const role =
     loggedIn == true
       ? userData.communities.filter(
-        (community: any) => community.id == data?.community.id,
+        (community: any) => community.id == data?.community?.id,
       )
       : null;
-  console.log("Check role", role);
 
   const communityCreatedDay = new Date(
     data?.community?.createdAt,
@@ -99,7 +107,7 @@ const CommunityDetail = ({ params }: PageProps) => {
       );
       toast.success(res.data.message);
       mutate(`https://api.baddit.life/v1/communities/${data?.community?.name}`);
-      router.back();
+      router.push("/r");
     } catch (err: any) {
       toast.error(err.response.data.message);
     }
@@ -220,7 +228,7 @@ const CommunityDetail = ({ params }: PageProps) => {
                   <Button
                     size={"medium"}
                     variant={"primary"}
-                    onClick={handleDeleteCommunity}
+                    onClick={() => setIsOpen(true)}
                   >
                     <div className="inline-flex items-center text-white">
                       Delete Community
@@ -334,6 +342,29 @@ const CommunityDetail = ({ params }: PageProps) => {
           </div>
         </div>
       </div>
+      <AlertDialog open={isOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete your
+              community and cannot be recovered.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setIsOpen(false)}>
+              Cancel
+            </AlertDialogCancel>
+            <div className="px-1"></div>
+            <AlertDialogAction
+              onClick={handleDeleteCommunity}
+              className="rounded-lg bg-red-400 p-2 text-white"
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 };
