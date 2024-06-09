@@ -79,9 +79,16 @@ const variants = cva(
           "focus:scale-[1]",
           //dark
           "dark:bg-backgroundSecondary dark:hover:bg-slate-600"
+        ],
+        upvote: [
+          "bg-[#d93900] hover:bg-[#ae2c00] text-white"
+        ],
+        downvote: [
+          "bg-[#6a5cff] hover:bg-[#523dff] text-white"
         ]
       },
       size: {
+        icon: ["p-0"],
         small: ["px-4", "py-2", "text-[14px]"],
         medium: ["px-4", "py-2", "text-[18px]"],
         default: ["px-8", "py-4", "text-[25px]"],

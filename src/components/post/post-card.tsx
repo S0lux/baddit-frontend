@@ -1,18 +1,16 @@
 "use client";
-import { useRef, useState } from "react";
+import { useEffect } from "react";
 import { IoChatboxOutline } from "react-icons/io5";
-import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
-import { FiShare } from "react-icons/fi";
 import { Button } from "../button/button";
 import { useRouter } from "next/navigation";
+import VotePostToggle from "../button/votePostToggle";
+import { mutate } from "swr";
 
 interface IProps {
   post: BadPost;
 }
 const PostCard = (props: IProps) => {
   const { post } = props;
-
-  const [votes, SetVotes] = useState<number>(0);
 
   const router = useRouter()
 
@@ -21,6 +19,10 @@ const PostCard = (props: IProps) => {
     month: "long",
     day: "numeric",
   });
+
+  useEffect(() => {
+    mutate(`https://api.baddit.life/v1/posts?postId=${post.id}`)
+  }, []);
 
   return (
     <div
@@ -62,25 +64,7 @@ const PostCard = (props: IProps) => {
           </div>
         </a>
         <div className="flex flex-row gap-[16px]">
-          <div className="inline-flex items-center rounded-full bg-[#eaedef] dark:bg-[#1a282d] ">
-            <Button
-              size={"small"}
-              variant={"ghost"}
-              className="h-full"
-              onClick={() => SetVotes((prev) => prev + 1)}
-            >
-              <IoIosArrowUp />
-            </Button>
-            <span className="text-[14px] font-medium">{votes}</span>
-            <Button
-              size={"small"}
-              variant={"ghost"}
-              className="h-full"
-              onClick={() => SetVotes((prev) => prev - 1)}
-            >
-              <IoIosArrowDown />
-            </Button>
-          </div>
+          <VotePostToggle postId={post.id} initScore={post.score} initVoteState={post.voteState} />
           <Button
             size={"small"}
             variant={"ghost"}
