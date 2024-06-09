@@ -37,11 +37,13 @@ export default function Comment({
 }) {
   const [vote, setVote] = useState<number>(comment.score);
   const [voteState, setVoteState] = useState<number>(
-    comment.voteState === "UPVOTE"
-      ? 1
-      : comment.voteState === "DOWNVOTE"
-        ? -1
-        : 0,
+    comment.deleted === true
+      ? 0
+      : comment.voteState === "UPVOTE"
+        ? 1
+        : comment.voteState === "DOWNVOTE"
+          ? -1
+          : 0,
   );
   const [showReplyTextBox, setShowReplyTextBox] = useState<boolean>(false);
   const [showEditTextBox, setShowEditTextBox] = useState<boolean>(false);
@@ -49,6 +51,7 @@ export default function Comment({
   const [count, setCount] = useState(val);
 
   const loggedIn = useAuthStore((state) => state.loggedIn);
+  const userData = useAuthStore((state) => state.userData);
   const modalStore = useModalStore();
 
   const formattedDate = getTimeAgo(comment.createdAt);
@@ -173,7 +176,7 @@ export default function Comment({
           <div className="flex h-full w-[32px] flex-col items-center">
             <Image
               alt="User Avatar"
-              className="z-50 aspect-square min-w-[32px] rounded-full"
+              className="z-10 aspect-square min-w-[32px] rounded-full"
               width={32}
               height={32}
               src={comment.author.avatarUrl}
@@ -192,21 +195,30 @@ export default function Comment({
               <div className="text-[13px] font-bold">
                 {comment.author.username}
               </div>
-              <div>•</div>
-              <div className="text-[12px]"> {formattedDate}</div>
+              <div> {!comment.deleted && "•"}</div>
+              <div className="text-[12px]">
+                {" "}
+                {!comment.deleted && formattedDate}
+              </div>
               <div className="flex-1"></div>
-              <Tippy
-                trigger="click"
-                render={(attrs) => (
-                  <CommentMenuDialog comment={comment} {...attrs} />
-                )}
-                interactive={true}
-                placement="bottom"
-              >
-                <div className="flex size-6 cursor-pointer items-center justify-center rounded-full transition-colors hover:bg-[#c9caca] hover:dark:bg-[#2A3236]">
-                  <FaEllipsisH className="size-4"></FaEllipsisH>
-                </div>
-              </Tippy>
+              {comment.author.username == userData.username && (
+                <Tippy
+                  trigger="click"
+                  render={(attrs) => (
+                    <CommentMenuDialog
+                      comment={comment}
+                      onUpdate={handleUpdate}
+                      {...attrs}
+                    />
+                  )}
+                  interactive={true}
+                  placement="bottom"
+                >
+                  <div className="flex size-6 cursor-pointer items-center justify-center rounded-full transition-colors hover:bg-[#c9caca] hover:dark:bg-[#2A3236]">
+                    <FaEllipsisH className="size-4"></FaEllipsisH>
+                  </div>
+                </Tippy>
+              )}
             </div>
 
             <div className="mb-2">{comment.content}</div>
@@ -218,6 +230,7 @@ export default function Comment({
                   clsx(
                     voteState === 1 && "bg-red-500 dark:bg-red-500",
                     voteState === -1 && "bg-blue-500 dark:bg-blue-500",
+                    comment.deleted == true && "pointer-events-none",
                   ),
                 )}
               >
@@ -235,7 +248,9 @@ export default function Comment({
                 >
                   <IoIosArrowUp />
                 </Button>
-                <span className="text-[12px] font-medium">{vote}</span>
+                <span className="text-[12px] font-medium">
+                  {!comment.deleted ? vote : 0}
+                </span>
                 <Button
                   size={"small"}
                   variant={"ghost"}
@@ -255,7 +270,10 @@ export default function Comment({
                 <Button
                   variant={"ghost"}
                   size={"small"}
-                  className="  cursor-pointer hover:bg-transparent/10"
+                  className={twMerge(
+                    clsx(comment.deleted && "pointer-events-none"),
+                    "cursor-pointer hover:bg-transparent/10",
+                  )}
                   onClick={handerReplyButton}
                 >
                   <div className="flex items-center justify-center gap-1 text-nowrap text-[12px]">

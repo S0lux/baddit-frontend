@@ -15,16 +15,22 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "../alert_dialog.tsx/alert_dialog";
+import { useRouter } from "next/navigation";
 
 export default function CommentMenuDialog({
   comment,
+  onUpdate,
 }: {
   comment: CommentProps;
+  onUpdate: () => void;
 }) {
+  const router = useRouter();
   const fetcher = (url: string) => axios.delete(url, { withCredentials: true });
 
   const handleDelete = () => {
-    // fetcher(`https://api.baddit.life/v1/comments/${comment.id}`);
+    fetcher(`https://api.baddit.life/v1/comments/${comment.id}`);
+    onUpdate();
+    router.refresh();
   };
 
   return (
@@ -34,7 +40,6 @@ export default function CommentMenuDialog({
       <AlertDialog>
         <AlertDialogTrigger asChild>
           <EditMenuItem
-            onClick={handleDelete}
             Icon={FaRegTrashAlt}
             text="Delete Comment"
           ></EditMenuItem>
@@ -49,7 +54,10 @@ export default function CommentMenuDialog({
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction className="rounded-lg bg-red-400 p-2 text-white">
+            <AlertDialogAction
+              onClick={handleDelete}
+              className="rounded-lg bg-red-400 p-2 text-white"
+            >
               Delete
             </AlertDialogAction>
           </AlertDialogFooter>
