@@ -31,6 +31,7 @@ const PostDetail = ({
       try {
         let res = await axios.get("https://api.baddit.life/v1/posts", {
           params: { postId: params.postId },
+          withCredentials: true,
         });
         setPost(res.data[0]);
       } catch (err) {
@@ -42,6 +43,7 @@ const PostDetail = ({
       try {
         let res = await axios.get(
           `https://api.baddit.life/v1/communities/${params.name}`,
+          { withCredentials: true },
         );
         setCommnunity(res.data);
       } catch (err) {
@@ -53,8 +55,7 @@ const PostDetail = ({
     getCommunity();
   }, []);
 
-  console.log(community);
-  console.log(post);
+  console.log(post?.voteState);
 
   const router = useRouter();
 

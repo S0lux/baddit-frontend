@@ -200,7 +200,7 @@ export default function Comment({
               <div> {!deleted && "•"}</div>
               <div className="text-[12px]"> {!deleted && formattedDate}</div>
               <div className="flex-1"></div>
-              {!deleted && comment.author.username == userData.username && (
+              {!deleted && comment.author.username == userData?.username && (
                 <Tippy
                   trigger="click"
                   render={(attrs) => (
