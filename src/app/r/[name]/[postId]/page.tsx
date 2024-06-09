@@ -2,7 +2,7 @@
 
 import { Button } from "@/src/components/button/button";
 import axios from "axios";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import useSWR from "swr";
 import {
   IoIosArrowDown,
@@ -12,12 +12,17 @@ import {
 import Spinner from "@/src/components/spinner/spinner";
 import { IoChatboxOutline } from "react-icons/io5";
 import { useRouter } from "next/navigation";
+import Comment from "@/src/components/comment/comment";
+import useGet from "@/src/hooks/useGet";
+import usePost from "@/src/hooks/usePost";
 
 const PostDetail = ({
   params,
 }: {
   params: { postId: string; name: string };
 }) => {
+  const [commentContent, setCommentContent] = useState<string>("");
+
   const fetcher = (url: string) => axios.get(url);
 
   const router = useRouter();
@@ -43,9 +48,63 @@ const PostDetail = ({
 
   useEffect(() => {}, [post, community]);
 
+  const { PostSent } = usePost("/comments");
+
+  const [commentResult, setCommentResult] = useState([]);
+  const [count, setCount] = useState(0);
+
+  const { status, loading, GetData } = useGet(`/comments`);
+
+  useEffect(() => {
+    const fun = async () => {
+      const commentData = await GetData(params);
+
+      setCommentResult(commentData);
+      console.log(commentData);
+    };
+
+    fun();
+  }, [count]);
+
   if (post.isLoading || community.isLoading) {
     return <Spinner className="relative top-[40%] size-16"></Spinner>;
   }
+
+  const handleUpdate = () => {
+    setCount(count + 1);
+  };
+
+  const HandlerCommentResult = (comment: CommentProps) => {
+    return (
+      <div key={comment.id} className="flex flex-col gap-2">
+        <Comment
+          key={comment.id}
+          comment={comment}
+          nestLevel={0}
+          onUpdate={handleUpdate}
+          val={count}
+        />
+      </div>
+    );
+  };
+
+  const handlerSubmitButton = async () => {
+    const data = {
+      content: commentContent,
+      parentId: null,
+      postId: params?.postId,
+    };
+
+    if (commentContent.length === 0) {
+      return;
+    } else {
+      const statusCode = await PostSent(data);
+    }
+
+    const commentData = await GetData(params);
+
+    setCommentResult(commentData);
+  };
 
   return (
     <div className="mt-10 flex h-full w-full grid-cols-2 gap-4 lg:px-4 xl:px-16">
@@ -102,7 +161,7 @@ const PostDetail = ({
                 />
               </div>
             </div>
-            <div className="flex flex-row gap-[16px]">
+            <div className="my-1 flex flex-row gap-[16px]">
               <div className="inline-flex items-center rounded-full bg-[#eaedef] dark:bg-[#1a282d] ">
                 <Button
                   size={"small"}
@@ -128,6 +187,27 @@ const PostDetail = ({
                   {post.data?.data[0].commentCount}
                 </div>
               </Button>
+            </div>
+            <hr className="h-[1.5px] w-full bg-black/20 "></hr>
+            <div className="flex flex-col">
+              <div className=" mb-[20px] flex min-h-20 w-full max-w-[675px] flex-col rounded-lg border-[0.2px] border-black/20 dark:border-white/20">
+                <textarea
+                  value={commentContent}
+                  onChange={(e) => setCommentContent(e.target.value)}
+                  placeholder={`Add a comment`}
+                  className="min-h-20 w-full resize-y border-none bg-transparent px-[12px] py-[16px] outline-none focus:border-none"
+                ></textarea>
+                <div className="my-1 flex items-center justify-end gap-1 px-2">
+                  <Button size={"small"} onClick={handlerSubmitButton}>
+                    Submit
+                  </Button>
+                </div>
+              </div>
+
+              <div className="mb-3 ml-[16px] flex w-full flex-col gap-1">
+                {commentResult.map(HandlerCommentResult)}
+                {loading && <Spinner />}{" "}
+              </div>
             </div>
           </div>
         </div>
