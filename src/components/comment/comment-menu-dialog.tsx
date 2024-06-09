@@ -16,34 +16,32 @@ import {
   AlertDialogTrigger,
 } from "../alert_dialog.tsx/alert_dialog";
 import { useRouter } from "next/navigation";
+import { Dispatch, SetStateAction, useState } from "react";
 
 export default function CommentMenuDialog({
   comment,
-  onUpdate,
+  setDeleted,
 }: {
   comment: CommentProps;
-  onUpdate: () => void;
+  setDeleted: Dispatch<SetStateAction<boolean>>;
 }) {
-  const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
   const fetcher = (url: string) => axios.delete(url, { withCredentials: true });
 
-  const handleDelete = () => {
-    fetcher(`https://api.baddit.life/v1/comments/${comment.id}`);
-    onUpdate();
-    router.refresh();
+  const handleDelete = async () => {
+    await fetcher(`https://api.baddit.life/v1/comments/${comment.id}`);
+    setDeleted(true);
   };
 
   return (
-    <div className="rounded-md bg-white dark:bg-black">
+    <div className="z-0 rounded-md bg-white shadow-md dark:bg-black">
       <EditMenuItem Icon={FaEdit} text="Edit"></EditMenuItem>
-
-      <AlertDialog>
-        <AlertDialogTrigger asChild>
-          <EditMenuItem
-            Icon={FaRegTrashAlt}
-            text="Delete Comment"
-          ></EditMenuItem>
-        </AlertDialogTrigger>
+      <EditMenuItem
+        Icon={FaRegTrashAlt}
+        text="Delete Comment"
+        onClick={() => setIsOpen(true)}
+      ></EditMenuItem>
+      <AlertDialog open={isOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
@@ -53,7 +51,9 @@ export default function CommentMenuDialog({
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel onClick={() => setIsOpen(false)}>
+              Cancel
+            </AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDelete}
               className="rounded-lg bg-red-400 p-2 text-white"

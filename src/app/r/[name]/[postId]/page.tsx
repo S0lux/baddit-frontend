@@ -204,9 +204,8 @@ const PostDetail = ({
                 </div>
               </div>
 
-              <div className="mb-3 ml-[16px] flex w-full flex-col gap-1">
+              <div className="mb-3  flex w-full flex-col gap-1">
                 {commentResult.map(HandlerCommentResult)}
-                {loading && <Spinner />}{" "}
               </div>
             </div>
           </div>
