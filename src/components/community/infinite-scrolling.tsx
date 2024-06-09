@@ -8,7 +8,9 @@ import Image from 'next/image';
 
 
 const fetchPosts = async (communityName: String | String[], cursor = '') => {
-    const response = await axios.get(`https://api.baddit.life/v1/posts?communityName=${communityName}&cursor=${cursor}`);
+    const response = await axios.get(`https://api.baddit.life/v1/posts?communityName=${communityName}&cursor=${cursor}`,
+        { withCredentials: true },
+    );
     return response.data;
 };
 

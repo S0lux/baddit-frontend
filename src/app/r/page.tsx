@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { GoHomeFill } from "react-icons/go";
 import Link from "next/link";
 import { Button } from "@/src/components/button/button";
@@ -9,31 +9,34 @@ import InfiniteSubbaddit from "@/src/components/community/infinite-subbaddit";
 import CommunityCard from "@/src/components/community/community-card";
 
 const CommunityHome = () => {
+  const router = useRouter();
 
-    const router = useRouter()
+  const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-    const fetcher = (url: string) => fetch(url).then((res) => res.json());
+  const { data, error, isLoading } = useSWR(
+    "https://api.baddit.life/v1/communities",
+    fetcher,
+    {
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+    },
+  );
 
-    const { data, error, isLoading } = useSWR(
-        "https://api.baddit.life/v1/communities",
-        fetcher,
-        {
-            revalidateIfStale: false,
-            revalidateOnFocus: false,
-            revalidateOnReconnect: false
-        }
-    )
-
-    if (isLoading) {
-        return <div className="h-full w-full flex flex-col justify-center">
-            <Spinner className=" mx-auto size-20"></Spinner>
-        </div>
-    }
-
+  if (isLoading) {
     return (
-        <div className="container lg:h-[700px]">
-            <h1 className="font-bold text-2xl md:text-3xl mt-4 mb-8 text-center">Best of Baddit</h1>
-            {/* <div className="container">
+      <div className="flex h-full w-full flex-col justify-center">
+        <Spinner className=" mx-auto size-20"></Spinner>
+      </div>
+    );
+  }
+
+  return (
+    <div className="container lg:h-[700px]">
+      <h1 className="mb-8 mt-4 text-center text-2xl font-bold md:text-3xl">
+        Best of Baddit
+      </h1>
+      {/* <div className="container">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full h-full gap-x-6 gap-y-6 px-8 ">
                     {data?.map((community: any) => {
                         return (
@@ -63,9 +66,10 @@ const CommunityHome = () => {
                 </div >
                 
             </div > */}
-            <InfiniteSubbaddit />
-        </div>
-    )
-}
 
-export default CommunityHome
+      <InfiniteSubbaddit />
+    </div>
+  );
+};
+
+export default CommunityHome;
