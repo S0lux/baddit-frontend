@@ -26,9 +26,9 @@ const PostCard = (props: IProps) => {
   return (
     <div
       id={post.id}
-      className="flex flex-col after:mb-[5px] after:w-full after:border-b after:border-[#cecece] dark:after:border-b-neutral-700"
+      className="flex flex-col after:mt-4 after:mb-[5px] after:w-full after:border-b after:border-[#cecece] dark:after:border-b-neutral-700 mb-4"
     >
-      <div className="mb-1 flex flex-1 flex-col gap-[5px] px-4 py-[4px] hover:rounded-2xl hover:bg-slate-100 dark:hover:bg-[#131f23] ">
+      <div className="mb-1 flex flex-1 flex-col gap-[5px] px-4 py-[8px] hover:rounded-2xl hover:bg-slate-100 dark:hover:bg-[#131f23] ">
         <div className="flex flex-row text-[13px]">
           <a
             href={`/user/${post.author.username}`}
