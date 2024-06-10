@@ -25,6 +25,7 @@ export default function SettingPage() {
   const [image, setImage] = useState(null);
   const [displayImage, setDisplayImage] = useState("");
   const [loading, setLoading] = useState(false);
+  const pressOnce = useRef(false);
 
   //manditory loggin in
   useEffect(() => {
@@ -33,12 +34,15 @@ export default function SettingPage() {
     }
   }, [loggedIn]);
 
+  useEffect(() => {}, [displayImage, image]);
+
   const handleImageChange = (event: any) => {
-    console.log(event.target.files[0]);
+    pressOnce.current = true;
     setImage(event.target.files[0]);
     setDisplayImage(
       event.target.files[0] ? URL.createObjectURL(event.target.files[0]) : "",
     );
+    event.target.value = null;
   };
 
   const handleSetImage = async () => {
@@ -63,6 +67,8 @@ export default function SettingPage() {
     }
     setLoading(false);
   };
+
+  console.log(image);
 
   return (
     <div className="flex flex-col space-y-10 pt-[70px] md:px-10 lg:px-36">
@@ -95,15 +101,18 @@ export default function SettingPage() {
                 size={"small"}
                 disabled={loggedIn == false}
                 onClick={() => {
-                  inputFile.current.click();
+                  if (pressOnce.current === false) {
+                    inputFile.current.click();
+                  } else {
+                    handleSetImage();
+                  }
                 }}
-
               >
-                Change
+                {pressOnce.current !== true ? "Change" : "Save changes"}
               </Button>
               <input
                 type="file"
-                accept=".png"
+                accept=".png, .jpg"
                 id="file"
                 ref={inputFile}
                 style={{ display: "none" }}
@@ -113,7 +122,7 @@ export default function SettingPage() {
 
             {displayImage && (
               <>
-                <div className="relative w-fit">
+                <div className="relative mt-3 w-fit">
                   <img
                     src={displayImage}
                     className={twMerge(
@@ -124,8 +133,9 @@ export default function SettingPage() {
                   <button
                     className="absolute right-0 top-0 rounded-full bg-backgroundSecondary p-1"
                     onClick={() => {
-                      setDisplayImage("");
+                      pressOnce.current = false;
                       setImage(null);
+                      setDisplayImage("");
                     }}
                   >
                     <IoMdClose></IoMdClose>
@@ -134,7 +144,6 @@ export default function SettingPage() {
                     <Spinner className="absolute bottom-5 left-5 size-1/2"></Spinner>
                   )}
                 </div>
-
               </>
             )}
           </div>
@@ -159,56 +168,6 @@ export default function SettingPage() {
               Change
             </Button>
           </SettingItem>
-
-          {/* <Divider title="Customize profile" classname="font-medium"></Divider> */}
-
-          {/* {display name} */}
-          {/* <SettingItem
-            childSameLine={false}
-            title="Display name (optional)"
-            subTitle="Set a display name. This does not change your username."
-          >
-            <input
-              placeholder="Display name (optional)"
-              className="rounded border-2 border-backgroundSecondary px-2 py-2 text-sm font-light"
-              disabled={loggedIn == false}
-              maxLength={30}
-              onChange={(e) => {
-                setDisplayName(e.target.value);
-              }}
-              onBlur={(e) => {
-                toast.info("Changes saved!");
-              }}
-            ></input>
-            <div className="text-xs text-textSecondary">
-              {30 - displayName.length} characters remaining
-            </div>
-          </SettingItem> */}
-
-          {/* {description} */}
-          {/* <SettingItem
-            childSameLine={false}
-            title="Display name (optional)"
-            subTitle="A brief description of yourself shown on your profile."
-          >
-            <textarea
-              placeholder="About (optional)"
-              className="rounded border-2 border-backgroundSecondary px-2 py-2 text-sm font-light"
-              disabled={loggedIn == false}
-              maxLength={200}
-              rows={5}
-              cols={40}
-              onChange={(e) => {
-                setAbout(e.target.value);
-              }}
-              onBlur={(e) => {
-                toast.info("Changes saved!");
-              }}
-            ></textarea>
-            <div className="text-xs text-textSecondary">
-              {200 - about.length} characters remaining
-            </div>
-          </SettingItem> */}
         </div>
       </div>
     </div>
