@@ -16,7 +16,7 @@ const variants = cva(
       variant: {
         primary: [
           //light
-          "bg-[#50d3d7] text-black",
+          "bg-[#50d3d7] text-white",
           "hover:bg-[#2dc2c7]",
           "ring-[#2dc2c7]/70 ",
           "focus-visible:ring-2 ",
@@ -71,21 +71,17 @@ const variants = cva(
           "font-bold text-componentSecondary",
 
           "dark:border-[#28aaaf] dark:text-white",
-          "dark:hover:bg-[#00686b]"
+          "dark:hover:bg-[#00686b]",
         ],
         contained: [
           "w-full h-full m-x-1 rounded-2xl ",
           "hover:shadow-none shadow-none bg-slate-200 transition-none",
           "focus:scale-[1]",
           //dark
-          "dark:bg-backgroundSecondary dark:hover:bg-slate-600"
+          "dark:bg-backgroundSecondary dark:hover:bg-slate-600",
         ],
-        upvote: [
-          "bg-[#d93900] hover:bg-[#ae2c00] text-white shadow-none"
-        ],
-        downvote: [
-          "bg-[#6a5cff] hover:bg-[#523dff] text-white shadow-none"
-        ]
+        upvote: ["bg-[#d93900] hover:bg-[#ae2c00] text-white shadow-none"],
+        downvote: ["bg-[#6a5cff] hover:bg-[#523dff] text-white shadow-none"],
       },
       size: {
         icon: ["p-0"],

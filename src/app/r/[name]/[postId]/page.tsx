@@ -15,6 +15,17 @@ import Comment from "@/src/components/comment/comment";
 import useGet from "@/src/hooks/useGet";
 import usePost from "@/src/hooks/usePost";
 import VotePostToggle from "@/src/components/button/votePostToggle";
+import { useAuthStore } from "@/src/store/authStore";
+import Link from "next/link";
+
+interface communityModeratorProps {
+  userId: string;
+  username: string;
+  avatarUrl: string;
+  communityRole: string;
+  joined: boolean;
+  banned: boolean;
+}
 
 const PostDetail = ({
   params,
@@ -25,6 +36,10 @@ const PostDetail = ({
 
   const [post, setPost] = useState<BadPost>();
   const [community, setCommnunity] = useState<BadCommunity>();
+  const [communityModerators, setCommunityModerators] =
+    useState<communityModeratorProps[]>();
+
+  const { loggedIn } = useAuthStore();
 
   useEffect(() => {
     const getPost = async () => {
@@ -51,8 +66,21 @@ const PostDetail = ({
       }
     };
 
+    const getCommunityModerators = async () => {
+      try {
+        let res = await axios.get(
+          `https://api.baddit.life/v1/communities/${params.name}/moderators`,
+          { withCredentials: true },
+        );
+        setCommunityModerators(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
     getPost();
     getCommunity();
+    getCommunityModerators();
   }, []);
 
   const router = useRouter();
@@ -106,24 +134,26 @@ const PostDetail = ({
     }
 
     const commentData = await GetData(params);
-
+    setCommentContent("");
     setCommentResult(commentData);
   };
 
   return (
-    <div className="mt-10 flex h-full w-full grid-cols-2 gap-4 lg:px-4 xl:px-16">
+    <div className="mt-8 flex h-full w-full grid-cols-2 gap-4 lg:px-4 xl:px-16">
       {/* Feed */}
       <div className="flex h-fit w-fit flex-row">
         {/* back button */}
-        <Button
-          variant={"ghost"}
-          className="mt-2 h-fit rounded-full p-1"
-          onClick={() => {
-            router.back();
-          }}
-        >
-          <IoIosArrowRoundBack />
-        </Button>
+        {post && (
+          <Button
+            variant={"ghost"}
+            className="mt-2 h-fit rounded-full p-1"
+            onClick={() => {
+              router.back();
+            }}
+          >
+            <IoIosArrowRoundBack />
+          </Button>
+        )}
 
         {/* post */}
         {post && (
@@ -133,7 +163,10 @@ const PostDetail = ({
           >
             <div className="mb-1 flex min-w-[660px] flex-1 flex-col gap-[5px] px-[10px] py-[4px] ">
               <div className="flex flex-row text-[13px]">
-                <a href="" className="flex w-fit flex-row">
+                <a
+                  href={`/user/${post?.author.username}`}
+                  className="flex w-fit flex-row"
+                >
                   <img
                     src={post?.author.avatarUrl}
                     alt="author image"
@@ -141,16 +174,13 @@ const PostDetail = ({
                   />
                   <p className="ml-2 mt-[3px] ">u/{post?.author.username}</p>
                 </a>
-                <a
-                  href=""
-                  className="ml-2 mt-[3px] w-fit font-light text-[#576f76] before:mr-1 before:content-['•']"
-                >
+                <div className="ml-2 mt-[3px] w-fit font-light text-[#576f76] before:mr-1 before:content-['•']">
                   {new Date(post.updatedAt).toLocaleDateString("en-US", {
                     year: "numeric",
                     month: "long",
                     day: "numeric",
                   })}
-                </a>
+                </div>
               </div>
               <div className="justify-items-end">
                 <h1 className="text-[24px] font-extrabold">{post?.title}</h1>
@@ -178,22 +208,28 @@ const PostDetail = ({
 
               {/* comment */}
               <hr className="h-[1.5px] w-full bg-black/20 "></hr>
-              <div className="flex flex-col">
+              <div className="flex w-full flex-col">
                 <div className=" mb-[20px] flex min-h-20 w-full max-w-[675px] flex-col rounded-lg border-[0.2px] border-black/20 dark:border-white/20">
                   <textarea
+                    rows={1}
                     value={commentContent}
                     onChange={(e) => setCommentContent(e.target.value)}
                     placeholder={`Add a comment`}
                     className="min-h-20 w-full resize-y border-none bg-transparent px-[12px] py-[16px] outline-none focus:border-none"
                   ></textarea>
                   <div className="my-1 flex items-center justify-end gap-1 px-2">
-                    <Button size={"small"} onClick={handlerSubmitButton}>
+                    <Button
+                      className=" disabled:bg-slate-400/50  disabled:text-white disabled:dark:bg-slate-400/80 "
+                      disabled={!loggedIn}
+                      size={"small"}
+                      onClick={handlerSubmitButton}
+                    >
                       Submit
                     </Button>
                   </div>
                 </div>
 
-                <div className="mb-3 ml-[16px] flex w-full flex-col gap-1">
+                <div className="mb-3 flex w-full flex-col gap-3">
                   {commentResult.map(HandlerCommentResult)}
                 </div>
               </div>
@@ -202,7 +238,7 @@ const PostDetail = ({
         )}
       </div>
       {/* About */}
-      {community && (
+      {/* {community && (
         <div className="mt-2 h-fit w-full rounded-md bg-[#f5f5f5] dark:bg-[#04090a]">
           <div className="relavtive container px-6 py-4">
             <p className="py-3 font-semibold text-gray-900 dark:text-[#b8c5c9]">
@@ -236,6 +272,90 @@ const PostDetail = ({
               </dd>
             </div>
           </dl>
+        </div>
+      )} */}
+      {community && (
+        <div className="sticky top-20 order-last h-fit w-full overflow-hidden rounded-lg bg-[#f5f5f5] dark:bg-[#04090a] md:order-last md:block">
+          <div className="px-6 py-4">
+            <Link href={`/r/${community?.community?.name}`}>
+              <p className="py-3 font-semibold text-gray-900 dark:text-[#b8c5c9]">
+                About r/{community?.community?.name}
+              </p>
+            </Link>
+            <p className="py-3 font-normal text-gray-600 dark:text-[#76898e]">
+              {community.community.description}
+            </p>
+          </div>
+          <hr className="border-neutral-border-weak" />
+          <dl className="divide-neutral divide-y bg-[#f5f5f5] px-6 text-sm leading-6 dark:bg-[#04090a]">
+            <div className="flex justify-between gap-x-4 py-3">
+              <dt className="text-gray-500">Created At</dt>
+              <dd className="text-gray-700 dark:text-[#f2f2f2]">
+                {new Date(community.community.createdAt).toLocaleDateString(
+                  "en-US",
+                  {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  },
+                )}
+              </dd>
+            </div>
+            <div className="flex justify-between gap-x-4 py-3">
+              <dt className="text-gray-500">Members</dt>
+              <dd className="flex items-start gap-x-2">
+                <div className="text-gray-900 dark:text-[#f2f2f2]">
+                  {community.community.memberCount}
+                </div>
+              </dd>
+            </div>
+          </dl>
+          <hr className="border-neutral-border-weak" />
+          <div className="px-6 py-4">
+            <div className="flex flex-row justify-between">
+              <p className="py-3 font-semibold text-gray-900 dark:text-[#b8c5c9]">
+                Moderators
+              </p>
+              <Link href={`/r/${community.community.name}/members`}>
+                <div className="flex h-full w-full flex-row items-center hover:underline hover:underline-offset-1">
+                  <p className="truncate text-base text-gray-500">
+                    All members
+                  </p>
+                </div>
+              </Link>
+            </div>
+
+            <div className="flex flex-col gap-y-6">
+              {communityModerators?.map((moderator: any) => {
+                return (
+                  <div className="flex flex-col ">
+                    <div className="flex w-full flex-col items-start gap-x-2 overflow-hidden">
+                      <div className="flex w-full flex-row items-center justify-between gap-x-4">
+                        <div>
+                          <div className="flex w-fit">
+                            <div className="mr-4 flex h-10 w-10 justify-center rounded-full">
+                              <img
+                                src={moderator?.avatarUrl}
+                                alt="avt"
+                                className="h-full w-full rounded-full"
+                              />
+                            </div>
+                            <Link href={`/user/${moderator?.username}`}>
+                              <div className="flex h-full w-full flex-row items-center hover:underline hover:underline-offset-1">
+                                <p className="truncate text-base text-gray-500">
+                                  u/{moderator?.username}
+                                </p>
+                              </div>
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
       )}
     </div>

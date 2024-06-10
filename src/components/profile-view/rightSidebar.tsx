@@ -1,6 +1,6 @@
 "use client";
 import React, { use, useEffect, useState } from 'react';
-import { FaCamera } from 'react-icons/fa';
+import { FaCamera, FaCopy } from 'react-icons/fa';
 import { Button } from '@/src/components/button/button';
 import { FaBirthdayCake, FaShare, FaPlus, FaCheckCircle } from 'react-icons/fa';
 import { FaRegCircleXmark } from "react-icons/fa6";
@@ -47,6 +47,10 @@ const RightSidebar: React.FC<{ user: any }> = ({ user }) => {
         fetchCommunities();
     }, []);
 
+    const copyUrl = () => {
+        navigator.clipboard.writeText(window.location.href);
+    }
+
     const communitiesList = communities.filter((community) => community?.ownerId === user?.id);
 
     const formattedDate = new Date(user?.registeredAt).toLocaleDateString('en-US', {
@@ -56,7 +60,7 @@ const RightSidebar: React.FC<{ user: any }> = ({ user }) => {
     });
     return (
         <aside className="ml-8 mt-3 flex mr-1">
-            <div className="bg-gray-300 rounded-2xl w-80 dark:bg-gray-600">
+            <div className=" rounded-2xl w-80 bg-[#f5f5f5] dark:bg-[#04090a]">
                 {user?.username === userData?.username ?
                     <><div className="bg-pink-300 top-0 rounded-t-2xl flex justify-end items-end h-28 p-4 dark:bg-purple-300">
                         <a
@@ -73,15 +77,9 @@ const RightSidebar: React.FC<{ user: any }> = ({ user }) => {
                 <div className="p-4 h-fit">
                     <div>
                         <h2 className="text-black font-bold text-2xl p-1 mb-2 dark:text-white">{user?.username}</h2>
-                        {user?.username === userData?.username ?
-                            <>
-                                <Button variant={"destructive"} size={"small"} className="">
-                                    <span className="flex items-center"><FaShare className='mr-2' /> <p>Share</p></span>
-                                </Button></> : <>
-                                <Button variant={"monochrome"} size={"small"} className="">
-                                    <span className="flex items-center"><FaPlus className='mr-2' /> <p>Follow</p></span>
-                                </Button>
-                            </>}
+                        <Button variant={"destructive"} size={"small"} className="" onClick={copyUrl}>
+                            <span className="flex items-center"><FaShare className='mr-2' /> <p>Share</p></span>
+                        </Button>
 
                         <hr className="mt-4 border-t border-gray-400" />
                     </div>
@@ -157,7 +155,7 @@ const RightSidebar: React.FC<{ user: any }> = ({ user }) => {
 
                 </div>
             </div >
-        </aside>
+        </aside >
     );
 };
 
