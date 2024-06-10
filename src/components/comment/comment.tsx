@@ -236,7 +236,7 @@ export default function Comment({
             <div className="flex flex-nowrap items-center justify-start gap-2">
               <div
                 className={twMerge(
-                  " flex h-[32px] w-fit items-center gap-1 rounded-full bg-[#eaedef] dark:bg-[#1a282d]",
+                  " flex h-[32px] w-fit items-center gap-1 rounded-full bg-transparent",
                 )}
               >
                 <VoteButton
