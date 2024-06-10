@@ -15,6 +15,7 @@ export default function usePost(url: string) {
         data,
         { withCredentials: true },
       );
+
       setStatus("success");
       setLoading(false);
       return response.status;

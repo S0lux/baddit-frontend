@@ -29,6 +29,7 @@ export default function Page() {
   useEffect(() => {
     const verifyEmail = async () => {
       const statusCode = await PostSent(payload);
+      console.log(statusCode);
       switch (statusCode) {
         case 200:
           setTopMessage("Welcome to Baddit");
