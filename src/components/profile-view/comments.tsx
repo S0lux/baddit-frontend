@@ -1,4 +1,5 @@
 "use client";
+import Comment from '@/src/components/comment/comment';
 import Spinner from '@/src/components/spinner/spinner';
 import useGet from '@/src/hooks/useGet';
 import { useAuthStore } from '@/src/store/authStore';
@@ -12,12 +13,12 @@ const fetchComments = async (userName: String | String[], cursor = '', sort?: St
     const url = sort === 'top'
         ? `https://api.baddit.life/v1/comments?authorName=${userName}&cursor=${cursor}&orderByScore=1`
         : `https://api.baddit.life/v1/comments?authorName=${userName}&cursor=${cursor}`;
-    const response = await axios.get(url);
+    const response = await axios.get(url, { withCredentials: true });
     return response.data;
 };
 
 export default function Comments() {
-    const [comments, setComments] = useState<any[]>([]);
+    const [comments, setComments] = useState<CommentProps[]>([]);
     const [cursor, setCursor] = useState('');
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
@@ -66,18 +67,22 @@ export default function Comments() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, [cursor, loading, hasMore]);
 
+
     if (comments.length > 0) {
         return (
-            <div>
-                <div>
+            <div className='w-full'>
+                <div className='w-full'>
                     {comments.map((comment) => (
-                        !comment?.deleted ? <div key={comment.id} className='flex items-center justify-between  h-32 w-full bg-slate-300 mt-2'>
-                            <div className='flex items-center'>
-                                <p className='font-bold'>{comment?.authorName}</p>
-                                <p>{comment?.content}</p>
-                            </div>
-                            <p>{comment.createdAt}</p>
-                        </div> : <></>
+                        !comment?.deleted ?
+                            <div className='p-2 w-full' key={comment.id}>
+                                <Comment
+                                    key={comment.id}
+                                    comment={comment}
+                                    nestLevel={0}
+                                    onUpdate={() => { }}
+                                    val={comment.children.length}
+                                />
+                            </div> : <></>
                     ))}
                 </div>
                 {loading && <><Spinner /></>}
