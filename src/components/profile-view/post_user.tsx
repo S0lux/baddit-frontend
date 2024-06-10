@@ -71,8 +71,8 @@ const InfinitePost = () => {
 
     if (posts.length > 0) {
         return (
-            <div>
-                <div>
+            <div className='w-full'>
+                <div className='w-full'>
                     {posts.map((post) => (
                         <PostCard key={post.id} post={post} />
                     ))}

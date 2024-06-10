@@ -59,7 +59,7 @@ const LifetimePerformance: React.FC = () => {
         let endReached = false;
         let allComments = [...comments];
         while (!endReached) {
-            const data = await axios.get(`https://api.baddit.life/v1/comments?cursor=${cursor}`, {
+            const data = await axios.get(`https://api.baddit.life/v1/comments?authorName=${userData?.username}&cursor=${cursor}`, {
                 withCredentials: true,
             }).then(res => res.data);
             if (data.length > 0) {

@@ -13,6 +13,7 @@ export default function AvatarMenu({ className }: { className?: string }) {
   const { theme, setTheme } = useTheme();
 
   const username: string = useAuthStore((state) => state.userData?.username);
+  const getUserData = useAuthStore((state) => state.getUserAsync);
 
   const themeHandler = () => {
     setTheme(theme === "dark" ? "light" : "dark");
@@ -29,6 +30,7 @@ export default function AvatarMenu({ className }: { className?: string }) {
       toast.success("Logged out successfully");
 
       useAuthStore.setState({ loggedIn: false });
+      await getUserData();
     } catch (err: any) {
       if (err.response.status === 401) {
         toast.success("Sonmething is wrong. Please try again later.");
