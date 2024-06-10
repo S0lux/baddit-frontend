@@ -81,10 +81,10 @@ const variants = cva(
           "dark:bg-backgroundSecondary dark:hover:bg-slate-600"
         ],
         upvote: [
-          "bg-[#d93900] hover:bg-[#ae2c00] text-white"
+          "bg-[#d93900] hover:bg-[#ae2c00] text-white shadow-none"
         ],
         downvote: [
-          "bg-[#6a5cff] hover:bg-[#523dff] text-white"
+          "bg-[#6a5cff] hover:bg-[#523dff] text-white shadow-none"
         ]
       },
       size: {
