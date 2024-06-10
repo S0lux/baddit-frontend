@@ -151,7 +151,7 @@ export default function Create_Post() {
 
   const routingPost = () => {
     if (community === "") {
-      router.push(`/user/${userData?.username}/${newPost}`);
+      router.push(`/user/${userData?.username}/post/${newPost}`);
     } else {
       if (loading === false) {
         const url = `/r/${community}/${newPost}`;

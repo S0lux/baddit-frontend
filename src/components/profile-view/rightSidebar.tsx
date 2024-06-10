@@ -77,7 +77,7 @@ const RightSidebar: React.FC<{ user: any }> = ({ user }) => {
                 <div className="p-4 h-fit">
                     <div>
                         <h2 className="text-black font-bold text-2xl p-1 mb-2 dark:text-white">{user?.username}</h2>
-                        <Button variant={"destructive"} size={"small"} className="" onClick={copyUrl}>
+                        <Button variant={"primary"} size={"small"} className="" onClick={copyUrl}>
                             <span className="flex items-center"><FaShare className='mr-2' /> <p>Share</p></span>
                         </Button>
 
@@ -131,7 +131,7 @@ const RightSidebar: React.FC<{ user: any }> = ({ user }) => {
                                                 alt={community.name}
                                                 className="w-8 h-8 rounded-full object-cover"
                                             />
-                                            <div className="ml-2 text-lg">
+                                            <div className="ml-2 text-l">
                                                 r/{community.name}
                                             </div>
                                         </div>
@@ -145,9 +145,9 @@ const RightSidebar: React.FC<{ user: any }> = ({ user }) => {
                                 ))}
                                 {communitiesList.length > 3 ? <>
                                     {!showAllCommunities && (
-                                        <button onClick={handleShowMore}>See more...</button>
+                                        <button className='text-textSecondary p-2' onClick={handleShowMore}>See more...</button>
                                     )}
-                                    {showAllCommunities && (<button onClick={() => setShowAllCommunities(false)}>See less...</button>)}
+                                    {showAllCommunities && (<button className='text-textSecondary p-2' onClick={() => setShowAllCommunities(false)}>See less...</button>)}
                                 </> : null}
                                 {communitiesList.length === 0 ? <h3 className="font-bold mt-2">No communities found</h3> : null}
                             </>}

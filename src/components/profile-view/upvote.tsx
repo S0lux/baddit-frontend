@@ -70,8 +70,8 @@ export default function Upvote() {
 
     if (posts.length > 0) {
         return (
-            <div>
-                <div>
+            <div className='w-full'>
+                <div className='w-full'>
                     {posts.map((post) => (
                         post?.voteState === "UPVOTE" && (<PostCard key={post.id} post={post} />)
                     ))}
