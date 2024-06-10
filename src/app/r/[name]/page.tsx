@@ -13,6 +13,17 @@ import JoinLeaveToggle from "@/src/components/button/joinleaveToggle";
 import axios from "axios";
 import InfiniteScrolling from "@/src/components/community/infinite-scrolling";
 import Link from "next/link";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/src/components/alert_dialog.tsx/alert_dialog";
 
 interface PageProps {
   params: {
@@ -25,12 +36,13 @@ const CommunityDetail = ({ params }: PageProps) => {
 
   const router = useRouter();
 
+  const [isOpen, setIsOpen] = useState(false);
+
   //get auth session
   const userData = useAuthStore((state) => state.userData);
   const loggedIn = useAuthStore((state) => state.loggedIn);
   const getUserAsync = useAuthStore((state) => state.getUserAsync);
   const [loading, setLoading] = useState(false);
-
   useEffect(() => {
     getUserAsync();
     mutate(`https://api.baddit.life/v1/communities/${params?.name}`);
@@ -54,15 +66,26 @@ const CommunityDetail = ({ params }: PageProps) => {
     },
   );
 
-  console.log("Check userData", userData);
+  //get all moderators
+  const getInfo = (fetcher: any, url: string) => {
+    let { data, error, isLoading } = useSWR(url, fetcher, {
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+    });
+    return { data, error, isLoading };
+  };
+  const moderators = getInfo(
+    fetcher,
+    `https://api.baddit.life/v1/communities/${name}/moderators`
+  )
 
   const role =
     loggedIn == true
       ? userData.communities.filter(
-          (community: any) => community.id == data?.community.id,
-        )
+        (community: any) => community.id == data?.community?.id,
+      )
       : null;
-  console.log("Check role", role);
 
   const communityCreatedDay = new Date(
     data?.community?.createdAt,
@@ -84,7 +107,7 @@ const CommunityDetail = ({ params }: PageProps) => {
       );
       toast.success(res.data.message);
       mutate(`https://api.baddit.life/v1/communities/${data?.community?.name}`);
-      router.back();
+      router.push("/r");
     } catch (err: any) {
       toast.error(err.response.data.message);
     }
@@ -135,7 +158,7 @@ const CommunityDetail = ({ params }: PageProps) => {
           </div>
           {/* change banner if owner or moderator */}
           {role &&
-          (role[0]?.role == "ADMIN" || role[0]?.role == "MODERATOR") ? (
+            (role[0]?.role == "ADMIN" || role[0]?.role == "MODERATOR") ? (
             <div className="absolute right-8 top-24 h-14 w-14 -translate-y-1/2 rounded-full">
               <button
                 className="flex h-full w-full items-center justify-center rounded-full hover:bg-neutral-300"
@@ -160,7 +183,7 @@ const CommunityDetail = ({ params }: PageProps) => {
               />
               {/* change logo button if owner or moderator*/}
               {role &&
-              (role[0]?.role == "ADMIN" || role[0]?.role == "MODERATOR") ? (
+                (role[0]?.role == "ADMIN" || role[0]?.role == "MODERATOR") ? (
                 <div className="absolute bottom-0 right-0 top-24 h-6 w-6 -translate-y-1/2 rounded-full border border-white">
                   <button
                     className="flex h-full w-full items-center justify-center rounded-full bg-backgroundSecondary hover:bg-neutral-300"
@@ -205,7 +228,7 @@ const CommunityDetail = ({ params }: PageProps) => {
                   <Button
                     size={"medium"}
                     variant={"primary"}
-                    onClick={handleDeleteCommunity}
+                    onClick={() => setIsOpen(true)}
                   >
                     <div className="inline-flex items-center text-white">
                       Delete Community
@@ -267,9 +290,7 @@ const CommunityDetail = ({ params }: PageProps) => {
             </div>
             <div className="flex justify-between gap-x-4 py-3">
               <dt className="text-gray-500">
-                <Link href={`/r/${name}/members`} className="hover:text-black ">
-                  Members
-                </Link>
+                Members
               </dt>
               <dd className="flex items-start gap-x-2">
                 <div className="text-gray-900 dark:text-[#f2f2f2]">
@@ -278,8 +299,72 @@ const CommunityDetail = ({ params }: PageProps) => {
               </dd>
             </div>
           </dl>
+          <hr className="border-neutral-border-weak" />
+          <div className="px-6 py-4">
+            <div className="flex flex-row justify-between">
+              <p className="py-3 font-semibold text-gray-900 dark:text-[#b8c5c9]">
+                Moderators
+              </p>
+              <Link href={`/r/${name}/members`}>
+                <div className="flex flex-row items-center w-full h-full hover:underline-offset-1 hover:underline">
+                  <p className="truncate text-base text-gray-500">All members</p>
+                </div>
+              </Link>
+            </div>
+
+            <div className="flex flex-col gap-y-6">
+              {moderators.data?.map((moderator: any) => {
+                return (<div
+                  className="flex flex-col "
+                >
+                  <div className="flex flex-col gap-x-2 items-start overflow-hidden w-full">
+                    <div className="flex flex-row justify-between items-center gap-x-4 w-full">
+                      <div>
+                        <div className="flex w-fit">
+                          <div className="flex justify-center w-10 h-10 rounded-full mr-4">
+                            <img
+                              src={moderator?.avatarUrl}
+                              alt="avt"
+                              className="w-full h-full rounded-full" />
+                          </div>
+                          <Link href={`/user/${moderator?.username}`}>
+                            <div className="flex flex-row items-center w-full h-full hover:underline-offset-1 hover:underline">
+                              <p className="truncate text-base text-gray-500">u/{moderator?.username}</p>
+                            </div>
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>)
+              })}
+            </div>
+          </div>
         </div>
       </div>
+      <AlertDialog open={isOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete your
+              community and cannot be recovered.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setIsOpen(false)}>
+              Cancel
+            </AlertDialogCancel>
+            <div className="px-1"></div>
+            <AlertDialogAction
+              onClick={handleDeleteCommunity}
+              className="rounded-lg bg-red-400 p-2 text-white"
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 };
