@@ -16,7 +16,7 @@ const variants = cva(
       variant: {
         primary: [
           //light
-          "bg-[#50d3d7] text-black",
+          "bg-[#50d3d7] text-white",
           "hover:bg-[#2dc2c7]",
           "ring-[#2dc2c7]/70 ",
           "focus-visible:ring-2 ",

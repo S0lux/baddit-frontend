@@ -109,7 +109,7 @@ const PostDetail = ({
     }
 
     const commentData = await GetData(params);
-
+    setCommentContent("");
     setCommentResult(commentData);
   };
 
@@ -181,9 +181,10 @@ const PostDetail = ({
 
               {/* comment */}
               <hr className="h-[1.5px] w-full bg-black/20 "></hr>
-              <div className="flex flex-col">
+              <div className="flex w-full flex-col">
                 <div className=" mb-[20px] flex min-h-20 w-full max-w-[675px] flex-col rounded-lg border-[0.2px] border-black/20 dark:border-white/20">
                   <textarea
+                    rows={1}
                     value={commentContent}
                     onChange={(e) => setCommentContent(e.target.value)}
                     placeholder={`Add a comment`}
@@ -191,7 +192,7 @@ const PostDetail = ({
                   ></textarea>
                   <div className="my-1 flex items-center justify-end gap-1 px-2">
                     <Button
-                      className="disabled:bg-slate-400/50 disabled:text-white disabled:dark:bg-slate-400/80 "
+                      className=" disabled:bg-slate-400/50  disabled:text-white disabled:dark:bg-slate-400/80 "
                       disabled={!loggedIn}
                       size={"small"}
                       onClick={handlerSubmitButton}
@@ -201,7 +202,7 @@ const PostDetail = ({
                   </div>
                 </div>
 
-                <div className="mb-3 flex w-full flex-col gap-1">
+                <div className="mb-3 flex w-full flex-col gap-3">
                   {commentResult.map(HandlerCommentResult)}
                 </div>
               </div>
