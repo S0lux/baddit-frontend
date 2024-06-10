@@ -51,8 +51,9 @@ const PostCard = (props: IProps) => {
           href={`/r/${post.community.name}/${post.id}`}
         >
           <h1 className="text-[24px] font-extrabold">{post.title}</h1>
+          {/* dangerouslySetInnerHTML={{ __html: post.content }} */}
           <div
-            className="mb-1"
+            className="mb-1 md:max-h-20 truncate w-full"
             dangerouslySetInnerHTML={{ __html: post.content }}
           ></div>
           <div className="flex flex-row overflow-x-auto gap-x-4  w-full my-2">

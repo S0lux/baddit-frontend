@@ -70,7 +70,7 @@ const VotePostToggle = (params: VotePostToggle) => {
                     <Button
                         size={"icon"}
                         variant={"upvote"}
-                        className="h-full"
+                        className="h-full drop-shadow-none"
                         onClick={() => { handleVote("UPVOTE") }}
                     >
                         <TbArrowBigUpFilled className='text-lg my-2 mx-3' />
@@ -79,7 +79,7 @@ const VotePostToggle = (params: VotePostToggle) => {
                     <Button
                         size={"icon"}
                         variant={"upvote"}
-                        className="h-full"
+                        className="h-full drop-shadow-none	"
                         onClick={() => { handleVote("DOWNVOTE") }}
                     >
                         <TbArrowBigDown className='text-lg my-2 mx-3' />
