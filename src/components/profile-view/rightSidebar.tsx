@@ -56,7 +56,7 @@ const RightSidebar: React.FC<{ user: any }> = ({ user }) => {
     });
     return (
         <aside className="ml-8 mt-3 flex mr-1">
-            <div className="bg-gray-300 rounded-2xl w-80 dark:bg-gray-600">
+            <div className=" rounded-2xl w-80 bg-[#f5f5f5] dark:bg-[#04090a]">
                 {user?.username === userData?.username ?
                     <><div className="bg-pink-300 top-0 rounded-t-2xl flex justify-end items-end h-28 p-4 dark:bg-purple-300">
                         <a

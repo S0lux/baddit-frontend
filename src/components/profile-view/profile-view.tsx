@@ -49,7 +49,7 @@ export default function Profile_View(params: { component: React.ReactNode }) {
                 <main className="flex ml-16">
                     <div className="max-w-screen-md w-screen">
                         <Top userName={userName} user={user} />
-                        <div className='flex items-center justify-center'>
+                        <div className='flex items-center justify-center w-full'>
                             {params.component}
                         </div>
                     </div>
@@ -65,7 +65,7 @@ export default function Profile_View(params: { component: React.ReactNode }) {
                 <main className="flex ml-16">
                     <div className="max-w-screen-md w-screen">
                         <Top userName={userName} user={user} />
-                        <div className='flex items-center justify-center'>
+                        <div className='flex items-center justify-center w-full'>
                             {params.component}
                         </div>
                     </div>
