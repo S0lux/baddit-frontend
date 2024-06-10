@@ -209,13 +209,13 @@ const PostDetail = ({
               {/* comment */}
               <hr className="h-[1.5px] w-full bg-black/20 "></hr>
               <div className="flex w-full flex-col">
-                <div className=" mb-[20px] flex min-h-20 w-full max-w-[675px] flex-col rounded-lg border-[0.2px] border-black/20 dark:border-white/20">
+                <div className=" mb-[20px] flex min-h-20 w-full flex-col rounded-lg border-[0.2px] border-black/20 dark:border-white/20">
                   <textarea
                     rows={1}
                     value={commentContent}
                     onChange={(e) => setCommentContent(e.target.value)}
                     placeholder={`Add a comment`}
-                    className="min-h-20 w-full resize-y border-none bg-transparent px-[12px] py-[16px] outline-none focus:border-none"
+                    className="min-h-20 w-full resize-y border-none bg-transparent px-[12px] py-[16px] text-[14px] outline-none focus:border-none"
                   ></textarea>
                   <div className="my-1 flex items-center justify-end gap-1 px-2">
                     <Button
