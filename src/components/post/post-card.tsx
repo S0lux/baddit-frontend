@@ -23,7 +23,7 @@ const PostCard = (props: IProps) => {
   useEffect(() => {
     mutate(`https://api.baddit.life/v1/posts?postId=${post.id}`)
   }, []);
-
+  console.log("Check hinh", post)
   return (
     <div
       id={post.id}
@@ -55,13 +55,42 @@ const PostCard = (props: IProps) => {
             className="mb-1"
             dangerouslySetInnerHTML={{ __html: post.content }}
           ></div>
-          <div className="flex w-full flex-col items-center justify-between rounded-xl bg-black">
-            <img
-              src={post.mediaUrls[0]}
-              alt=""
-              className="rounded-xl"
-            />
+          <div className="flex flex-row overflow-x-auto gap-x-4 w-full my-2">
+            {post.mediaUrls?.map((image: any) => {
+              return (
+                <div className="flex md:min-w-[60%] md:min-h-80   flex-col items-center justify-center rounded-xl bg-black">
+                  <img
+                    src={image}
+                    alt=""
+                    className="rounded-xl w-full h-full object-contain"
+                  />
+
+                </div>
+              )
+            })}
+            <div className="flex w-full flex-col items-end justify-center rounded-xl bg-black">
+              <img
+                src="https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg"
+                alt=""
+                className="rounded-xl"
+              />
+            </div>
+            <div className="flex w-full flex-col items-end justify-center rounded-xl bg-black">
+              <img
+                src="https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg"
+                alt=""
+                className="rounded-xl"
+              />
+            </div>
+            <div className="flex w-full flex-col items-end justify-center rounded-xl bg-black">
+              <img
+                src="https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg"
+                alt=""
+                className="rounded-xl"
+              />
+            </div>
           </div>
+
         </a>
         <div className="flex flex-row gap-[16px]">
           <VotePostToggle postId={post.id} initScore={post.score} initVoteState={post.voteState} />
