@@ -54,6 +54,11 @@ export default function Home() {
         "https://api.baddit.life/v1/users/me"
     )
 
+    const moderators = getInfo(
+        fetcher,
+        `https://api.baddit.life/v1/communities/${name}/moderators`
+    )
+
     useEffect(() => {
         mutate(`https://api.baddit.life/v1/users/me`)
     })
@@ -74,7 +79,7 @@ export default function Home() {
                 {/* back button */}
                 <Button
                     variant={"ghost"}
-                    className="mt-2 h-fit rounded-full p-1"
+                    className="mt-4 h-fit rounded-full p-1"
                     size={"large"}
                     onClick={() => {
                         router.back();
@@ -82,7 +87,7 @@ export default function Home() {
                 >
                     <IoIosArrowRoundBack />
                 </Button>
-                <div className="px-6 flex flex-col w-full text-center mt-6 gap-y-8  ">
+                <div className="px-6 flex flex-col w-full text-center mt-4 gap-y-8  ">
                     {data?.map((member: any) => {
                         return (
                             <div
@@ -154,6 +159,47 @@ export default function Home() {
                         </dd>
                     </div>
                 </dl>
+                <hr className="border-neutral-border-weak" />
+                <div className="px-6 py-4">
+                    <div className="flex flex-row justify-between">
+                        <p className="py-3 font-semibold text-gray-900 dark:text-[#b8c5c9]">
+                            Moderators
+                        </p>
+                        <Link href={`/r/${name}/members`}>
+                            <div className="flex flex-row items-center w-full h-full hover:underline-offset-1 hover:underline">
+                                <p className="truncate text-base text-gray-500">All members</p>
+                            </div>
+                        </Link>
+                    </div>
+
+                    <div className="flex flex-col gap-y-6">
+                        {moderators.data?.map((moderator: any) => {
+                            return (<div
+                                className="flex flex-col "
+                            >
+                                <div className="flex flex-col gap-x-2 items-start overflow-hidden w-full">
+                                    <div className="flex flex-row justify-between items-center gap-x-4 w-full">
+                                        <div>
+                                            <div className="flex w-fit">
+                                                <div className="flex justify-center w-10 h-10 rounded-full mr-4">
+                                                    <img
+                                                        src={moderator?.avatarUrl}
+                                                        alt="avt"
+                                                        className="w-full h-full rounded-full" />
+                                                </div>
+                                                <Link href={`/user/${moderator?.username}`}>
+                                                    <div className="flex flex-row items-center w-full h-full hover:underline-offset-1 hover:underline">
+                                                        <p className="truncate text-base text-gray-500">u/{moderator?.username}</p>
+                                                    </div>
+                                                </Link>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>)
+                        })}
+                    </div>
+                </div>
             </div>
         </div>
     )
