@@ -22,6 +22,7 @@ import {
   TbArrowBigUp,
   TbArrowBigUpFilled,
 } from "react-icons/tb";
+import { on } from "events";
 
 export default function Comment({
   comment,
@@ -50,8 +51,6 @@ export default function Comment({
   const [deleted, setDeleted] = useState<boolean>(comment.deleted);
   const [count, setCount] = useState(val);
 
-  // const loggedIn = useAuthStore((state) => state.loggedIn);
-  // const userData = useAuthStore((state) => state.userData);
   const { loggedIn, userData } = useAuthStore();
   const modalStore = useModalStore();
 
@@ -166,8 +165,11 @@ export default function Comment({
   ));
 
   useEffect(() => {
-    setVoteState(0);
-  }, [deleted]);
+    onUpdate();
+    handleUpdate();
+  }, [loggedIn]);
+
+  useEffect(() => {}, [deleted]);
 
   return (
     <>
@@ -234,19 +236,32 @@ export default function Comment({
             <div className="flex flex-nowrap items-center justify-start gap-2">
               <div
                 className={twMerge(
-                  " flex h-[32px] w-fit items-center rounded-full bg-[#eaedef] dark:bg-[#1a282d]",
-                  clsx(
-                    voteState === 1 && "bg-red-500 dark:bg-red-500",
-                    voteState === -1 && "bg-blue-500 dark:bg-blue-500",
-                    deleted == true && "pointer-events-none",
-                  ),
+                  " flex h-[32px] w-fit items-center gap-1 rounded-full bg-[#eaedef] dark:bg-[#1a282d]",
                 )}
               >
                 <VoteButton
-                  voteState={voteState}
+                  voteState={loggedIn ? voteState : 0}
                   score={!deleted ? vote : 0}
                   HandlerVoteButton={HandlerVoteButton}
+                  deleted={deleted}
                 ></VoteButton>
+
+                <div>
+                  <Button
+                    variant={"ghost"}
+                    size={"small"}
+                    className={twMerge(
+                      clsx(deleted && "pointer-events-none"),
+                      "cursor-pointer hover:bg-transparent/10",
+                    )}
+                    onClick={handerReplyButton}
+                  >
+                    <div className="flex items-center justify-center gap-1 text-nowrap text-[12px]">
+                      <FaRegCommentAlt className="aspect-square" />
+                      Reply
+                    </div>
+                  </Button>
+                </div>
               </div>
             </div>
             {showReplyTextBox && (
@@ -313,19 +328,22 @@ function VoteButton({
   voteState,
   HandlerVoteButton,
   score,
+  deleted,
 }: {
   voteState: number;
   HandlerVoteButton: (state: string) => void;
   score: number;
+  deleted: boolean;
 }) {
   return (
     <>
-      {!voteState && (
+      {(!voteState || deleted) && (
         <div className="inline-flex items-center rounded-full bg-[#eaedef] dark:bg-[#1a282d]">
           <Button
+            disabled={deleted}
             size={"icon"}
             variant={"ghost"}
-            className="h-full py-0 shadow-none hover:text-red-500"
+            className="h-full py-0 shadow-none hover:text-red-500 disabled:pointer-events-none disabled:shadow-none"
             onClick={() => {
               HandlerVoteButton("UPVOTE");
             }}
@@ -334,9 +352,10 @@ function VoteButton({
           </Button>
           <span className="text-[14px] font-medium">{score}</span>
           <Button
+            disabled={deleted}
             size={"icon"}
             variant={"ghost"}
-            className="h-full shadow-none hover:text-indigo-700"
+            className="h-full shadow-none hover:text-indigo-700 disabled:pointer-events-none disabled:shadow-none"
             onClick={() => {
               HandlerVoteButton("DOWNVOTE");
             }}
@@ -346,7 +365,7 @@ function VoteButton({
         </div>
       )}
 
-      {voteState == 1 && (
+      {voteState == 1 && !deleted && (
         <div className="inline-flex items-center rounded-full bg-[#d93900]">
           <Button
             size={"icon"}
@@ -371,7 +390,7 @@ function VoteButton({
           </Button>
         </div>
       )}
-      {voteState == -1 && (
+      {voteState == -1 && !deleted && (
         <div className="inline-flex items-center rounded-full bg-[#6a5cff]  ">
           <Button
             size={"icon"}
