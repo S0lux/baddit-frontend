@@ -55,7 +55,7 @@ const PostCard = (props: IProps) => {
             className="mb-1"
             dangerouslySetInnerHTML={{ __html: post.content }}
           ></div>
-          <div className="flex flex-row overflow-x-auto gap-x-4 w-full my-2">
+          <div className="flex flex-row overflow-x-auto gap-x-4  w-full my-2">
             {post.mediaUrls?.map((image: any) => {
               return (
                 <div className="flex md:min-w-[60%] md:min-h-80   flex-col items-center justify-center rounded-xl bg-black">
@@ -68,27 +68,6 @@ const PostCard = (props: IProps) => {
                 </div>
               )
             })}
-            <div className="flex w-full flex-col items-end justify-center rounded-xl bg-black">
-              <img
-                src="https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg"
-                alt=""
-                className="rounded-xl"
-              />
-            </div>
-            <div className="flex w-full flex-col items-end justify-center rounded-xl bg-black">
-              <img
-                src="https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg"
-                alt=""
-                className="rounded-xl"
-              />
-            </div>
-            <div className="flex w-full flex-col items-end justify-center rounded-xl bg-black">
-              <img
-                src="https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg"
-                alt=""
-                className="rounded-xl"
-              />
-            </div>
           </div>
 
         </a>
