@@ -273,9 +273,12 @@ const CommunityDetail = ({ params }: PageProps) => {
         {/* About */}
         <div className="sticky top-20 order-last h-fit overflow-hidden rounded-lg bg-[#f5f5f5] dark:bg-[#04090a] md:order-last md:block">
           <div className="px-6 py-4">
-            <p className="py-3 font-semibold text-gray-900 dark:text-[#b8c5c9]">
-              About r/{data?.community?.name}
-            </p>
+            <Link href={`/r/${name}`}>
+              <p className="py-3 font-semibold text-gray-900 dark:text-[#b8c5c9]">
+                About r/{data?.community?.name}
+              </p>
+            </Link>
+
             <p className="py-3 font-normal text-gray-600 dark:text-[#76898e]">
               {data?.community?.description}
             </p>

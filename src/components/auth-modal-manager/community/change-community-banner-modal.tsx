@@ -39,12 +39,10 @@ const ChangeCommunityBanner = (props: Props) => {
 
     //Handle Image change
     const handleImageChange = () => {
-        console.log(event.target.files[0]);
         setImage(event.target.files[0]);
         setDisplayImage(
             event.target.files[0] ? URL.createObjectURL(event.target.files[0]) : "",
         );
-        console.log(communityName)
     }
 
     //Handle change banner

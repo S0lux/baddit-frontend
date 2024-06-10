@@ -135,9 +135,11 @@ export default function Home() {
             {/* About */}
             <div className=" mt-2 h-fit max-w-80 lg:min-w-96 rounded-md bg-[#f5f5f5] dark:bg-[#04090a]">
                 <div className=" relavtive container px-6 py-4">
-                    <p className="py-3 font-semibold text-gray-900 dark:text-[#b8c5c9]">
-                        About r/{community.data?.community.name}
-                    </p>
+                    <Link href={`/r/${community.data?.community.name}`}>
+                        <p className="py-3 font-semibold text-gray-900 dark:text-[#b8c5c9]">
+                            About r/{community.data?.community.name}
+                        </p>
+                    </Link>
                     <p className="py-3 font-normal text-gray-600 dark:text-[#76898e]">
                         {community.data?.community.description}
                     </p>

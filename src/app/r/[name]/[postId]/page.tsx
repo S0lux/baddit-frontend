@@ -277,9 +277,11 @@ const PostDetail = ({
       {community && (
         <div className="sticky top-20 order-last h-fit w-full overflow-hidden rounded-lg bg-[#f5f5f5] dark:bg-[#04090a] md:order-last md:block">
           <div className="px-6 py-4">
-            <p className="py-3 font-semibold text-gray-900 dark:text-[#b8c5c9]">
-              About r/{community.community.name}
-            </p>
+            <Link href={`/r/${community?.community?.name}`}>
+              <p className="py-3 font-semibold text-gray-900 dark:text-[#b8c5c9]">
+                About r/{community?.community?.name}
+              </p>
+            </Link>
             <p className="py-3 font-normal text-gray-600 dark:text-[#76898e]">
               {community.community.description}
             </p>
@@ -314,7 +316,7 @@ const PostDetail = ({
               <p className="py-3 font-semibold text-gray-900 dark:text-[#b8c5c9]">
                 Moderators
               </p>
-              <Link href={`/r/${``}/members`}>
+              <Link href={`/r/${community.community.name}/members`}>
                 <div className="flex h-full w-full flex-row items-center hover:underline hover:underline-offset-1">
                   <p className="truncate text-base text-gray-500">
                     All members
