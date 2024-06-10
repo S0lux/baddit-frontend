@@ -13,9 +13,11 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "./global.css";
 import { createPostSchema } from "@/src/schema/createPostSchema";
-import { z } from "zod";
+import { set, z } from "zod";
 import usePost from "@/src/hooks/usePost";
 import { toast } from "react-toastify";
+import useGet from "@/src/hooks/useGet";
+import axios from "axios";
 
 export default function Create_Post() {
   const [title, setTitle] = useState("");
@@ -24,6 +26,7 @@ export default function Create_Post() {
   const router = useRouter();
   const pathName = usePathname();
   const searchParams = useSearchParams();
+  const { GetData } = useGet("/posts");
 
   // Community Picker
   const { name } = useParams();
@@ -130,16 +133,37 @@ export default function Create_Post() {
     return `hover:text-white px-3 py-2 hover:bg-gray-500 rounded-2xl mr-2 ${postType === type ? "underline " : ""}`;
   };
 
+  const [newPost, setNewPost] = useState<String>("");
+  const [loadingNewPost, setLoadingNewPost] = useState<Boolean>(false);
+
+  const fetchNewPost = async () => {
+    setLoadingNewPost(true);
+    const response = await axios.get(`https://api.baddit.life/v1/posts?`);
+    setNewPost(response.data[0].id);
+    setLoadingNewPost(false);
+  }
+
+  useEffect(() => {
+    if (newPost) {
+      routingPost();
+    }
+  }, [newPost]);
+
+  const routingPost = () => {
+    if (community === "") {
+      router.push(`/user/${userData?.username}/${newPost}`);
+    } else {
+      if (loading === false) {
+        const url = `/r/${community}/${newPost}`;
+        router.push(url);
+      }
+    }
+  }
+
   useEffect(() => {
     if (status === "success" && message) {
       toast.success(message);
-      setTimeout(() => {
-        if (community === "") {
-          router.push(`/user/${userData?.username}`);
-        } else {
-          router.push(`/r/${community}`);
-        }
-      }, 3000);
+      fetchNewPost();
     }
     if (status === "error" && message) {
       toast.error(message);
@@ -372,13 +396,6 @@ export default function Create_Post() {
   const handleLinkChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLink(event.target.value);
   };
-
-  console.log("title:" + title);
-  console.log("type: " + searchParams.get("type"));
-  console.log("community: " + community);
-  console.log(images);
-  console.log("html: " + editorHtml);
-  console.log("link: " + link);
 
   return (
     <div className="mt-4 w-fit min-w-full items-center">

@@ -54,7 +54,7 @@ export default function InfinitePostHome() {
 
     if (posts.length > 0) {
         return (
-            <div className='pl-40 pr-40 pt-5'>
+            <div className='pl-40 pr-40 pt-5 w-full'>
                 <h1 className='text-3xl font-bold text-center dark:text-white'>Home</h1>
                 <div className=''>
                     {posts.map((post) => (
