@@ -60,7 +60,7 @@ export default function Create_Post() {
     const files = Array.from(event.target.files);
     setImages((prevImages) => [...prevImages, ...files]);
 
-    const displayFiles = files.map((file) => URL.createObjectURL(file));
+    const displayFiles = files.map((file) => URL.createObjectURL(file as Blob));
     setDisplayImages((prevDisplayImages: string[]) => [
       ...prevDisplayImages,
       ...displayFiles,
@@ -389,7 +389,7 @@ export default function Create_Post() {
     setPostType(type);
   };
 
-  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTitleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTitle(event.target.value);
   };
 
