@@ -16,6 +16,12 @@ import { FaEllipsisH } from "react-icons/fa";
 import CommentMenuDialog from "./comment-menu-dialog";
 
 import "tippy.js/dist/tippy.css";
+import {
+  TbArrowBigDown,
+  TbArrowBigDownFilled,
+  TbArrowBigUp,
+  TbArrowBigUpFilled,
+} from "react-icons/tb";
 
 export default function Comment({
   comment,
@@ -44,8 +50,9 @@ export default function Comment({
   const [deleted, setDeleted] = useState<boolean>(comment.deleted);
   const [count, setCount] = useState(val);
 
-  const loggedIn = useAuthStore((state) => state.loggedIn);
-  const userData = useAuthStore((state) => state.userData);
+  // const loggedIn = useAuthStore((state) => state.loggedIn);
+  // const userData = useAuthStore((state) => state.userData);
+  const { loggedIn, userData } = useAuthStore();
   const modalStore = useModalStore();
 
   const formattedDate = getTimeAgo(comment.createdAt);
@@ -192,15 +199,15 @@ export default function Comment({
               </div>
             )}
           </div>
-          <div className="flex w-full flex-col rounded-md bg-[#F0F2F5] p-2 dark:bg-[#3A3B3C]">
+          <div className="flex w-full flex-col rounded-md bg-[#F0F2F5] p-2 dark:bg-[#3A3B3C]/20">
             <div className="flex items-center justify-start gap-1">
               <div className="text-[13px] font-bold">
-                {!deleted ? comment.author.username : "[deleted]"}
+                {!deleted ? comment.author?.username : "[deleted]"}
               </div>
               <div> {!deleted && "•"}</div>
               <div className="text-[12px]"> {!deleted && formattedDate}</div>
               <div className="flex-1"></div>
-              {!deleted && comment.author.username == userData.username && (
+              {!deleted && comment.author.username == userData?.username && (
                 <Tippy
                   trigger="click"
                   render={(attrs) => (
@@ -235,53 +242,11 @@ export default function Comment({
                   ),
                 )}
               >
-                <Button
-                  size={"small"}
-                  variant={"ghost"}
-                  className={twMerge(
-                    clsx(
-                      "mr-1 aspect-square h-full cursor-pointer bg-inherit hover:bg-transparent/10 dark:hover:bg-transparent/10",
-                      voteState === 1 && "bg-red-500 dark:bg-red-500",
-                      voteState === -1 && "bg-blue-500 dark:bg-blue-500",
-                    ),
-                  )}
-                  onClick={() => HandlerVoteButton("UPVOTE")}
-                >
-                  <IoIosArrowUp />
-                </Button>
-                <span className="text-[12px] font-medium">
-                  {!deleted ? vote : 0}
-                </span>
-                <Button
-                  size={"small"}
-                  variant={"ghost"}
-                  className={twMerge(
-                    clsx(
-                      "ml-1 aspect-square h-full cursor-pointer bg-inherit hover:bg-transparent/10 dark:hover:bg-transparent/10",
-                      voteState === 1 && "bg-red-500 dark:bg-red-500",
-                      voteState === -1 && "bg-blue-500 dark:bg-blue-500",
-                    ),
-                  )}
-                  onClick={() => HandlerVoteButton("DOWNVOTE")}
-                >
-                  <IoIosArrowDown />
-                </Button>
-              </div>
-              <div>
-                <Button
-                  variant={"ghost"}
-                  size={"small"}
-                  className={twMerge(
-                    clsx(deleted && "pointer-events-none"),
-                    "cursor-pointer hover:bg-transparent/10",
-                  )}
-                  onClick={handerReplyButton}
-                >
-                  <div className="flex items-center justify-center gap-1 text-nowrap text-[12px]">
-                    <FaRegCommentAlt className="aspect-square" />
-                    Reply
-                  </div>
-                </Button>
+                <VoteButton
+                  voteState={voteState}
+                  score={!deleted ? vote : 0}
+                  HandlerVoteButton={HandlerVoteButton}
+                ></VoteButton>
               </div>
             </div>
             {showReplyTextBox && (
@@ -340,6 +305,99 @@ export default function Comment({
         </div>
       </div>
       {comment.children.map(HandlerCommentChild)}
+    </>
+  );
+}
+
+function VoteButton({
+  voteState,
+  HandlerVoteButton,
+  score,
+}: {
+  voteState: number;
+  HandlerVoteButton: (state: string) => void;
+  score: number;
+}) {
+  return (
+    <>
+      {!voteState && (
+        <div className="inline-flex items-center rounded-full bg-[#eaedef] dark:bg-[#1a282d]">
+          <Button
+            size={"icon"}
+            variant={"ghost"}
+            className="h-full py-0 shadow-none hover:text-red-500"
+            onClick={() => {
+              HandlerVoteButton("UPVOTE");
+            }}
+          >
+            <TbArrowBigUp className="mx-3 my-2 text-lg" />
+          </Button>
+          <span className="text-[14px] font-medium">{score}</span>
+          <Button
+            size={"icon"}
+            variant={"ghost"}
+            className="h-full shadow-none hover:text-indigo-700"
+            onClick={() => {
+              HandlerVoteButton("DOWNVOTE");
+            }}
+          >
+            <TbArrowBigDown className="mx-3 my-2 text-lg" />
+          </Button>
+        </div>
+      )}
+
+      {voteState == 1 && (
+        <div className="inline-flex items-center rounded-full bg-[#d93900]">
+          <Button
+            size={"icon"}
+            variant={"upvote"}
+            className="h-full shadow-none"
+            onClick={() => {
+              HandlerVoteButton("UPVOTE");
+            }}
+          >
+            <TbArrowBigUpFilled className="mx-3 my-2 text-lg" />
+          </Button>
+          <span className="text-[14px] font-medium text-white">{score}</span>
+          <Button
+            size={"icon"}
+            variant={"upvote"}
+            className="h-full shadow-none"
+            onClick={() => {
+              HandlerVoteButton("DOWNVOTE");
+            }}
+          >
+            <TbArrowBigDown className="mx-3 my-2 text-lg" />
+          </Button>
+        </div>
+      )}
+      {voteState == -1 && (
+        <div className="inline-flex items-center rounded-full bg-[#6a5cff]  ">
+          <Button
+            size={"icon"}
+            variant={"downvote"}
+            className="h-full shadow-none"
+            onClick={() => {
+              HandlerVoteButton("UPVOTE");
+            }}
+          >
+            <TbArrowBigUp className="mx-3 my-2 text-lg" />
+          </Button>
+          <span className="text-[14px] font-medium text-white shadow-none">
+            {score}
+          </span>
+          <Button
+            size={"icon"}
+            variant={"downvote"}
+            className="h-full shadow-none"
+            onClick={() => {
+              HandlerVoteButton("DOWNVOTE");
+            }}
+          >
+            <TbArrowBigDownFilled className="mx-3 my-2 text-lg" />
+          </Button>
+        </div>
+      )}
     </>
   );
 }

@@ -15,6 +15,7 @@ import Comment from "@/src/components/comment/comment";
 import useGet from "@/src/hooks/useGet";
 import usePost from "@/src/hooks/usePost";
 import VotePostToggle from "@/src/components/button/votePostToggle";
+import { useAuthStore } from "@/src/store/authStore";
 
 const PostDetail = ({
   params,
@@ -25,6 +26,8 @@ const PostDetail = ({
 
   const [post, setPost] = useState<BadPost>();
   const [community, setCommnunity] = useState<BadCommunity>();
+
+  const { loggedIn } = useAuthStore();
 
   useEffect(() => {
     const getPost = async () => {
@@ -52,9 +55,6 @@ const PostDetail = ({
     getPost();
     getCommunity();
   }, []);
-
-  console.log(community);
-  console.log(post);
 
   const router = useRouter();
 
@@ -188,13 +188,18 @@ const PostDetail = ({
                     className="min-h-20 w-full resize-y border-none bg-transparent px-[12px] py-[16px] outline-none focus:border-none"
                   ></textarea>
                   <div className="my-1 flex items-center justify-end gap-1 px-2">
-                    <Button size={"small"} onClick={handlerSubmitButton}>
+                    <Button
+                      className="disabled:bg-slate-400/50 disabled:text-white disabled:dark:bg-slate-400/80 "
+                      disabled={!loggedIn}
+                      size={"small"}
+                      onClick={handlerSubmitButton}
+                    >
                       Submit
                     </Button>
                   </div>
                 </div>
 
-                <div className="mb-3 ml-[16px] flex w-full flex-col gap-1">
+                <div className="mb-3 flex w-full flex-col gap-1">
                   {commentResult.map(HandlerCommentResult)}
                 </div>
               </div>
