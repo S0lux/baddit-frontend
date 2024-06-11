@@ -8,12 +8,16 @@ import { FaGear } from "react-icons/fa6";
 
 import { useAuthStore } from "@/src/store/authStore";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+import { use, useEffect } from "react";
 
 export default function AvatarMenu({ className }: { className?: string }) {
   const { theme, setTheme } = useTheme();
-
-  const username: string = useAuthStore((state) => state.userData?.username);
+  const { loggedIn, userData, getUserAsync } = useAuthStore();
+  const username: string = userData.username;
   const getUserData = useAuthStore((state) => state.getUserAsync);
+
+  const router = useRouter();
 
   const themeHandler = () => {
     setTheme(theme === "dark" ? "light" : "dark");
@@ -36,6 +40,8 @@ export default function AvatarMenu({ className }: { className?: string }) {
         toast.success("Sonmething is wrong. Please try again later.");
       }
     }
+
+    router.refresh();
   };
 
   return (

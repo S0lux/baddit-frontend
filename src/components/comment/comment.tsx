@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import Image from "next/image";
 import { Button } from "../button/button";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
@@ -23,6 +23,7 @@ import {
   TbArrowBigUpFilled,
 } from "react-icons/tb";
 import { on } from "events";
+import axios from "axios";
 
 export default function Comment({
   comment,
@@ -48,10 +49,12 @@ export default function Comment({
   const [showReplyTextBox, setShowReplyTextBox] = useState<boolean>(false);
   const [showEditTextBox, setShowEditTextBox] = useState<boolean>(false);
   const [replyContent, setReplyContent] = useState<string>("");
+  const [editContent, setEditContent] = useState<string>(comment.content);
   const [deleted, setDeleted] = useState<boolean>(comment.deleted);
   const [count, setCount] = useState(val);
 
   const { loggedIn, userData } = useAuthStore();
+
   const modalStore = useModalStore();
 
   const formattedDate = getTimeAgo(comment.createdAt);
@@ -137,8 +140,31 @@ export default function Comment({
     setShowReplyTextBox(false);
   };
 
+  const handlerEditButton = async () => {
+    const data = {
+      content: editContent,
+      commentId: comment.id,
+    };
+
+    if (editContent.length === 0) {
+      return;
+    } else {
+      const statusCode = await axios.put(
+        "https://api.baddit.life/v1/comments",
+        data,
+        { withCredentials: true },
+      );
+
+      onUpdate();
+      handleUpdate();
+    }
+
+    setShowEditTextBox(false);
+  };
+
   const handerReplyButton = () => {
     setReplyContent("");
+    setShowEditTextBox(false);
     if (loggedIn === false) {
       modalStore.setModalType("login");
       modalStore.setShowModal(true);
@@ -164,11 +190,6 @@ export default function Comment({
     </div>
   ));
 
-  useEffect(() => {
-    onUpdate();
-    handleUpdate();
-  }, [loggedIn]);
-
   useEffect(() => {}, [deleted]);
 
   return (
@@ -180,7 +201,7 @@ export default function Comment({
         {componentsArray}
 
         <div className="flex w-full items-center justify-start gap-2">
-          <div className="flex h-full w-[32px] flex-col items-center">
+          <div className="mt-1 flex h-full w-[32px] flex-col items-center">
             <Image
               alt="User Avatar"
               className="z-10 aspect-square min-w-[32px] rounded-full"
@@ -196,7 +217,7 @@ export default function Comment({
               <div className="flex h-full w-[32px] items-center justify-center">
                 <div
                   className="border-l-[3px] border-black/40 dark:border-white/40"
-                  style={{ height: `calc(100% + 16px)` }}
+                  style={{ height: `calc(100% + 13px)` }}
                 ></div>
               </div>
             )}
@@ -216,6 +237,8 @@ export default function Comment({
                     <CommentMenuDialog
                       comment={comment}
                       setDeleted={setDeleted}
+                      setOpenEdit={setShowEditTextBox}
+                      setOpenReply={setShowReplyTextBox}
                       {...attrs}
                     />
                   )}
@@ -229,7 +252,7 @@ export default function Comment({
               )}
             </div>
 
-            <div className="mb-2">
+            <div className="mb-2 text-[15px]">
               {!deleted ? comment.content : "[deleted]"}
             </div>
 
@@ -293,9 +316,8 @@ export default function Comment({
             {showEditTextBox && (
               <div className=" mt-2 flex min-h-20 w-full max-w-[675px] flex-col rounded-lg border-[0.2px] border-black/20 dark:border-white/20">
                 <textarea
-                  value={replyContent}
-                  onChange={(e) => setReplyContent(e.target.value)}
-                  placeholder={`Reply to ${comment.author.username}`}
+                  value={editContent}
+                  onChange={(e) => setEditContent(e.target.value)}
                   className="min-h-20 w-full resize-y border-none bg-transparent px-[12px] py-[16px] outline-none focus:border-none"
                 ></textarea>
                 <div className="my-1 flex items-center justify-end gap-1 px-2">
@@ -304,14 +326,14 @@ export default function Comment({
                     variant={"outlined"}
                     className="font-medium"
                     onClick={() => {
-                      setShowReplyTextBox(false);
+                      setShowEditTextBox(false);
                       setReplyContent("");
                     }}
                   >
                     Cancel
                   </Button>
-                  <Button size={"small"} onClick={handlerSubmitButton}>
-                    Submit
+                  <Button size={"small"} onClick={handlerEditButton}>
+                    Save Change
                   </Button>
                 </div>
               </div>

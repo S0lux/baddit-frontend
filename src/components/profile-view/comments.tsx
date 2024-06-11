@@ -1,15 +1,12 @@
 "use client";
+import React, { useState, useEffect } from 'react'
 import Comment from '@/src/components/comment/comment';
 import Spinner from '@/src/components/spinner/spinner';
-import useGet from '@/src/hooks/useGet';
-import { useAuthStore } from '@/src/store/authStore';
 import axios from 'axios';
 import Image from 'next/image';
 import { useParams, useSearchParams } from 'next/navigation';
-import React, { useState, useEffect } from 'react'
 
 const fetchComments = async (userName: String | String[], cursor = '', sort?: String | null) => {
-
     const url = sort === 'top'
         ? `https://api.baddit.life/v1/comments?authorName=${userName}&cursor=${cursor}&orderByScore=1`
         : `https://api.baddit.life/v1/comments?authorName=${userName}&cursor=${cursor}`;
@@ -18,7 +15,7 @@ const fetchComments = async (userName: String | String[], cursor = '', sort?: St
 };
 
 export default function Comments() {
-    const [comments, setComments] = useState<CommentProps[]>([]);
+    const [comments, setComments] = useState<any[]>([]);
     const [cursor, setCursor] = useState('');
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
@@ -43,9 +40,9 @@ export default function Comments() {
     useEffect(() => {
         const newSort = searchParams.get('sort') || null;
         setSort(newSort);
-        setComments([]);  // Clear previous posts
-        setCursor('');  // Reset cursor
-        setHasMore(true);  // Reset hasMore
+        setComments([]);
+        setCursor('');
+        setHasMore(true);
     }, [searchParams]);
 
     useEffect(() => {

@@ -21,9 +21,13 @@ import { Dispatch, SetStateAction, useState } from "react";
 export default function CommentMenuDialog({
   comment,
   setDeleted,
+  setOpenEdit,
+  setOpenReply,
 }: {
   comment: CommentProps;
   setDeleted: Dispatch<SetStateAction<boolean>>;
+  setOpenEdit: Dispatch<SetStateAction<boolean>>;
+  setOpenReply: Dispatch<SetStateAction<boolean>>;
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const fetcher = (url: string) => axios.delete(url, { withCredentials: true });
@@ -35,7 +39,14 @@ export default function CommentMenuDialog({
 
   return (
     <div className="z-0 rounded-md bg-white shadow-md dark:bg-black">
-      <EditMenuItem Icon={FaEdit} text="Edit"></EditMenuItem>
+      <EditMenuItem
+        onClick={() => {
+          setOpenEdit(true);
+          setOpenReply(false);
+        }}
+        Icon={FaEdit}
+        text="Edit"
+      ></EditMenuItem>
       <EditMenuItem
         Icon={FaRegTrashAlt}
         text="Delete Comment"
