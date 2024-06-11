@@ -21,7 +21,7 @@ export default function SettingPage() {
   const { loggedIn, userData, getUserAsync } = useAuthStore();
 
   //upload image handling
-  const inputFile = useRef(null);
+  const inputFile = useRef<HTMLInputElement>(null);
   const [image, setImage] = useState(null);
   const [displayImage, setDisplayImage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -102,7 +102,7 @@ export default function SettingPage() {
                 disabled={loggedIn == false}
                 onClick={() => {
                   if (pressOnce.current === false) {
-                    inputFile.current.click();
+                    inputFile.current?.click();
                   } else {
                     handleSetImage();
                   }

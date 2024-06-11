@@ -5,13 +5,20 @@ import axios from "axios";
 import { cookies } from "next/headers";
 
 export default async function Header() {
+  var fetchedCommunities: SortBadCommunity[] = [];
   const cookie = cookies();
   const authCookie = cookie.get("connect.sid")?.value;
-  const res = await axios.get("https://api.baddit.life/v1/communities", {
-    headers: { Cookie: `connect.sid=${authCookie}` },
-    withCredentials: true,
-  });
-  const fetchedCommunities = res.data;
+  try {
+    const res = await axios.get("https://api.baddit.life/v1/communities", {
+      headers: { Cookie: `connect.sid=${authCookie}` },
+      withCredentials: true,
+    });
+    fetchedCommunities = res.data;
+  } catch (err) {
+    console.log(err);
+  }
+
+  // const fetchedCommunities = res.data;
 
   return (
     <div className="fixed z-20 flex h-[56.8px] w-full items-center justify-between border-b border-[#cecece] bg-background/90 px-[10px] backdrop-blur-sm dark:border-[#1a1a1a]">

@@ -54,7 +54,7 @@ export const DropdownMenu = ({
 
   return (
     <div
-      className={twMerge("flex h-fit w-auto flex-col space-y-2")}
+      className={twMerge("flex h-fit w-auto cursor-pointer flex-col space-y-2")}
       onClick={() => {
         setOpen(!isOpen);
       }}

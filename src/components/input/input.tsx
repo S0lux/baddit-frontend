@@ -15,7 +15,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           placeholder={placeholder}
           type="text"
           className={twMerge(
-            " min-h-[56px] flex-1 rounded-2xl bg-[#eaedef] px-4 py-3 text-[16px] text-black outline-none sm:max-h-[56px]",
+            " min-h-[56px] flex-1 rounded-lg bg-[#eaedef] px-4 py-3 text-[16px] text-black outline-none sm:max-h-[56px]",
             className,
             clsx(error === "error" && "border-2 border-red-500"),
           )}

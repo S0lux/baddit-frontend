@@ -45,7 +45,7 @@ const CommunityDetail = ({ params }: PageProps) => {
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     getUserAsync();
-    mutate(`https://api.baddit.life/v1/communities/${params?.name}`);
+    mutate(`https://api.baddit.life/v1/communities/${name}}`);
   }, []);
 
   //Get community info
@@ -77,14 +77,14 @@ const CommunityDetail = ({ params }: PageProps) => {
   };
   const moderators = getInfo(
     fetcher,
-    `https://api.baddit.life/v1/communities/${name}/moderators`
-  )
+    `https://api.baddit.life/v1/communities/${name}/moderators`,
+  );
 
   const role =
     loggedIn == true
       ? userData.communities.filter(
-        (community: any) => community.id == data?.community?.id,
-      )
+          (community: any) => community.id == data?.community?.id,
+        )
       : null;
 
   const communityCreatedDay = new Date(
@@ -158,7 +158,7 @@ const CommunityDetail = ({ params }: PageProps) => {
           </div>
           {/* change banner if owner or moderator */}
           {role &&
-            (role[0]?.role == "ADMIN" || role[0]?.role == "MODERATOR") ? (
+          (role[0]?.role == "ADMIN" || role[0]?.role == "MODERATOR") ? (
             <div className="absolute right-8 top-24 h-14 w-14 -translate-y-1/2 rounded-full">
               <button
                 className="flex h-full w-full items-center justify-center rounded-full hover:bg-neutral-300"
@@ -183,7 +183,7 @@ const CommunityDetail = ({ params }: PageProps) => {
               />
               {/* change logo button if owner or moderator*/}
               {role &&
-                (role[0]?.role == "ADMIN" || role[0]?.role == "MODERATOR") ? (
+              (role[0]?.role == "ADMIN" || role[0]?.role == "MODERATOR") ? (
                 <div className="absolute bottom-0 right-0 top-24 h-6 w-6 -translate-y-1/2 rounded-full border border-white">
                   <button
                     className="flex h-full w-full items-center justify-center rounded-full bg-backgroundSecondary hover:bg-neutral-300"
@@ -265,13 +265,13 @@ const CommunityDetail = ({ params }: PageProps) => {
         </div>
       </div>
 
-      <div className="container mx-4 grid w-full grid-cols-1 gap-y-4 px-6 py-6 md:grid-cols-3 md:gap-x-4">
+      <div className="container flex w-full flex-row justify-between gap-3 px-16 pt-6">
         {/* Feed */}
-        <div className="col-span-2 flex flex-col space-y-6 ">
+        <div className="flex w-[700px] flex-col space-y-6">
           <InfiniteScrolling />
         </div>
         {/* About */}
-        <div className="sticky top-20 order-last h-fit overflow-hidden rounded-lg bg-[#f5f5f5] dark:bg-[#04090a] md:order-last md:block">
+        <div className="sticky top-20 order-last h-fit w-full max-w-80 overflow-hidden rounded-lg bg-[#f5f5f5] dark:bg-[#04090a] md:order-last md:block">
           <div className="px-6 py-4">
             <Link href={`/r/${name}`}>
               <p className="py-3 font-semibold text-gray-900 dark:text-[#b8c5c9]">
@@ -292,9 +292,7 @@ const CommunityDetail = ({ params }: PageProps) => {
               </dd>
             </div>
             <div className="flex justify-between gap-x-4 py-3">
-              <dt className="text-gray-500">
-                Members
-              </dt>
+              <dt className="text-gray-500">Members</dt>
               <dd className="flex items-start gap-x-2">
                 <div className="text-gray-900 dark:text-[#f2f2f2]">
                   {data?.community?.memberCount}
@@ -309,37 +307,42 @@ const CommunityDetail = ({ params }: PageProps) => {
                 Moderators
               </p>
               <Link href={`/r/${name}/members`}>
-                <div className="flex flex-row items-center w-full h-full hover:underline-offset-1 hover:underline">
-                  <p className="truncate text-base text-gray-500">All members</p>
+                <div className="flex h-full w-full flex-row items-center hover:underline hover:underline-offset-1">
+                  <p className="truncate text-base text-gray-500">
+                    All members
+                  </p>
                 </div>
               </Link>
             </div>
 
             <div className="flex flex-col gap-y-6">
               {moderators.data?.map((moderator: any) => {
-                return (<div
-                  className="flex flex-col "
-                >
-                  <div className="flex flex-col gap-x-2 items-start overflow-hidden w-full">
-                    <div className="flex flex-row justify-between items-center gap-x-4 w-full">
-                      <div>
-                        <div className="flex w-fit">
-                          <div className="flex justify-center w-10 h-10 rounded-full mr-4">
-                            <img
-                              src={moderator?.avatarUrl}
-                              alt="avt"
-                              className="w-full h-full rounded-full" />
-                          </div>
-                          <Link href={`/user/${moderator?.username}`}>
-                            <div className="flex flex-row items-center w-full h-full hover:underline-offset-1 hover:underline">
-                              <p className="truncate text-base text-gray-500">u/{moderator?.username}</p>
+                return (
+                  <div className="flex flex-col ">
+                    <div className="flex w-full flex-col items-start gap-x-2 overflow-hidden">
+                      <div className="flex w-full flex-row items-center justify-between gap-x-4">
+                        <div>
+                          <div className="flex w-fit">
+                            <div className="mr-4 flex h-10 w-10 justify-center rounded-full">
+                              <img
+                                src={moderator?.avatarUrl}
+                                alt="avt"
+                                className="h-full w-full rounded-full"
+                              />
                             </div>
-                          </Link>
+                            <Link href={`/user/${moderator?.username}`}>
+                              <div className="flex h-full w-full flex-row items-center hover:underline hover:underline-offset-1">
+                                <p className="truncate text-base text-gray-500">
+                                  u/{moderator?.username}
+                                </p>
+                              </div>
+                            </Link>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>)
+                );
               })}
             </div>
           </div>

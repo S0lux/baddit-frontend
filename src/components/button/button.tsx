@@ -52,7 +52,7 @@ const variants = cva(
           //light
           "bg-white text-black shadow-none",
           "ring-[#ff0000]/70",
-          "hover:bg-[#ff0000] hover:text-white",
+          "hover:bg-neutral-300",
           "focus-visible:ring-2 focus-visible:bg-[#ff0000] focus-visible:text-white",
           "disabled:text-[#000000]/70",
           "transition-none",

@@ -40,7 +40,7 @@ export default function Create_Post() {
   const [editorHtml, setEditorHtml] = useState<string>("");
 
   // Media
-  const inputFile = useRef(null);
+  const inputFile = useRef<HTMLInputElement>(null);
   const [images, setImages] = useState<any[]>([]);
   const [displayImages, setDisplayImages] = useState<string[]>([]);
   const [loadingImage, setLoadingImage] = useState(false);
@@ -141,7 +141,7 @@ export default function Create_Post() {
     const response = await axios.get(`https://api.baddit.life/v1/posts?`);
     setNewPost(response.data[0].id);
     setLoadingNewPost(false);
-  }
+  };
 
   useEffect(() => {
     if (newPost) {
@@ -158,7 +158,7 @@ export default function Create_Post() {
         router.push(url);
       }
     }
-  }
+  };
 
   useEffect(() => {
     if (status === "success" && message) {
@@ -306,7 +306,7 @@ export default function Create_Post() {
                   <button
                     className="rounded-full bg-backgroundSecondary p-1 hover:bg-gray-500 hover:text-white"
                     onClick={() => {
-                      inputFile.current.click();
+                      inputFile.current?.click();
                     }}
                   >
                     <IoMdCloudUpload className="size-6" />
@@ -321,7 +321,7 @@ export default function Create_Post() {
                       <button
                         className="rounded-full bg-backgroundSecondary p-1 hover:bg-gray-500 hover:text-white"
                         onClick={() => {
-                          inputFile.current.click();
+                          inputFile.current?.click();
                         }}
                       >
                         <IoMdAdd className="size-6" />

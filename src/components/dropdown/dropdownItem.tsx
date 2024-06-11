@@ -30,11 +30,13 @@ export const DropdownItem = ({
         />
       </div>
 
-      <div className="flex flex-col">
-        <div className="text-wrap text-xs text-textPrimary">
-          r/ {communityName}
-        </div>
+      <div className="flex shrink flex-row text-xs font-light tracking-tight">
+        <div>r/ {truncateString(communityName, 16)}</div>
       </div>
     </a>
   );
 };
+
+function truncateString(s: string, length: number = 15): string {
+  return s.length > 15 ? `${s.substring(0, length)}...` : s;
+}

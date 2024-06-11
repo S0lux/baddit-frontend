@@ -5,6 +5,8 @@ import { Button } from "../button/button";
 import { useRouter } from "next/navigation";
 import VotePostToggle from "../button/votePostToggle";
 import { mutate } from "swr";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 interface IProps {
   post: BadPost;
@@ -20,13 +22,21 @@ const PostCard = (props: IProps) => {
     day: "numeric",
   });
 
+  const navigatePost = () => {
+    router.push(
+      post.community.name !== null
+        ? `/r/${post.community.name}/${post.id}`
+        : `/user/${post.author.username}/post/${post.id}`,
+    );
+  };
+
   useEffect(() => {
     mutate(`https://api.baddit.life/v1/posts?postId=${post.id}`);
   }, []);
   return (
     <div
       id={post.id}
-      className="flex flex-col after:mt-4 after:mb-[5px] after:w-full after:border-b after:border-[#cecece] dark:after:border-b-neutral-700 mb-4"
+      className="mb-4 flex flex-col after:mb-[5px] after:mt-4 after:w-full after:border-b after:border-[#cecece] dark:after:border-b-neutral-700"
     >
       <div className="mb-1 flex flex-1 flex-col gap-[5px] px-4 py-[8px] hover:rounded-2xl hover:bg-slate-100 dark:hover:bg-[#131f23] ">
         <div className="flex flex-row text-[13px]">
@@ -53,34 +63,32 @@ const PostCard = (props: IProps) => {
             {formattedDate}
           </div>
         </div>
-        <a
-          className="jtiusfy-items-end"
-          href={
-            post.community.name !== null
-              ? `/r/${post.community.name}/${post.id}`
-              : `/user/${post.author.username}/post/${post.id}`
-          }
-        >
-          <h1 className="text-[24px] font-extrabold">{post.title}</h1>
+        <div className="jtiusfy-items-end cursor-pointer">
+          <h1 className="text-[24px] font-extrabold" onClick={navigatePost}>
+            {post.title}
+          </h1>
           {/* dangerouslySetInnerHTML={{ __html: post.content }} */}
           <div
-            className="mb-1 md:max-h-24 overflow-hidden w-full"
+            className="mb-1 w-full overflow-hidden md:max-h-24"
+            onClick={navigatePost}
             dangerouslySetInnerHTML={{ __html: post.content }}
           ></div>
-          <div className="my-2 flex w-full flex-row  gap-x-4 overflow-x-auto">
-            {post.mediaUrls?.map((image: any) => {
-              return (
-                <div className="flex flex-col items-center   justify-center rounded-xl bg-black md:min-h-80 md:min-w-[60%]">
-                  <img
-                    src={image}
-                    alt=""
-                    className="h-full w-full rounded-xl object-contain"
-                  />
-                </div>
-              );
-            })}
+          <div className="my-2 w-full gap-x-4">
+            <Carousel
+              className="z-[100]"
+              showThumbs={false}
+              onClickItem={navigatePost}
+            >
+              {post.mediaUrls?.map((image: any) => (
+                <img
+                  src={image}
+                  alt=""
+                  className="h-full w-full rounded-xl object-contain"
+                />
+              ))}
+            </Carousel>
           </div>
-        </a>
+        </div>
         <div className="flex flex-row gap-[16px]">
           <VotePostToggle
             postId={post.id}

@@ -2,7 +2,7 @@
 import { Divider } from ".";
 import IconButton from "@/src/components/button/iconbutton";
 import { DropdownItem, DropdownMenu } from "@/src/components/dropdown";
-import { GoHomeFill } from "react-icons/go";
+import { HiOutlineHome } from "react-icons/hi";
 import ButtonCreateCommunity from "./create-community-button";
 import axios from "axios";
 import Link from "next/link";
@@ -57,7 +57,11 @@ export function Sidebar() {
   return (
     <div className="fixed z-0 h-screen w-[240px] space-y-2 overflow-y-scroll border-b  border-r-[0.2px] border-[#cecece] bg-background pl-4 pr-1 pt-3 dark:border-[#1a1a1a]">
       <a href="/">
-        <IconButton Icon={GoHomeFill} content="Home" buttonClass="rounded-md" />
+        <IconButton
+          Icon={HiOutlineHome}
+          content="Home"
+          buttonClass="rounded-md"
+        />
       </a>
       <Divider />
 

@@ -42,7 +42,7 @@ const ChangePassWordModal = () => {
       );
       console.log(res);
       toast.success("Changes saved!");
-    } catch (err: AxiosError) {
+    } catch (err: any) {
       toast.error(err.response?.data.message);
     }
     setLoading(false);

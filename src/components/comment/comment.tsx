@@ -204,7 +204,7 @@ export default function Comment({
           <div className="mt-1 flex h-full w-[32px] flex-col items-center">
             <Image
               alt="User Avatar"
-              className="z-10 aspect-square min-w-[32px] rounded-full"
+              className="aspect-square min-w-[32px] rounded-full"
               width={32}
               height={32}
               src={

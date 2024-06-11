@@ -8,10 +8,10 @@ import verificationBg2 from "@/public/verificationBg.jpg";
 import { Button } from "@/src/components/button/button";
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
+import React from "react";
 
 export default function Page() {
   const searchParams = useSearchParams();
-
   const router = useRouter();
 
   const [topMessage, setTopMessage] = useState("Verifying");

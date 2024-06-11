@@ -18,6 +18,9 @@ import VotePostToggle from "@/src/components/button/votePostToggle";
 import { useAuthStore } from "@/src/store/authStore";
 import Link from "next/link";
 
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+
 interface communityModeratorProps {
   userId: string;
   username: string;
@@ -139,7 +142,7 @@ const PostDetail = ({
   };
 
   return (
-    <div className="mt-8 flex h-full w-full grid-cols-2 gap-4 lg:px-4 xl:px-16">
+    <div className="mt-8 flex h-full w-full flex-row justify-between gap-4 lg:px-4 xl:px-16">
       {/* Feed */}
       <div className="flex h-fit w-fit flex-row">
         {/* back button */}
@@ -159,9 +162,9 @@ const PostDetail = ({
         {post && (
           <div
             id={post?.id}
-            className="flex w-2/3 flex-col before:mb-[5px] before:w-full "
+            className="flex flex-col before:mb-[5px] before:w-full"
           >
-            <div className="mb-1 flex min-w-[660px] flex-1 flex-col gap-[5px] px-[10px] py-[4px] ">
+            <div className="mb-1 flex w-[700px] flex-1 flex-col gap-[5px] px-[10px] py-[4px] ">
               <div className="flex flex-row text-[13px]">
                 <a
                   href={`/user/${post?.author.username}`}
@@ -189,9 +192,15 @@ const PostDetail = ({
                   dangerouslySetInnerHTML={{ __html: post?.content }}
                 ></div>
                 <div className="flex w-auto flex-row items-center justify-between overflow-x-auto rounded-xl bg-black">
-                  {post.mediaUrls.map((item) => (
-                    <img src={item} alt="" className="rounded-xl" />
-                  ))}
+                  <Carousel className="z-[100]" showThumbs={false}>
+                    {post.mediaUrls?.map((image: any) => (
+                      <img
+                        src={image}
+                        alt=""
+                        className="h-full w-full rounded-xl object-contain"
+                      />
+                    ))}
+                  </Carousel>
                 </div>
               </div>
               <div className="my-1 flex flex-row gap-[16px]">
@@ -240,44 +249,9 @@ const PostDetail = ({
         )}
       </div>
       {/* About */}
-      {/* {community && (
-        <div className="mt-2 h-fit w-full rounded-md bg-[#f5f5f5] dark:bg-[#04090a]">
-          <div className="relavtive container px-6 py-4">
-            <p className="py-3 font-semibold text-gray-900 dark:text-[#b8c5c9]">
-              About r/{community?.community.name}
-            </p>
-            <p className="py-3 font-normal text-gray-600 dark:text-[#76898e]">
-              {community?.community.description}
-            </p>
-          </div>
-          <hr className="border-neutral-border-weak" />
-          <dl className="divide-neutral divide-y px-6 text-sm leading-6 ">
-            <div className="flex justify-between gap-x-4 py-3">
-              <dt className="text-gray-500">Created At:</dt>
-              <dd className="text-gray-700">
-                {new Date(community?.community.createdAt).toLocaleDateString(
-                  "en-US",
-                  {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  },
-                )}
-              </dd>
-            </div>
-            <div className="flex justify-between gap-x-4 py-3">
-              <dt className="text-gray-500">Members:</dt>
-              <dd className="flex items-start gap-x-2">
-                <div className="text-gray-900">
-                  {community?.community.memberCount}
-                </div>
-              </dd>
-            </div>
-          </dl>
-        </div>
-      )} */}
+
       {community && (
-        <div className="sticky top-20 order-last h-fit w-full overflow-hidden rounded-lg bg-[#f5f5f5] dark:bg-[#04090a] md:order-last md:block">
+        <div className="sticky top-20 order-last h-fit w-full max-w-80 overflow-hidden rounded-lg bg-[#f5f5f5] dark:bg-[#04090a] md:order-last ">
           <div className="px-6 py-4">
             <Link href={`/r/${community?.community?.name}`}>
               <p className="py-3 font-semibold text-gray-900 dark:text-[#b8c5c9]">
