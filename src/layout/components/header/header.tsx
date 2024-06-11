@@ -2,9 +2,15 @@ import { SearchBar } from "@/src/components/searchbar/SearchBar";
 import HeaderMenu from "@/src/components/header-menu/header-menu";
 import { SearchItem } from "@/src/components/searchbar";
 import axios from "axios";
+import { cookies } from "next/headers";
 
 export default async function Header() {
-  const res = await axios.get("https://api.baddit.life/v1/communities");
+  const cookie = cookies();
+  const authCookie = cookie.get("connect.sid")?.value;
+  const res = await axios.get("https://api.baddit.life/v1/communities", {
+    headers: { Cookie: `connect.sid=${authCookie}` },
+    withCredentials: true,
+  });
   const fetchedCommunities = res.data;
 
   return (
