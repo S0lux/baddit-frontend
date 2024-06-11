@@ -188,8 +188,10 @@ const PostDetail = ({
                   className="mb-1"
                   dangerouslySetInnerHTML={{ __html: post?.content }}
                 ></div>
-                <div className="flex w-full flex-col items-center justify-between rounded-xl bg-black">
-                  <img src={post?.mediaUrls[0]} alt="" className="rounded-xl" />
+                <div className="flex w-auto flex-row items-center justify-between overflow-x-auto rounded-xl bg-black">
+                  {post.mediaUrls.map((item) => (
+                    <img src={item} alt="" className="rounded-xl" />
+                  ))}
                 </div>
               </div>
               <div className="my-1 flex flex-row gap-[16px]">
