@@ -192,7 +192,7 @@ const PostDetail = ({
                   dangerouslySetInnerHTML={{ __html: post?.content }}
                 ></div>
                 <div className="flex w-auto flex-row items-center justify-between overflow-x-auto rounded-xl bg-black">
-                  <Carousel className="z-[100]" showThumbs={false}>
+                  <Carousel showThumbs={false}>
                     {post.mediaUrls?.map((image: any) => (
                       <img
                         src={image}

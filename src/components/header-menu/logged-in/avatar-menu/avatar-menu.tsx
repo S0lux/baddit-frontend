@@ -40,8 +40,7 @@ export default function AvatarMenu({ className }: { className?: string }) {
         toast.success("Sonmething is wrong. Please try again later.");
       }
     }
-
-    router.refresh();
+    window.location.href = window.location.href;
   };
 
   return (
