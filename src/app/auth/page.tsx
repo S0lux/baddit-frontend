@@ -82,7 +82,7 @@ export default function Page() {
           </div>
           <div className="flex w-full">
             <Button
-              onClick={router.back}
+              onClick={() => router.replace("/")}
               className="mx-2 mb-2 flex-1 rounded-3xl font-semibold"
               variant={"secondary"}
             >
