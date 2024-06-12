@@ -56,7 +56,7 @@ const InfiniteScrolling = () => {
             <div>
                 <div>
                     {posts.map((post) => (
-                        <PostCard key={post.id} post={post} />
+                        <PostCard isInCommunity={true} key={post.id} post={post} />
                     ))}
                 </div>
                 {loading && <><Spinner className='mx-auto -mt-28 size-20' /></>}

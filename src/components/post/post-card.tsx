@@ -13,10 +13,11 @@ import { FaEllipsisH } from "react-icons/fa";
 import { useAuthStore } from "@/src/store/authStore";
 
 interface IProps {
-  post: BadPost;
+  post: BadPost,
+  isInCommunity?: boolean
 }
 const PostCard = (props: IProps) => {
-  const { post } = props;
+  const { post, isInCommunity } = props;
 
   const router = useRouter();
   const [showEditTextBox, setShowEditTextBox] = useState<boolean>(false);
@@ -47,14 +48,15 @@ const PostCard = (props: IProps) => {
       <div className="mb-1 flex flex-1 flex-col gap-[5px] px-4 py-[8px] hover:rounded-2xl hover:bg-slate-100 dark:hover:bg-[#131f23] ">
         <div className="flex flex-row text-[13px]">
           <a
-            href={
-              `/user/${post.author.username}`
+            href={post.community.name === null || isInCommunity
+              ? `/user/${post.author.username}`
+              : `/r/${post.community.name}`
             }
             className="flex w-fit flex-row"
           >
             <img
               src={
-                post.community.name === null
+                post.community.name === null || isInCommunity
                   ? post.author.avatarUrl
                   : post.community.logoUrl
               }
@@ -62,7 +64,7 @@ const PostCard = (props: IProps) => {
               className="h-[25px] w-[25px] rounded-full"
             />
             <p className="ml-2 mt-[3px] ">
-              {post.community.name === null
+              {post.community.name === null || isInCommunity
                 ? `u/${post.author.username}`
                 : `r/${post.community.name}`}
             </p>
@@ -71,7 +73,7 @@ const PostCard = (props: IProps) => {
             {formattedDate}
           </div>
         </div>
-        <div className="jtiusfy-items-end cursor-pointer">
+        <div className="justify-items-end cursor-pointer">
           <h1 className="text-[24px] font-extrabold" onClick={navigatePost}>
             {post.title}
           </h1>
