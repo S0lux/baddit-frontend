@@ -127,6 +127,7 @@ export default function RegisterModal() {
               errorMessage={errors.email?.message}
               placeholder="Email"
               disabled={loading}
+              className="dark:text-black"
             ></Input>
 
             <Input
@@ -135,6 +136,7 @@ export default function RegisterModal() {
               errorMessage={errors.username?.message}
               placeholder="Username"
               disabled={loading}
+              className="dark:text-black"
             ></Input>
 
             <Input
