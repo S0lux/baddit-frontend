@@ -47,7 +47,9 @@ const PostCard = (props: IProps) => {
       <div className="mb-1 flex flex-1 flex-col gap-[5px] px-4 py-[8px] hover:rounded-2xl hover:bg-slate-100 dark:hover:bg-[#131f23] ">
         <div className="flex flex-row text-[13px]">
           <a
-            href={`/user/${post.author.username}`}
+            href={
+              `/user/${post.author.username}`
+            }
             className="flex w-fit flex-row"
           >
             <img
@@ -68,25 +70,6 @@ const PostCard = (props: IProps) => {
           <div className="ml-2 mt-[3px] w-fit font-light text-[#576f76] before:mr-1 before:content-['•']">
             {formattedDate}
           </div>
-          <div className="flex-1"></div>
-          {post.author?.username == userData?.username && (
-            <Tippy
-              trigger="click"
-              render={(attrs) => (
-                <PostMenuDialog
-                  post={post}
-                  setOpenEdit={setShowEditTextBox}
-                ></PostMenuDialog>
-
-              )}
-              interactive={true}
-              placement="bottom"
-            >
-              <div className="flex size-6 cursor-pointer items-center justify-center rounded-full transition-colors hover:bg-[#c9caca] hover:dark:bg-[#2A3236]">
-                <FaEllipsisH className="size-4"></FaEllipsisH>
-              </div>
-            </Tippy>
-          )}
         </div>
         <div className="jtiusfy-items-end cursor-pointer">
           <h1 className="text-[24px] font-extrabold" onClick={navigatePost}>

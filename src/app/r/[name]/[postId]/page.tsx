@@ -17,7 +17,7 @@ import usePost from "@/src/hooks/usePost";
 import VotePostToggle from "@/src/components/button/votePostToggle";
 import { useAuthStore } from "@/src/store/authStore";
 import Link from "next/link";
-import Tippy from "@tippyjs/react/headless";
+import Tippy, { TippyProps, tippy } from "@tippyjs/react/headless";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { FaEllipsisH } from "react-icons/fa";
@@ -38,6 +38,7 @@ const PostDetail = ({
   params: { name: string; postId: string };
 }) => {
   const [commentContent, setCommentContent] = useState<string>("");
+  const tippyRef = useRef()
 
   const [post, setPost] = useState<BadPost>();
   const [community, setCommnunity] = useState<BadCommunity>();
@@ -189,19 +190,14 @@ const PostDetail = ({
                 <div className="flex-1"></div>
                 {userData && post.author?.username == userData?.username && (
                   <Tippy
+
+                    hideOnClick={true}
                     trigger="click"
                     render={(attrs) => (
                       <PostMenuDialog
                         post={post}
                         setOpenEdit={setShowEditTextBox}
                       ></PostMenuDialog>
-                      // <CommentMenuDialog
-                      //   comment={comment}
-                      //   setDeleted={setDeleted}
-                      //   setOpenEdit={setShowEditTextBox}
-                      //   setOpenReply={setShowReplyTextBox}
-                      //   {...attrs}
-                      // />
                     )}
                     interactive={true}
                     placement="bottom"

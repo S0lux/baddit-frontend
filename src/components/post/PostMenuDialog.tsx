@@ -30,6 +30,7 @@ export default function PostMenuDialog({
     const fetcher = (url: string) => axios.delete(url, { withCredentials: true });
     const [loading, setLoading] = useState(false);
     const router = useRouter()
+    const [showMenu, setShowMenu] = useState(true);
 
     // const handleDelete = async () => {
     //     await fetcher(`https://api.baddit.life/v1/comments/${comment.id}`);
@@ -53,12 +54,20 @@ export default function PostMenuDialog({
     };
 
     return (
-        <div className="z-0 rounded-md bg-white shadow-md dark:bg-black">
-            <EditMenuItem
-                Icon={FaRegTrashAlt}
-                text="Delete Post"
-                onClick={() => setIsOpen(true)}
-            ></EditMenuItem>
+        <>
+            {showMenu && (
+                <div className="z-0 rounded-md bg-white shadow-md dark:bg-black">
+                    <EditMenuItem
+                        Icon={FaRegTrashAlt}
+                        text="Delete Post"
+                        onClick={() => {
+                            setIsOpen(true);
+                            setShowMenu(false);
+                        }}
+                    ></EditMenuItem>
+
+                </div>
+            )}
             <AlertDialog open={isOpen}>
                 <AlertDialogContent>
                     <AlertDialogHeader>
@@ -69,7 +78,10 @@ export default function PostMenuDialog({
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                        <AlertDialogCancel onClick={() => setIsOpen(false)}>
+                        <AlertDialogCancel onClick={() => {
+                            setIsOpen(false);
+                            setShowMenu(true);
+                        }}>
                             Cancel
                         </AlertDialogCancel>
                         <div className="px-1"></div>
@@ -82,7 +94,8 @@ export default function PostMenuDialog({
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>
-        </div>
+        </>
+
     );
 }
 
