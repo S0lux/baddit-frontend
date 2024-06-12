@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { IoChatboxOutline } from "react-icons/io5";
 import { Button } from "../button/button";
 import { useRouter } from "next/navigation";
@@ -7,6 +7,10 @@ import VotePostToggle from "../button/votePostToggle";
 import { mutate } from "swr";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import Tippy from "@tippyjs/react";
+import PostMenuDialog from "./PostMenuDialog";
+import { FaEllipsisH } from "react-icons/fa";
+import { useAuthStore } from "@/src/store/authStore";
 
 interface IProps {
   post: BadPost;
@@ -15,6 +19,8 @@ const PostCard = (props: IProps) => {
   const { post } = props;
 
   const router = useRouter();
+  const [showEditTextBox, setShowEditTextBox] = useState<boolean>(false);
+  const { loggedIn, userData } = useAuthStore();
 
   const formattedDate = new Date(post?.createdAt).toLocaleDateString("en-US", {
     year: "numeric",
@@ -62,6 +68,25 @@ const PostCard = (props: IProps) => {
           <div className="ml-2 mt-[3px] w-fit font-light text-[#576f76] before:mr-1 before:content-['•']">
             {formattedDate}
           </div>
+          <div className="flex-1"></div>
+          {post.author?.username == userData?.username && (
+            <Tippy
+              trigger="click"
+              render={(attrs) => (
+                <PostMenuDialog
+                  post={post}
+                  setOpenEdit={setShowEditTextBox}
+                ></PostMenuDialog>
+
+              )}
+              interactive={true}
+              placement="bottom"
+            >
+              <div className="flex size-6 cursor-pointer items-center justify-center rounded-full transition-colors hover:bg-[#c9caca] hover:dark:bg-[#2A3236]">
+                <FaEllipsisH className="size-4"></FaEllipsisH>
+              </div>
+            </Tippy>
+          )}
         </div>
         <div className="jtiusfy-items-end cursor-pointer">
           <h1 className="text-[24px] font-extrabold" onClick={navigatePost}>
