@@ -84,6 +84,7 @@ export default function LoginModal() {
     switch (statusCode) {
       case 200:
         setMessage("Successfully logged in!");
+        window.location.href = window.location.href;
         await getUserAsync();
         break;
       case 401:
@@ -123,6 +124,7 @@ export default function LoginModal() {
               errorMessage={errors.username?.message}
               placeholder="Username"
               disabled={loading}
+              className="dark:text-black"
             ></Input>
 
             <Input
@@ -132,6 +134,7 @@ export default function LoginModal() {
               placeholder="Password"
               disabled={loading}
               type="password"
+              className="dark:text-black"
             ></Input>
 
             <div className="mt-2 text-[14px]">

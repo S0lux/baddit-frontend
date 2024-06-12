@@ -2,13 +2,13 @@ import { create } from "zustand";
 import axios from "axios";
 
 type AuthStore = {
-  loggedIn: boolean | undefined;
+  loggedIn: boolean;
   userData: any;
   getUserAsync: () => Promise<void>;
 };
 
 export const useAuthStore = create<AuthStore>((set) => ({
-  loggedIn: undefined,
+  loggedIn: false,
   userData: null,
   getUserAsync: async () => {
     try {

@@ -30,6 +30,7 @@ export default function CommentMenuDialog({
   setOpenReply: Dispatch<SetStateAction<boolean>>;
 }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [showMenu, setShowMenu] = useState(true);
   const fetcher = (url: string) => axios.delete(url, { withCredentials: true });
 
   const handleDelete = async () => {
@@ -38,20 +39,27 @@ export default function CommentMenuDialog({
   };
 
   return (
-    <div className="z-0 rounded-md bg-white shadow-md dark:bg-black">
-      <EditMenuItem
-        onClick={() => {
-          setOpenEdit(true);
-          setOpenReply(false);
-        }}
-        Icon={FaEdit}
-        text="Edit"
-      ></EditMenuItem>
-      <EditMenuItem
-        Icon={FaRegTrashAlt}
-        text="Delete Comment"
-        onClick={() => setIsOpen(true)}
-      ></EditMenuItem>
+    <div>
+      {showMenu && (
+        <div className="z-0 rounded-md bg-white shadow-md dark:bg-black">
+          <EditMenuItem
+            onClick={() => {
+              setOpenEdit(true);
+              setOpenReply(false);
+            }}
+            Icon={FaEdit}
+            text="Edit"
+          ></EditMenuItem>
+          <EditMenuItem
+            Icon={FaRegTrashAlt}
+            text="Delete Comment"
+            onClick={() => {
+              setIsOpen(true);
+              setShowMenu(false);
+            }}
+          ></EditMenuItem>
+        </div>
+      )}
       <AlertDialog open={isOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -62,7 +70,12 @@ export default function CommentMenuDialog({
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setIsOpen(false)}>
+            <AlertDialogCancel
+              onClick={() => {
+                setIsOpen(false);
+                setShowMenu(true);
+              }}
+            >
               Cancel
             </AlertDialogCancel>
             <AlertDialogAction
