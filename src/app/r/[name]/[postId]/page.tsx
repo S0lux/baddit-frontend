@@ -17,9 +17,11 @@ import usePost from "@/src/hooks/usePost";
 import VotePostToggle from "@/src/components/button/votePostToggle";
 import { useAuthStore } from "@/src/store/authStore";
 import Link from "next/link";
-
+import Tippy, { TippyProps, tippy } from "@tippyjs/react/headless";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { FaEllipsisH } from "react-icons/fa";
+import PostMenuDialog from "@/src/components/post/PostMenuDialog";
 import { Divider } from "@/src/layout/components/sidebar";
 
 interface communityModeratorProps {
@@ -37,13 +39,14 @@ const PostDetail = ({
   params: { name: string; postId: string };
 }) => {
   const [commentContent, setCommentContent] = useState<string>("");
+  const tippyRef = useRef()
 
   const [post, setPost] = useState<BadPost>();
   const [community, setCommnunity] = useState<BadCommunity>();
   const [communityModerators, setCommunityModerators] =
     useState<communityModeratorProps[]>();
-
-  const { loggedIn } = useAuthStore();
+  const [showEditTextBox, setShowEditTextBox] = useState<boolean>(false);
+  const { loggedIn, userData } = useAuthStore();
 
   useEffect(() => {
     const getPost = async () => {
@@ -185,6 +188,26 @@ const PostDetail = ({
                     day: "numeric",
                   })}
                 </div>
+                <div className="flex-1"></div>
+                {userData && post.author?.username == userData?.username && (
+                  <Tippy
+
+                    hideOnClick={true}
+                    trigger="click"
+                    render={(attrs) => (
+                      <PostMenuDialog
+                        post={post}
+                        setOpenEdit={setShowEditTextBox}
+                      ></PostMenuDialog>
+                    )}
+                    interactive={true}
+                    placement="bottom"
+                  >
+                    <div className="flex size-6 cursor-pointer items-center justify-center rounded-full transition-colors hover:bg-[#c9caca] hover:dark:bg-[#2A3236]">
+                      <FaEllipsisH className="size-4"></FaEllipsisH>
+                    </div>
+                  </Tippy>
+                )}
               </div>
               <div className="justify-items-end">
                 <h1 className="text-[24px] font-extrabold">{post?.title}</h1>
