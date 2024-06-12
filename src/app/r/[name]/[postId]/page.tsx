@@ -22,6 +22,7 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { FaEllipsisH } from "react-icons/fa";
 import PostMenuDialog from "@/src/components/post/PostMenuDialog";
+import { Divider } from "@/src/layout/components/sidebar";
 
 interface communityModeratorProps {
   userId: string;
@@ -241,7 +242,7 @@ const PostDetail = ({
               </div>
 
               {/* comment */}
-              <hr className="h-[1.5px] w-full bg-black/20 "></hr>
+              <Divider classname="border-b-neutral-700 my-3" />
               <div className="flex w-full flex-col">
                 <div className=" mb-[20px] flex min-h-20 w-full flex-col rounded-lg border-[0.2px] border-black/20 dark:border-white/20">
                   <textarea

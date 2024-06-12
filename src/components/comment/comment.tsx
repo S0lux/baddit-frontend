@@ -24,6 +24,7 @@ import {
 } from "react-icons/tb";
 import { on } from "events";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export default function Comment({
   comment,
@@ -56,6 +57,8 @@ export default function Comment({
   const { loggedIn, userData } = useAuthStore();
 
   const modalStore = useModalStore();
+
+  const route = useRouter();
 
   const formattedDate = getTimeAgo(comment.createdAt);
 
@@ -184,7 +187,7 @@ export default function Comment({
   const componentsArray = Array.from({ length: nestLevel }, (_, index) => (
     <div className="flex h-full w-[32px] min-w-[32px] justify-center">
       <div
-        className="border-l-[3px] border-black/40 dark:border-white/40"
+        className="border-l-[2px] border-black/40 dark:border-white/40"
         style={{ height: `calc(100% + 8px)` }}
       ></div>
     </div>
@@ -204,9 +207,13 @@ export default function Comment({
           <div className="mt-1 flex h-full w-[32px] flex-col items-center">
             <Image
               alt="User Avatar"
-              className="aspect-square min-w-[32px] rounded-full"
+              className={twMerge(
+                "z-10 aspect-square min-w-[32px] cursor-pointer rounded-full",
+                deleted && "pointer-events-none",
+              )}
               width={32}
               height={32}
+              onClick={() => route.replace(`/user/${comment.author.username}`)}
               src={
                 !deleted
                   ? comment.author.avatarUrl
@@ -216,8 +223,8 @@ export default function Comment({
             {comment.children.length != 0 && (
               <div className="flex h-full w-[32px] items-center justify-center">
                 <div
-                  className="border-l-[3px] border-black/40 dark:border-white/40"
-                  style={{ height: `calc(100% + 13px)` }}
+                  className="border-l-[2px] border-black/40 dark:border-white/40"
+                  style={{ height: `calc(100% + 12px)` }}
                 ></div>
               </div>
             )}
@@ -225,7 +232,14 @@ export default function Comment({
           <div className="flex w-full flex-col rounded-md bg-[#F0F2F5] p-2 dark:bg-[#3A3B3C]/20">
             <div className="flex items-center justify-start gap-1">
               <div className="text-[13px] font-bold">
-                {!deleted ? comment.author?.username : "[deleted]"}
+                <a
+                  onClick={() =>
+                    route.replace(`/user/${comment.author.username}`)
+                  }
+                  className={twMerge(clsx(deleted && "pointer-events-none"))}
+                >
+                  {!deleted ? comment.author?.username : "[deleted]"}
+                </a>
               </div>
               <div> {!deleted && "•"}</div>
               <div className="text-[12px]"> {!deleted && formattedDate}</div>
@@ -314,7 +328,7 @@ export default function Comment({
               </div>
             )}
             {showEditTextBox && (
-              <div className=" mt-2 flex min-h-20 w-full max-w-[675px] flex-col rounded-lg border-[0.2px] border-black/20 dark:border-white/20">
+              <div className="mt-2 flex min-h-20 w-full max-w-[675px] flex-col rounded-lg border-[0.2px] border-black/20 dark:border-white/20">
                 <textarea
                   value={editContent}
                   onChange={(e) => setEditContent(e.target.value)}
